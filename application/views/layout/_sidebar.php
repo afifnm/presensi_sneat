@@ -1,3 +1,11 @@
+<?php 
+$this->db->distinct();
+$this->db->select('tahun_masuk')->from('user');
+$this->db->where('tahun_masuk <',2030);
+$this->db->where('tahun_masuk >',2018);
+$this->db->order_by('tahun_masuk','DESC');
+$angkatan = $this->db->get()->result_array();
+?>
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
   <div class="app-brand demo">
     <a href="<?php echo site_url('/');?>" class="app-brand-link" target="_blank">
@@ -22,26 +30,32 @@
         <div data-i18n="Layouts">Data Siswa</div>
       </a>
       <ul class="menu-sub">
+        <?php foreach ($angkatan as $uu) { ?>
         <li class="menu-item <?php if($this->uri->segment('4')=='0'){ echo "active"; } ?>">
-          <a href="<?php echo site_url('admin/order/status/0');?>" class="menu-link">
-            <div data-i18n="Without menu"> Pesanan Masuk</div>
-          </a>
+          <ul class="menu-sub">
+            <?php foreach ($angkatan as $uu) { ?>
+            <li class="menu-item <?php if($this->uri->segment('4')=='0'){ echo "active"; } ?>">
+              <a href="<?php echo site_url('admin/siswa/'.$uu['tahun_masuk'].'/MA');?>" class="menu-link">
+                <div data-i18n="Without menu"> <?php echo $this->Absensi_model->cek_kelas($uu['tahun_masuk']); ?> MA
+                </div>
+              </a>
+            </li>
+            <li class="menu-item <?php if($this->uri->segment('4')=='0'){ echo "active"; } ?>">
+              <a href="<?php echo site_url('admin/siswa/'.$uu['tahun_masuk'].'/MB');?>" class="menu-link">
+                <div data-i18n="Without menu"> <?php echo $this->Absensi_model->cek_kelas($uu['tahun_masuk']); ?> MB
+                </div>
+              </a>
+            </li>
+            <li class="menu-item <?php if($this->uri->segment('4')=='0'){ echo "active"; } ?>">
+              <a href="<?php echo site_url('admin/siswa/'.$uu['tahun_masuk'].'/MC');?>" class="menu-link">
+                <div data-i18n="Without menu"> <?php echo $this->Absensi_model->cek_kelas($uu['tahun_masuk']); ?> MC
+                </div>
+              </a>
+            </li>
+            <?php } ?>
+          </ul>
         </li>
-        <li class="menu-item <?php if($this->uri->segment('4')=='2'){ echo "active"; } ?>">
-          <a href="<?php echo site_url('admin/order/status/2');?>" class="menu-link">
-            <div data-i18n="Without menu"> Pesanan Dalam Perjalanan</div>
-          </a>
-        </li>
-        <li class="menu-item <?php if($this->uri->segment('4')=='3'){ echo "active"; } ?>">
-          <a href="<?php echo site_url('admin/order/status/3');?>" class="menu-link">
-            <div data-i18n="Without menu"> Pesanan Selesai</div>
-          </a>
-        </li>
-        <li class="menu-item <?php if($this->uri->segment('4')=='1'){ echo "active"; } ?>">
-          <a href="<?php echo site_url('admin/order/status/1');?>" class="menu-link">
-            <div data-i18n="Without menu"> Pesanan Dibatalkan</div>
-          </a>
-        </li>
+        <?php } ?>
       </ul>
     </li>
   </ul>

@@ -71,5 +71,34 @@ class Absensi_model extends CI_Model{
             return $res = $this->db->get()->row()->pulang;
         }
    }
+    public function cek_kelas($angkatan){ //gapakai kelas
+        $kelas1=date('Y')-$angkatan; 
+        $kelas2=date('Y')-$angkatan-1; 
+        $bulan=date('m'); //cek bulan ke 7 apa bukan?
+        if($bulan>6){
+            if($kelas1==0) {
+                $kelas ="X";
+            } elseif($kelas1==1) {
+                $kelas = "XI";
+            } elseif($kelas1==2) {
+                $kelas = "XII";
+            } else {
+                $angkatan = $angkatan+3;
+                $kelas = 'Alumni '.$angkatan;
+            }
+        } else {
+            if($kelas2==0) {
+                $kelas = "X";
+            } elseif($kelas2==1) {
+                $kelas = "XI";
+            } elseif($kelas2==2) {
+                $kelas = "XII";
+            } else {
+                $angkatan = $angkatan+3;
+                $kelas = 'Alumni '.$angkatan;
+            }
+        }
+        return $kelas;
+    }
 }
  

@@ -9,7 +9,7 @@ class Home extends MY_Controller
         parent::__construct();
         $this->load->helper('tgl_indo');
         $this->load->model('CRUD_model');
-        $this->load->model('Laporan_model');
+        $this->load->model('Absensi_model');
         $this->check_login();
         if ($this->session->userdata('level') != "Admin"){
             redirect('', 'refresh');
