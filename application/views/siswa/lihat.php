@@ -11,7 +11,7 @@
 	<div class="table-responsive text-nowrap">
 		<table class="table">
 			<thead>
-				<tr>
+				<tr> no
 					<th>Tanggal</th>
 					<th>Masuk</th>
 					<th>Pulang</th>
