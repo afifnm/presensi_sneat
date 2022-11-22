@@ -1,21 +1,15 @@
+<?php
+    $pisah=explode("-",$bulan);
+    $tahun = $pisah[0];
+    $month = $pisah[1];
+    $this->db->select('LAST_DAY("'.$bulan.'") as tanggal');
+    $end= $this->db->get()->row()->tanggal;
+    $pisah=explode("-",$end);
+    $date_end = $pisah[2];
+?>
 <?php foreach ($profil as $u) {?>
 <div class="row mb-5">
-  <div class="col-md-4">
-    <div class="card h-100">
-        <?php $filename=FCPATH.'/assets/upload/images/profil/'.$u->foto;
-        if (file_exists($filename)){ ?>
-          <img class="card-img-top" src="<?php echo base_url('assets/upload/images/profil/'.$u->foto); ?>" >
-        <?php }  else {?>
-          <img class="card-img-top" src="<?php echo base_url('assets/upload/images/no_image.jpg'); ?>" >
-        <?php }?>
-        <center>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item"><?php echo $u->nama; ?></li>
-          </ul>
-        </center>
-    </div>
-  </div>
-  <div class="col-md-8">
+  <div class="col-md-12">
     <div class="card h-100">
       <ul class="list-group list-group-flush">
         <li class="list-group-item">
@@ -80,11 +74,6 @@
     </div>
   </div>
 </div>        
-<div class="d-grid gap-2 col-lg-6 mx-auto">
-	<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal" style="margin-top: 10px;">
-		<span class="tf-icons bx bx-search"></span>&nbsp; Lihat Presensi di Bulan
-	</button>
-</div>
 <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -111,3 +100,27 @@
 	</div>
 </div>
 <?php } ?>
+<div class="card" style="margin-top: 10px;">
+	<div class="table-responsive text-nowrap">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Tanggal</th>
+					<th>Masuk</th>
+					<th>Pulang</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php for ($i=1; $i<=$date_end ; $i++) { $tanggal=$tahun.'-'.$month.'-'.$i; ?>
+				<tr>
+					<td><?= $i.'-'.$month.'-'.$tahun; ?></td>
+					<td><?php echo $this->Absensi_model->get_masuk($username,$tanggal); ?>
+					</td>
+					<td><?php echo $this->Absensi_model->get_pulang($username,$tanggal); ?>
+					</td>
+				</tr>
+				<?php } ?>
+			</tbody>
+		</table>
+	</div>
+</div>

@@ -52,7 +52,7 @@
                     class="form-control"
                     id="email"
                     name="username"
-                    placeholder="Masukan 4 Digit dari sekolah"
+                    placeholder="Masukan 4 Digit NIS sekolah"
                     autofocus
                   />
                 </div>

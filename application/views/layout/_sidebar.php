@@ -5,6 +5,8 @@ $this->db->where('tahun_masuk <',2030);
 $this->db->where('tahun_masuk >',2018);
 $this->db->order_by('tahun_masuk','DESC');
 $angkatan = $this->db->get()->result_array();
+$tahun = $this->uri->segment('4');
+$kelas = $this->uri->segment('5');
 ?>
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
   <div class="app-brand demo">
@@ -16,7 +18,7 @@ $angkatan = $this->db->get()->result_array();
     </a>
   </div>
   <div class="menu-inner-shadow"></div>
-  <?php if ($this->session->userdata('level') == "Admin"){ ?>
+  <?php if (($this->session->userdata('level') == "Admin") OR ($this->session->userdata('level') == "Guru")){ ?>
   <ul class="menu-inner">
     <li class="menu-item <?php echo activate_menu('home');  ?>">
       <a href="<?php echo site_url('admin/home');?>" class="menu-link">
@@ -24,54 +26,88 @@ $angkatan = $this->db->get()->result_array();
         <div data-i18n="Analytics">Dashboard</div>
       </a>
     </li>
-    <li class="menu-item <?php echo open_menu('order'); ?> <?php echo activate_menu('order');  ?>">
-      <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-cart"></i>
-        <div data-i18n="Layouts">Data Siswa</div>
-      </a>
+    <li class="menu-item <?php if(($kelas=='MA') OR ($kelas=='MB') OR ($kelas=='MC')){ echo 'active open'; } ?>">
+      <a class="menu-link menu-toggle" ><i class="menu-icon bx bx-cog"></i>Mesin</a>
       <ul class="menu-sub">
         <?php foreach ($angkatan as $uu) { ?>
-        <li class="menu-item <?php if($this->uri->segment('4')=='0'){ echo "active"; } ?>">
-          <a href="<?php echo site_url('admin/siswa/'.$uu['tahun_masuk'].'/MA');?>" class="menu-link">
-            <div data-i18n="Without menu"> <?php echo $this->Absensi_model->cek_kelas($uu['tahun_masuk']); ?> MA
-            </div>
-          </a>
-        </li>
-        <li class="menu-item <?php if($this->uri->segment('4')=='0'){ echo "active"; } ?>">
-          <a href="<?php echo site_url('admin/siswa/'.$uu['tahun_masuk'].'/MB');?>" class="menu-link">
-            <div data-i18n="Without menu"> <?php echo $this->Absensi_model->cek_kelas($uu['tahun_masuk']); ?> MB
-            </div>
-          </a>
-        </li>
-        <li class="menu-item <?php if($this->uri->segment('4')=='0'){ echo "active"; } ?>">
-          <a href="<?php echo site_url('admin/siswa/'.$uu['tahun_masuk'].'/MC');?>" class="menu-link">
-            <div data-i18n="Without menu"> <?php echo $this->Absensi_model->cek_kelas($uu['tahun_masuk']); ?> MC
-            </div>
-          </a>
-        </li>
-        <?php } ?>
-      </ul>
-    </li>
-    <li class="menu-item">
-      <a class="menu-link menu-toggle" href="javascript:void(0)"><i class="menu-icon bx bx-dock-top"></i>
-          Mesin
-      </a>
-      <ul class="menu-sub">
-        <?php foreach ($angkatan as $uu) { ?>
-        <li class="menu-item">
-          <a class="menu-link menu-toggle" href="javascript:void(0)">Authentication</a>
+        <li class="menu-item <?php if($tahun==$uu['tahun_masuk']){ echo 'open active'; } ?>">
+          <a class="menu-link menu-toggle">Kelas <?php echo $this->Absensi_model->cek_kelas($uu['tahun_masuk']); ?></a>
           <ul class="menu-sub">
-            <li class="menu-item">
-              <a class="menu-link" href="javascript:void(0)">Login</a>
+            <li class="menu-item <?php if(($kelas=='MA') AND ($tahun==$uu['tahun_masuk'])){ echo 'active open'; } ?>">
+              <a class="menu-link" href="<?php echo site_url('admin/siswa/absen/'.$uu['tahun_masuk'].'/MA');?>"><?php echo $this->Absensi_model->cek_kelas($uu['tahun_masuk']); ?> MA</a>
             </li>
-            <li class="menu-item">
-              <a class="menu-link" href="javascript:void(0)">Register</a>
+            <li class="menu-item <?php if(($kelas=='MB') AND ($tahun==$uu['tahun_masuk'])){ echo 'active open'; } ?>">
+              <a class="menu-link" href="<?php echo site_url('admin/siswa/absen/'.$uu['tahun_masuk'].'/MB');?>"><?php echo $this->Absensi_model->cek_kelas($uu['tahun_masuk']); ?> MB</a>
             </li>
-            <li class="menu-item">
-              <a class="menu-link" href="javascript:void(0)">Forgot Password</a>
+            <li class="menu-item <?php if(($kelas=='MC') AND ($tahun==$uu['tahun_masuk'])){ echo 'active open'; } ?>">
+              <a class="menu-link" href="<?php echo site_url('admin/siswa/absen/'.$uu['tahun_masuk'].'/MC');?>"><?php echo $this->Absensi_model->cek_kelas($uu['tahun_masuk']); ?> MC</a>
             </li>
           </ul>
         </li>
+        <?php }   ?>
+      </ul>
+    </li>
+    <li class="menu-item <?php if(($kelas=='OA') OR ($kelas=='OB') OR ($kelas=='OC')){ echo 'active open'; } ?>">
+      <a class="menu-link menu-toggle" href="javascript:void(0)"><i class="menu-icon bx bxs-car-crash"></i>Ototronik</a>
+      <ul class="menu-sub">
+        <?php foreach ($angkatan as $uu) { ?>
+        <li class="menu-item <?php if($tahun==$uu['tahun_masuk']){ echo 'open active'; } ?>">
+          <a class="menu-link menu-toggle" href="javascript:void(0)">Kelas <?php echo $this->Absensi_model->cek_kelas($uu['tahun_masuk']); ?></a>
+          <ul class="menu-sub">
+            <li class="menu-item">
+              <a class="menu-link <?php if(($kelas=='OA') AND ($tahun==$uu['tahun_masuk'])){ echo 'active open'; } ?>" href="<?php echo site_url('admin/siswa/absen/'.$uu['tahun_masuk'].'/OA');?>"><?php echo $this->Absensi_model->cek_kelas($uu['tahun_masuk']); ?> OA</a>
+            </li>
+            <li class="menu-item <?php if(($kelas=='OB') AND ($tahun==$uu['tahun_masuk'])){ echo 'active open'; } ?>">
+              <a class="menu-link" href="<?php echo site_url('admin/siswa/absen/'.$uu['tahun_masuk'].'/OB');?>"><?php echo $this->Absensi_model->cek_kelas($uu['tahun_masuk']); ?> OB</a>
+            </li>
+            <li class="menu-item <?php if(($kelas=='OC') AND ($tahun==$uu['tahun_masuk'])){ echo 'active open'; } ?>">
+              <a class="menu-link" href="<?php echo site_url('admin/siswa/absen/'.$uu['tahun_masuk'].'/OC');?>"><?php echo $this->Absensi_model->cek_kelas($uu['tahun_masuk']); ?> OC</a>
+            </li>
+          </ul>
+        </li>
+        <?php }   ?>
+      </ul>
+    </li>
+    <li class="menu-item <?php if(($kelas=='TA') OR ($kelas=='TB') OR ($kelas=='TC')){ echo 'active open'; } ?>">
+      <a class="menu-link menu-toggle" href="javascript:void(0)"><i class='menu-icon bx bxl-medium-old'></i>Pembuatan Kain</a>
+      <ul class="menu-sub">
+        <?php foreach ($angkatan as $uu) { ?>
+        <li class="menu-item <?php if($tahun==$uu['tahun_masuk']){ echo 'open active'; } ?>">
+          <a class="menu-link menu-toggle" href="javascript:void(0)">Kelas <?php echo $this->Absensi_model->cek_kelas($uu['tahun_masuk']); ?></a>
+          <ul class="menu-sub">
+            <li class="menu-item <?php if(($kelas=='TA') AND ($tahun==$uu['tahun_masuk'])){ echo 'active open'; } ?>">
+              <a class="menu-link" href="<?php echo site_url('admin/siswa/absen/'.$uu['tahun_masuk'].'/TA');?>"><?php echo $this->Absensi_model->cek_kelas($uu['tahun_masuk']); ?> TA</a>
+            </li>
+            <li class="menu-item <?php if(($kelas=='TB') AND ($tahun==$uu['tahun_masuk'])){ echo 'active open'; } ?>">
+              <a class="menu-link" href="<?php echo site_url('admin/siswa/absen/'.$uu['tahun_masuk'].'/TB');?>"><?php echo $this->Absensi_model->cek_kelas($uu['tahun_masuk']); ?> TB</a>
+            </li>
+            <li class="menu-item <?php if(($kelas=='TC') AND ($tahun==$uu['tahun_masuk'])){ echo 'active open'; } ?>">
+              <a class="menu-link" href="<?php echo site_url('admin/siswa/absen/'.$uu['tahun_masuk'].'/TC');?>"><?php echo $this->Absensi_model->cek_kelas($uu['tahun_masuk']); ?> TC</a>
+            </li>
+          </ul>
+        </li>
+        <?php }   ?>
+      </ul>
+    </li>
+    <li class="menu-item <?php if(($kelas=='RA') OR ($kelas=='RB') OR ($kelas=='RC')){ echo 'active open'; } ?>">
+      <a class="menu-link menu-toggle" href="javascript:void(0)" style="font-size: -5px;"><i class='menu-icon bx bx-code-alt'></i>Rekayasa Perangkat Lunak</a>
+      <ul class="menu-sub">
+        <?php foreach ($angkatan as $uu) { ?>
+        <li class="menu-item <?php if($tahun==$uu['tahun_masuk']){ echo 'open active'; } ?>">
+          <a class="menu-link menu-toggle" href="javascript:void(0)">Kelas <?php echo $this->Absensi_model->cek_kelas($uu['tahun_masuk']); ?></a>
+          <ul class="menu-sub">
+            <li class="menu-item <?php if(($kelas=='RA') AND ($tahun==$uu['tahun_masuk'])){ echo 'active open'; } ?>">
+              <a class="menu-link" href="<?php echo site_url('admin/siswa/absen/'.$uu['tahun_masuk'].'/RA');?>"><?php echo $this->Absensi_model->cek_kelas($uu['tahun_masuk']); ?> RA</a>
+            </li>
+            <li class="menu-item <?php if(($kelas=='RB') AND ($tahun==$uu['tahun_masuk'])){ echo 'active open'; } ?>">
+              <a class="menu-link" href="<?php echo site_url('admin/siswa/absen/'.$uu['tahun_masuk'].'/RB');?>"><?php echo $this->Absensi_model->cek_kelas($uu['tahun_masuk']); ?> RB</a>
+            </li>
+            <li class="menu-item <?php if(($kelas=='RC') AND ($tahun==$uu['tahun_masuk'])){ echo 'active open'; } ?>">
+              <a class="menu-link" href="<?php echo site_url('admin/siswa/absen/'.$uu['tahun_masuk'].'/RC');?>"><?php echo $this->Absensi_model->cek_kelas($uu['tahun_masuk']); ?> RC</a>
+            </li>
+          </ul>
+        </li>
+        <?php }   ?>
       </ul>
     </li>
   </ul>
@@ -85,10 +121,4 @@ $angkatan = $this->db->get()->result_array();
     </li>
   </ul>
   <?php }   ?>
-  <div class="menu menu-vertical bg-menu-theme py-3" id="menu-1" style="height: 450px">
-    <ul class="menu-inner">
-
-
-    </ul>
-  </div>
 </aside>

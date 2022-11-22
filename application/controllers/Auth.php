@@ -6,6 +6,7 @@ class Auth extends MY_Controller
         $this->load->database();
         $this->load->model('Auth_model');
         $this->load->model('CRUD_model');
+        $this->load->model('Absensi_model');
         $this->load->helper('url');
     }
 
@@ -110,7 +111,7 @@ class Auth extends MY_Controller
             'site'      => $site
         );
         //melakukan pengalihan halaman sesuai dengan levelnya
-        if ($this->session->userdata('level') == "Admin") {
+        if (($this->session->userdata('level') == "Admin") OR ($this->session->userdata('level') == "Guru")) {
             redirect('admin/home');
         } 
         if ($this->session->userdata('level') == "Siswa") {
@@ -125,7 +126,7 @@ class Auth extends MY_Controller
             if ($this->form_validation->run() && $error === true) {
                 $data = $this->Auth_model->check_account($this->input->post('username'), $this->input->post('password'));
                 //jika bernilai TRUE maka alihkan halaman sesuai dengan level nya
-                if ($data->level == 'Admin') {
+                if (($data->level == 'Admin') OR ($data->level == 'Guru')) {
                     redirect('admin/home');
                 } elseif ($data->level == 'Siswa') {
                     redirect('siswa/home');
