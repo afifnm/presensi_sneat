@@ -17,7 +17,7 @@ $angkatan = $this->db->get()->result_array();
   </div>
   <div class="menu-inner-shadow"></div>
   <?php if ($this->session->userdata('level') == "Admin"){ ?>
-  <ul class="menu-inner py-1">
+  <ul class="menu-inner">
     <li class="menu-item <?php echo activate_menu('home');  ?>">
       <a href="<?php echo site_url('admin/home');?>" class="menu-link">
         <i class="menu-icon tf-icons bx bx-home-circle"></i>
@@ -32,30 +32,46 @@ $angkatan = $this->db->get()->result_array();
       <ul class="menu-sub">
         <?php foreach ($angkatan as $uu) { ?>
         <li class="menu-item <?php if($this->uri->segment('4')=='0'){ echo "active"; } ?>">
-          <ul class="menu-sub">
-            <?php foreach ($angkatan as $uu) { ?>
-            <li class="menu-item <?php if($this->uri->segment('4')=='0'){ echo "active"; } ?>">
-              <a href="<?php echo site_url('admin/siswa/'.$uu['tahun_masuk'].'/MA');?>" class="menu-link">
-                <div data-i18n="Without menu"> <?php echo $this->Absensi_model->cek_kelas($uu['tahun_masuk']); ?> MA
-                </div>
-              </a>
-            </li>
-            <li class="menu-item <?php if($this->uri->segment('4')=='0'){ echo "active"; } ?>">
-              <a href="<?php echo site_url('admin/siswa/'.$uu['tahun_masuk'].'/MB');?>" class="menu-link">
-                <div data-i18n="Without menu"> <?php echo $this->Absensi_model->cek_kelas($uu['tahun_masuk']); ?> MB
-                </div>
-              </a>
-            </li>
-            <li class="menu-item <?php if($this->uri->segment('4')=='0'){ echo "active"; } ?>">
-              <a href="<?php echo site_url('admin/siswa/'.$uu['tahun_masuk'].'/MC');?>" class="menu-link">
-                <div data-i18n="Without menu"> <?php echo $this->Absensi_model->cek_kelas($uu['tahun_masuk']); ?> MC
-                </div>
-              </a>
-            </li>
-            <?php } ?>
-          </ul>
+          <a href="<?php echo site_url('admin/siswa/'.$uu['tahun_masuk'].'/MA');?>" class="menu-link">
+            <div data-i18n="Without menu"> <?php echo $this->Absensi_model->cek_kelas($uu['tahun_masuk']); ?> MA
+            </div>
+          </a>
+        </li>
+        <li class="menu-item <?php if($this->uri->segment('4')=='0'){ echo "active"; } ?>">
+          <a href="<?php echo site_url('admin/siswa/'.$uu['tahun_masuk'].'/MB');?>" class="menu-link">
+            <div data-i18n="Without menu"> <?php echo $this->Absensi_model->cek_kelas($uu['tahun_masuk']); ?> MB
+            </div>
+          </a>
+        </li>
+        <li class="menu-item <?php if($this->uri->segment('4')=='0'){ echo "active"; } ?>">
+          <a href="<?php echo site_url('admin/siswa/'.$uu['tahun_masuk'].'/MC');?>" class="menu-link">
+            <div data-i18n="Without menu"> <?php echo $this->Absensi_model->cek_kelas($uu['tahun_masuk']); ?> MC
+            </div>
+          </a>
         </li>
         <?php } ?>
+      </ul>
+    </li>
+    <li class="menu-item">
+      <a class="menu-link menu-toggle" href="javascript:void(0)"><i class="menu-icon bx bx-dock-top"></i>
+          Mesin
+      </a>
+      <ul class="menu-sub">
+        <?php foreach ($angkatan as $uu) { ?>
+        <li class="menu-item">
+          <a class="menu-link menu-toggle" href="javascript:void(0)">Authentication</a>
+          <ul class="menu-sub">
+            <li class="menu-item">
+              <a class="menu-link" href="javascript:void(0)">Login</a>
+            </li>
+            <li class="menu-item">
+              <a class="menu-link" href="javascript:void(0)">Register</a>
+            </li>
+            <li class="menu-item">
+              <a class="menu-link" href="javascript:void(0)">Forgot Password</a>
+            </li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>
@@ -69,4 +85,10 @@ $angkatan = $this->db->get()->result_array();
     </li>
   </ul>
   <?php }   ?>
+  <div class="menu menu-vertical bg-menu-theme py-3" id="menu-1" style="height: 450px">
+    <ul class="menu-inner">
+
+
+    </ul>
+  </div>
 </aside>

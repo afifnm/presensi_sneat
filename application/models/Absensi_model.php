@@ -72,6 +72,7 @@ class Absensi_model extends CI_Model{
         }
    }
     public function cek_kelas($angkatan){ //gapakai kelas
+        $angkatan = substr($angkatan,0,4);
         $kelas1=date('Y')-$angkatan; 
         $kelas2=date('Y')-$angkatan-1; 
         $bulan=date('m'); //cek bulan ke 7 apa bukan?
