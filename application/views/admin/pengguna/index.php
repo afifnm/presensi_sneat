@@ -43,7 +43,7 @@
               <td><?php echo $this->Absensi_model->get_masuk($user['username'],$tanggal); ?></td>
               <td><?php echo $this->Absensi_model->get_pulang($user['username'],$tanggal); ?></td>
               <td align="center">
-                <?php if($this->session->userdata('username')=='Admin'){ ?>
+                <?php if($this->session->userdata('level')=='Admin'){ ?>
                 <a href="<?php echo site_url('admin/siswa/delete_data/'.$user['id'].'/'.$tahun_masuk.'/'.$kelas);?>"
                   class="btn btn-sm btn-danger" onClick="return confirm('Apakah anda yakin menghapus data ini?')"><span
                     class="tf-icons bx bx-trash-alt"></span></a>
