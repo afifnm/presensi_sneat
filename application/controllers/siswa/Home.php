@@ -67,6 +67,7 @@ class Home extends MY_Controller
             'username' => $this->session->userdata('username'),
             'tanggal' => $tanggal,
             'masuk' => $jam,
+            'ip' => $this->Absensi_model->get_ip()
          );  
         $this->Absensi_model->Insert('absen', $data2);
         $this->session->set_flashdata('alert', '<p class="box-msg">
@@ -87,6 +88,7 @@ class Home extends MY_Controller
       if ($cek>0) {
         $data = array(
             'pulang' => $jam,
+            'ip2' => $this->Absensi_model->get_ip()
          ); 
         $where = array(
             'username' => $this->session->userdata('username'),
@@ -98,6 +100,7 @@ class Home extends MY_Controller
             'username' => $this->session->userdata('username'),
             'tanggal' => $tanggal,
             'pulang' => $jam,
+            'ip2' => $this->Absensi_model->get_ip()
          );  
         $this->Absensi_model->Insert('absen', $data2);
       }

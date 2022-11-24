@@ -1,7 +1,7 @@
 <?php
 date_default_timezone_set("Asia/Jakarta");
 $pukul = date("H:i:s");
-//$pukul = date("15:10:00");
+// $pukul = date("15:10:00");
  ?>
 <div id="lokasi_null">
 	<div class="alert alert-primary alert-dismissible">
