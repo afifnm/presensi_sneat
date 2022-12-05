@@ -11,6 +11,7 @@ class Auth extends MY_Controller
     }
 
     public function register(){
+      redirect('auth/login'); 
       $site = $this->Konfigurasi_model->listing();
       $data = array(
           'title'                 => 'Register | '.$site['nama_website'],
@@ -226,7 +227,7 @@ class Auth extends MY_Controller
         $alamat = $this->input->post('alamat');
         $email = $this->input->post('email');
         $kelas = $this->input->post('kelas');
-        $tahun_ajaran = $this->input->post('tahun_ajaran');
+        $tahun_masuk = $this->input->post('tahun_masuk');
         $no_hp = $this->input->post('no_hp');
         $data = array(
             'nama' => $nama,
@@ -236,7 +237,7 @@ class Auth extends MY_Controller
             'alamat' => $alamat,
             'email' => $email,
             'kelas' => $kelas,
-            'tahun_ajaran' => $tahun_ajaran,
+            'tahun_masuk' => $tahun_masuk,
             'no_hp' => $no_hp
         );
         $userdata = array(
@@ -247,7 +248,7 @@ class Auth extends MY_Controller
             'alamat' => $alamat,
             'email' => $email,
             'kelas' => $kelas,
-            'tahun_ajaran' => $tahun_ajaran,
+            'tahun_masuk' => $tahun_masuk,
             'no_hp' => $no_hp
         );
         $this->session->set_userdata($userdata);

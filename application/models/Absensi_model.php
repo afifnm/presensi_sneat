@@ -65,7 +65,7 @@ class Absensi_model extends CI_Model{
         } elseif ($res==strtotime("00:00:00")) {
             return 'A';
         } else {
-            $this->db->select('pulang')->from('absen');
+            $this->db->select('pulang')->from('absen'); 
             $this->db->where("username",$username);
             $this->db->where("DATE_FORMAT(tanggal,'%Y-%m-%d')", $tanggal);
             return $res = $this->db->get()->row()->pulang;

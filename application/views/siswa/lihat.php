@@ -19,7 +19,7 @@
 				<tr>
 					<th>Tanggal</th>
 					<th>Masuk</th>
-					<th>Pulang</th>
+					<th>Pulang</th> 
 				</tr>
 			</thead>
 			<tbody>

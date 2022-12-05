@@ -23,7 +23,7 @@ $pukul = date("H:i:s");
 		<i class="bx bx-location-plus"></i>Kamu sudah berada dalam jangkauan lokasi sekolah.
 		<?php } ?>
 	</div>
-	<?php if (($pukul>=date('05:30') && ($pukul<=date('09:00')))) { ?>
+	<?php if (($pukul>=date('05:30') && ($pukul<=date('12:00')))) { ?>
 	<a href="<?php echo site_url('siswa/home/masuk');?>">
 		<div class="d-grid gap-2 col-lg-6 mx-auto">
 			<button type="button" class="btn btn-primary">
@@ -31,7 +31,7 @@ $pukul = date("H:i:s");
 			</button>
 		</div>
 	</a>
-	<?php } elseif (($pukul>=date('15:00') && ($pukul<=date('17:00')))) { ?>
+	<?php } elseif (($pukul>=date('14:30') && ($pukul<=date('18:00')))) { ?>
 	<?php if ($this->Absensi_model->cek_absen_pulang_now()==0) { ?>
 	<a href="<?php echo site_url('siswa/home/pulang');?>">
 		<div class="d-grid gap-2 col-lg-6 mx-auto">
@@ -63,7 +63,7 @@ $pukul = date("H:i:s");
 							<input type="date" class="form-control" name="bulan" placeholder="Pilih bulan..."
 								required>
 						</div>
-					</div>
+					</div> 
 				</div>
 				<div class="modal-footer">
 					<button type="submit" class="btn btn-primary">Lihat Data Absen</button>

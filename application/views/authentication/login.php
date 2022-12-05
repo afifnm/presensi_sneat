@@ -76,13 +76,6 @@
                   <button class="btn btn-primary d-grid w-100" type="submit" name="submit" value="login">Masuk</button>
                 </div>
               </form>
-
-              <p class="text-center">
-                <span>Belum punya akun?</span><br>
-                <a href="register">
-                  <span>Klik disini untuk membuat akun</span>
-                </a>
-              </p>
               <div id="myalert">
 					<?php echo $this->session->flashdata('alert', true)?>
 				</div>

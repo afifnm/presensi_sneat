@@ -127,5 +127,63 @@ class Siswa extends MY_Controller{
             ');
         redirect('admin/siswa/absen/'.$tahun_masuk.'/'.$kelas);
     }
+    public function import_excel()
+    {
+        if(isset($_FILES["file"]["name"])){
+              // upload
+            $file_tmp = $_FILES['file']['tmp_name'];
+            $file_name = $_FILES['file']['name'];
+            $file_size =$_FILES['file']['size'];
+            $file_type=$_FILES['file']['type'];
+            // move_uploaded_file($file_tmp,"uploads/".$file_name); // simpan filenya di folder uploads
+            
+            $object = PHPExcel_IOFactory::load($file_tmp);
+    
+            foreach($object->getWorksheetIterator() as $worksheet){
+    
+                $highestRow = $worksheet->getHighestRow();
+                $highestColumn = $worksheet->getHighestColumn();
+    
+                for($row=4; $row<=$highestRow; $row++){
+    
+                    $password = $worksheet->getCellByColumnAndRow(0, $row)->getValue();
+                    $kelas = $worksheet->getCellByColumnAndRow(1, $row)->getValue();
+                    $nama = $worksheet->getCellByColumnAndRow(2, $row)->getValue();
+                    $nis = $worksheet->getCellByColumnAndRow(3, $row)->getValue();
+                    $tahun_masuk = $worksheet->getCellByColumnAndRow(4, $row)->getValue();
+
+                    $data[] = array(
+                        'username'          => $nis,
+                        'password'          =>get_hash($password),
+                        'level'         =>'Siswa',
+                        'nama'         =>$nama,
+                        'kelas'         =>$kelas,
+                        'tahun_masuk'         =>$tahun_masuk,
+                    );
+    
+                } 
+    
+            }
+    
+            $this->db->insert_batch('user', $data);
+            $this->session->set_flashdata('alert', '
+            <div class="alert alert-primary alert-dismissible" role="alert">
+            Import data dari excel berhasil.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+                ');
+            redirect('admin/home');
+        }
+        else
+        {
+            $this->session->set_flashdata('alert', '
+            <div class="alert alert-primary alert-dismissible" role="alert">
+            Import data dari excel gagal.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+                ');
+            redirect('admin/home');
+        }
+    }
 
 }
