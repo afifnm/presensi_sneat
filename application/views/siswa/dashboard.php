@@ -31,7 +31,7 @@ $pukul = date("H:i:s");
 			</button>
 		</div>
 	</a>
-	<?php } elseif (($pukul>=date('14:30') && ($pukul<=date('18:00')))) { ?>
+	<?php } elseif (($pukul>=date('12:01') && ($pukul<=date('18:00')))) { ?>
 	<?php if ($this->Absensi_model->cek_absen_pulang_now()==0) { ?>
 	<a href="<?php echo site_url('siswa/home/pulang');?>">
 		<div class="d-grid gap-2 col-lg-6 mx-auto">

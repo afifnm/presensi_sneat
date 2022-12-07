@@ -127,6 +127,22 @@ class Siswa extends MY_Controller{
             ');
         redirect('admin/siswa/absen/'.$tahun_masuk.'/'.$kelas);
     }
+    public function reset($id,$tahun_masuk,$kelas){
+        $data = array(
+            'password' => get_hash('1234')
+         ); 
+        $where = array(
+            'id' => $id,
+        );
+        $data = $this->CRUD_model->Update('user', $data, $where);
+        $this->session->set_flashdata('alert', '
+        <div class="alert alert-primary alert-dismissible" role="alert">
+        Password berhasil direset menjadi 1234.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+            ');
+        redirect('admin/siswa/absen/'.$tahun_masuk.'/'.$kelas);
+    }
     public function import_excel()
     {
         if(isset($_FILES["file"]["name"])){

@@ -44,9 +44,12 @@
               <td><?php echo $this->Absensi_model->get_pulang($user['username'],$tanggal); ?></td>
               <td align="center">
                 <?php if($this->session->userdata('level')=='Admin'){ ?>
-                <a href="<?php echo site_url('admin/siswa/delete_data/'.$user['id'].'/'.$tahun_masuk.'/'.$kelas);?>"
+                  <a href="<?php echo site_url('admin/siswa/delete_data/'.$user['id'].'/'.$tahun_masuk.'/'.$kelas);?>"
                   class="btn btn-sm btn-danger" onClick="return confirm('Apakah anda yakin menghapus data ini?')"><span
                     class="tf-icons bx bx-trash-alt"></span></a>
+                    <a href="<?php echo site_url('admin/siswa/reset/'.$user['id'].'/'.$tahun_masuk.'/'.$kelas);?>"
+                  class="btn btn-sm btn-primary" onClick="return confirm('Apakah anda yakin mereset password pada siswa?')"><span
+                    class="tf-icons bx bx-lock"></span></a>
                 <?php } ?>
                 <a href="<?php echo site_url('admin/siswa/profil/'.$user['username']);?>"
                   class="btn btn-sm btn-warning"><span class="tf-icons bx bx-search"></span></a>
