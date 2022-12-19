@@ -25,33 +25,6 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="row">
-            <div class="col-lg-12 mb-4 order-0">
-                <div class="card">
-                    <div class="d-flex align-items-end row">
-                        <div class="col-sm-12">
-                            <div class="card-body">
-                                <h5 class="card-title text-primary">Import Data Siswa</h5>
-                                <form method='post' action='<?php echo site_url('admin/siswa/import_excel');?>'
-                                    enctype='multipart/form-data'>
-                                    <div class="row">
-                                        <div class="col-md-5">
-                                            <input type='file' name='file' class="form-control" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                                                required>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <input type='submit' value='Submit' name='upload' class="form-control">
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 <?PHP
 
@@ -84,8 +57,7 @@ function getUserIP()
 
 
 $user_ip = getUserIP();
-
-echo $user_ip; // Output IP address [Ex: 177.87.193.134]
+ // Output IP address [Ex: 177.87.193.134]
 
 
 ?>
