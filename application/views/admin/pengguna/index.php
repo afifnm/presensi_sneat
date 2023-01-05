@@ -9,11 +9,45 @@
           <div class="col-md-8">
             <h4> Kelas <?php echo $this->Absensi_model->cek_kelas($tahun_masuk).' '.$kelas; ?></h4>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-12">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCenter">
+              Lihat Absen Pada Bulan
+            </button>
+            <!-- Modal -->
+
             <button type="button" class="btn btn-primary pull-right" data-bs-toggle="modal"
               data-bs-target="#backDropModal" style="float: right;">
               <span class="tf-icons bx bx-search"></span>&nbsp; Lihat Absen Pada Tanggal
             </button>
+
+            <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <form class="modal-content" method="get" action="<?php echo site_url('admin/siswa/lihat_bulan');?>"
+                  target="_blank">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="backDropModalTitle">
+                      <span class="tf-icons bx bx-search"></span>&nbsp; Lihat Absen Pada Bulan
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="row">
+                      <div class="col mb-3">
+                        <label for="nameBackdrop" class="form-label">Bulan</label>
+                        <input type="date" class="form-control" placeholder="Tanggal" name="tanggal" required>
+                        <input type="hidden" name="tahun_masuk" value="<?= $tahun_masuk ?>">
+                        <input type="hidden" name="kelas" value="<?= $kelas ?>">
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        Close
+                      </button>
+                      <button type="submit" class="btn btn-primary">Lihat</button>
+                    </div>
+                </form>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -44,11 +78,12 @@
               <td><?php echo $this->Absensi_model->get_pulang($user['username'],$tanggal); ?></td>
               <td align="center">
                 <?php if($this->session->userdata('level')=='Admin'){ ?>
-                  <a href="<?php echo site_url('admin/siswa/delete_data/'.$user['id'].'/'.$tahun_masuk.'/'.$kelas);?>"
+                <a href="<?php echo site_url('admin/siswa/delete_data/'.$user['id'].'/'.$tahun_masuk.'/'.$kelas);?>"
                   class="btn btn-sm btn-danger" onClick="return confirm('Apakah anda yakin menghapus data ini?')"><span
                     class="tf-icons bx bx-trash-alt"></span></a>
-                    <a href="<?php echo site_url('admin/siswa/reset/'.$user['id'].'/'.$tahun_masuk.'/'.$kelas);?>"
-                  class="btn btn-sm btn-primary" onClick="return confirm('Apakah anda yakin mereset password pada siswa?')"><span
+                <a href="<?php echo site_url('admin/siswa/reset/'.$user['id'].'/'.$tahun_masuk.'/'.$kelas);?>"
+                  class="btn btn-sm btn-primary"
+                  onClick="return confirm('Apakah anda yakin mereset password pada siswa?')"><span
                     class="tf-icons bx bx-lock"></span></a>
                 <?php } ?>
                 <a href="<?php echo site_url('admin/siswa/profil/'.$user['username']);?>"

@@ -56,6 +56,29 @@ class Siswa extends MY_Controller{
         $data2 = array('data2' => $data2);
         $this->template->load('layout/template', 'admin/rekap_absensi', array_merge($data,$data2));
     } 
+    public function lihat_bulan(){
+        $tahun_masuk = $_GET['tahun_masuk'];
+        $kelas = $_GET['kelas'];
+        $site = $this->Konfigurasi_model->listing();
+        $data = array(
+            'title'                 => 'Lihat Presensiku | '.$site['nama_website'],
+            'favicon'               => $site['favicon'],
+            'site'                  => $site,
+            'bulan'                 => $_GET['tanggal'],
+            'tahun_masuk'           => $tahun_masuk,
+            'kelas'                 => $kelas,
+            'nav'                   => '
+                      <a class="navigasi-link">Aplikasi Presensi</a>
+              '
+          );
+          $this->db->select('*')->from('user');
+        $this->db->where('tahun_masuk',$tahun_masuk);
+        $this->db->where('kelas',$kelas);
+        $this->db->order_by('nama','ASC');
+        $data2 = $this->db->get()->result_array();
+        $data2 = array('data2' => $data2);
+          $this->load->view('admin/pengguna/rekap_bulan', array_merge($data, $data2));
+      }
     public function cek_absen_bulan(){
         $site = $this->Konfigurasi_model->listing();
         $data = array(

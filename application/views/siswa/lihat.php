@@ -23,7 +23,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<?php for ($i=1; $i<=$date_end ; $i++) { $tanggal=$tahun.'-'.$month.'-'.$i; ?>
+				<?php for ($i=1; $i<=$date_end ; $i++) { if($i>9){ $tanggal=$tahun.'-'.$month.'-'.$i; } else { $tanggal=$tahun.'-'.$month.'-'.'0'.$i; }  ?>
 				<tr>
 					<td><?= $i.'-'.$month.'-'.$tahun; ?></td>
 					<td><?php echo $this->Absensi_model->get_masuk($this->session->userdata('username'),$tanggal); ?>
@@ -35,4 +35,4 @@
 			</tbody>
 		</table>
 	</div>
-</div>
+</div> 

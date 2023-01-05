@@ -52,7 +52,7 @@ class Absensi_model extends CI_Model{
             $this->db->select('masuk')->from('absen');
             $this->db->where("username",$username);
             $this->db->where("DATE_FORMAT(tanggal,'%Y-%m-%d')", $tanggal);
-            return $res = $this->db->get()->row()->masuk;
+            return DATE_FORMAT(date_create($this->db->get()->row()->masuk),"H:i");
         }
    }
    public function get_pulang($username,$tanggal){ //menampilkan skor koding
@@ -68,7 +68,7 @@ class Absensi_model extends CI_Model{
             $this->db->select('pulang')->from('absen'); 
             $this->db->where("username",$username);
             $this->db->where("DATE_FORMAT(tanggal,'%Y-%m-%d')", $tanggal);
-            return $res = $this->db->get()->row()->pulang;
+            return DATE_FORMAT(date_create($this->db->get()->row()->pulang),"H:i");
         }
    }
     public function cek_kelas($angkatan){ //gapakai kelas
