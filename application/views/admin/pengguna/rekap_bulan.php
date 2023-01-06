@@ -21,7 +21,13 @@
         <td><?php echo $no; ?></td>
         <td><?php echo $user['username']; ?></td>
         <td><?php echo $user['nama']; ?></td>
-        <?php for ($i=1; $i<=$date_end ; $i++) { if($i>9){ $tanggal=$tahun.'-'.$month.'-'.$i; } else { $tanggal=$tahun.'-'.$month.'-'.'0'.$i; }  ?>
+        <?php for ($i=1; $i<=$date_end ; $i++) { 
+            if($i>9){
+                 $tanggal=$tahun.'-'.$month.'-'.$i; 
+                 } else { 
+                    $tanggal=$tahun.'-'.$month.'-'.'0'.$i; 
+                }
+              ?>
         <td><?php echo $this->Absensi_model->get_masuk($user['username'],$tanggal); ?></td>
         <?php } ?>
     </tr>

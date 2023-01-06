@@ -11,7 +11,8 @@ class Siswa extends MY_Controller{
         $this->load->model('Absensi_model');
         $this->load->helper('tgl_indo');
         $this->check_login();
-        if (($this->session->userdata('level') != "Admin") AND ($this->session->userdata('level') != "Guru")){
+        if (($this->session->userdata('level') != "Admin") AND ($this->session->userdata('level') != "Guru")
+         AND ($this->session->userdata('level') != "BK")){
             redirect('', 'refresh');
         }
     }
@@ -107,7 +108,11 @@ class Siswa extends MY_Controller{
         );
         $where = array('username' => $username);
         $data2['profil'] = $this->CRUD_model->edit_data($where,'user')->result();
-        $this->template->load('layout/template', 'admin/pengguna/profil', array_merge($data, $data2));
+        $this->db->select('*')->from('izin')->where('username',$username);
+        $this->db->order_by('tanggal','DESC');
+        $data3 = $this->db->get()->result_array();
+        $data3 = array('data3' => $data3);
+        $this->template->load('layout/template', 'admin/pengguna/profil', array_merge($data, $data2, $data3));
     }
     public function tambah(){
         $site = $this->Konfigurasi_model->listing();
@@ -166,63 +171,32 @@ class Siswa extends MY_Controller{
             ');
         redirect('admin/siswa/absen/'.$tahun_masuk.'/'.$kelas);
     }
-    public function import_excel()
-    {
-        if(isset($_FILES["file"]["name"])){
-              // upload
-            $file_tmp = $_FILES['file']['tmp_name'];
-            $file_name = $_FILES['file']['name'];
-            $file_size =$_FILES['file']['size'];
-            $file_type=$_FILES['file']['type'];
-            // move_uploaded_file($file_tmp,"uploads/".$file_name); // simpan filenya di folder uploads
-            
-            $object = PHPExcel_IOFactory::load($file_tmp);
-    
-            foreach($object->getWorksheetIterator() as $worksheet){
-    
-                $highestRow = $worksheet->getHighestRow();
-                $highestColumn = $worksheet->getHighestColumn();
-    
-                for($row=4; $row<=$highestRow; $row++){
-    
-                    $password = $worksheet->getCellByColumnAndRow(0, $row)->getValue();
-                    $kelas = $worksheet->getCellByColumnAndRow(1, $row)->getValue();
-                    $nama = $worksheet->getCellByColumnAndRow(2, $row)->getValue();
-                    $nis = $worksheet->getCellByColumnAndRow(3, $row)->getValue();
-                    $tahun_masuk = $worksheet->getCellByColumnAndRow(4, $row)->getValue();
-
-                    $data[] = array(
-                        'username'          => $nis,
-                        'password'          =>get_hash($password),
-                        'level'         =>'Siswa',
-                        'nama'         =>$nama,
-                        'kelas'         =>$kelas,
-                        'tahun_masuk'         =>$tahun_masuk,
-                    );
-    
-                } 
-    
-            }
-    
-            $this->db->insert_batch('user', $data);
-            $this->session->set_flashdata('alert', '
+    public function simpan_izin(){
+        $data = array(
+            'username' => $this->input->post('username'),
+            'keterangan' => $this->input->post('keterangan'),
+            'alasan' => $this->input->post('alasan'),
+            'tanggal' => $this->input->post('tanggal'),
+         );  
+        $this->CRUD_model->Insert('izin', $data);
+        $this->session->set_flashdata('alert', '
             <div class="alert alert-primary alert-dismissible" role="alert">
-            Import data dari excel berhasil.
+            Izin berhasil ditambahkan.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
                 ');
-            redirect('admin/home');
-        }
-        else
-        {
-            $this->session->set_flashdata('alert', '
-            <div class="alert alert-primary alert-dismissible" role="alert">
-            Import data dari excel gagal.
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-                ');
-            redirect('admin/home');
-        }
+        redirect('admin/siswa/profil/'.$this->input->post('username'));       
+    }
+        public function hapus_izin($id,$username){
+        $id = array('id_izin' => $id);
+        $this->CRUD_model->Delete('izin', $id);
+        $this->session->set_flashdata('alert', '
+        <div class="alert alert-primary alert-dismissible" role="alert">
+        Izin siswa telah dihapus.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+            ');
+        redirect('admin/siswa/profil/'.$username);
     }
 
 }

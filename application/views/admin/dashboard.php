@@ -1,5 +1,5 @@
 <div id="myalert">
-    <?php echo $this->session->flashdata('alert', true)?>
+    <?php echo $this->session->flashdata('alert', true); $this->session->set_flashdata('alert', '');?>
 </div>
 <div class="container-xxl flex-grow-1 container-p-y">
     <div class="row">
@@ -11,7 +11,6 @@
                             <h5 class="card-title text-primary">Selamat Datang Di Aplikasi Presensi 🎉</h5>
                             <p class="mb-4">Halaman Admin ini berfungsi untuk merekap data absen tiap kelas dan data
                                 siswa tiap kelas.</p>
-
                         </div>
                     </div>
                     <div class="col-sm-5 text-center text-sm-left">
