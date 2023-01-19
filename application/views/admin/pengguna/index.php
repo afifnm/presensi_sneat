@@ -1,5 +1,5 @@
 <div id="myalert">
-  <?php echo $this->session->flashdata('alert', true)?>
+    <?php echo $this->session->flashdata('alert', true); $this->session->set_flashdata('alert', '');?>
 </div>
 <div class="row">
   <div class="col-md-12">

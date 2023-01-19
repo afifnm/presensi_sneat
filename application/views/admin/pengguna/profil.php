@@ -1,23 +1,19 @@
+<div id="myalert">
+  <?php echo $this->session->flashdata('alert', true); $this->session->set_flashdata('alert', '');?>
+</div>
 <?php foreach ($profil as $u) {?>
 <div class="row mb-5">
-  <div class="col-md-4">
-    <div class="card h-100">
-        <?php $filename=FCPATH.'/assets/upload/images/profil/'.$u->foto;
-        if (file_exists($filename)){ ?>
-          <img class="card-img-top" src="<?php echo base_url('assets/upload/images/profil/'.$u->foto); ?>" >
-        <?php }  else {?>
-          <img class="card-img-top" src="<?php echo base_url('assets/upload/images/no_image.jpg'); ?>" >
-        <?php }?>
-        <center>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item"><?php echo $u->nama; ?></li>
-          </ul>
-        </center>
-    </div>
-  </div>
   <div class="col-md-8">
     <div class="card h-100">
       <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <div class="row">
+            <div class="col-md-3"><b>Nama Lengkap</b></div>
+            <div class="col-md-9">
+              <?php echo $u->nama; ?>
+            </div>
+          </div>
+        </li>
         <li class="list-group-item">
           <div class="row">
             <div class="col-md-3"><b>Tempat, Tgl. Lahir</b></div>
@@ -28,7 +24,7 @@
               } else{
                 echo $u->tempat_lahir;
               }
-              ?>, 
+              ?>,
               <?php 
               if(($u->tanggal_lahir)=='0000-00-00'){
                 echo"Tanggal lahir belum dilengkapi";
@@ -79,35 +75,123 @@
       </ul>
     </div>
   </div>
-</div>        
-<div class="d-grid gap-2 col-lg-6 mx-auto">
-	<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal" style="margin-top: 10px;">
-		<span class="tf-icons bx bx-search"></span>&nbsp; Lihat Presensi di Bulan
-	</button>
+  <div class="col-md-4">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal"
+      style="margin-top: 10px;">
+      <span class="tf-icons bx bx-search"></span>&nbsp; Lihat Presensi di Bulan
+    </button>
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#basicModal2"
+      style="margin-top: 10px;">
+      <span class="tf-icons bx bx-label"></span>&nbsp; Izin Absen Tidak Masuk
+    </button>
+  </div>
 </div>
+<div class="row mb-5">
+  <div class="col-md-8">
+    <div class="card">
+      <div class="table-responsive text-nowrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Tanggal</th>
+              <th>Keterangan</th>
+              <th>Alasan</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody class="table-border-bottom-0">
+            <?php $no=1; foreach ($data3 as $uu) {?>
+            <tr class="table-default">
+              <td><i class="fab fa-sketch fa-lg text-warning me-3"></i> <strong><?= $no; ?></strong></td>
+              <td><?=  DATE_FORMAT(date_create($uu['tanggal']),"d-M-Y");  ?></td>
+              <?php if($uu['keterangan']=="I"){ ?>
+              <td><span class="badge bg-label-primary">Izin</span></td>
+              <?php } else if($uu['keterangan']=="S"){ ?>
+              <td><span class="badge bg-label-warning">Sakit</span></td>
+              <?php } else { ?>
+              <td><span class="badge bg-label-danger">Alpha</span></td>
+              <?php } ?>
+              <td><?= $uu['alasan']; ?></td>
+              <td>
+                <a href="<?php echo site_url('admin/siswa/hapus_izin/'.$uu['id_izin'].'/'.$uu['username']);?>"
+                  class="btn btn-sm btn-danger" onClick="return confirm('Apakah anda yakin menghapus izin ini?')"><span
+                    class="tf-icons bx bx-trash-alt"></span></a>
+              </td>
+            </tr>
+            <?php $no++;} ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel1"><span class="tf-icons bx bx-search"></span>&nbsp; Lihat Presensi di Bulan</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<form class="modal-content" method="GET" action="<?php echo site_url('admin/siswa/cek_absen_bulan');?>" target="_blank">
-				<div class="modal-body">
-					<div class="row g-2">
-						<div class="col mb-0">
-							<label for="emailBasic" class="form-label">Pilih Bulan</label>
-							<input type="date" class="form-control" name="bulan" placeholder="Pilih bulan..."
-								required>
-                <input type="hidden" name="username" value="<?= $u->username ?>" required>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="submit" class="btn btn-primary">Lihat Absen</button>
-				</div>
-			</form>
-		</div>
-	</div>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel1"><span class="tf-icons bx bx-search"></span>&nbsp; Lihat Presensi
+          di Bulan</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form class="modal-content" method="GET" action="<?php echo site_url('admin/siswa/cek_absen_bulan');?>"
+        target="_blank">
+        <div class="modal-body">
+          <div class="row g-2">
+            <div class="col mb-0">
+              <label for="emailBasic" class="form-label">Pilih Bulan</label>
+              <input type="date" class="form-control" name="bulan" placeholder="Pilih bulan..." required>
+              <input type="hidden" name="username" value="<?= $u->username ?>" required>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Lihat Absen</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="basicModal2" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel1"><span class="tf-icons bx bx-search"></span>&nbsp; Izin Absen
+          Tidak Masuk</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form class="modal-content" method="POST" action="<?php echo site_url('admin/siswa/simpan_izin');?>">
+        <div class="modal-body">
+          <div class="row g-2">
+            <div class="col mb-0">
+              <label for="emailBasic" class="form-label">Keterangan</label>
+              <select name="keterangan" class="form-control">
+                <option value="I">Izin</option>
+                <option value="S">Sakit</option>
+                <option value="A">Alpha</option>
+              </select>
+            </div>
+          </div>
+          <div class="row g-2">
+            <div class="col mb-0">
+              <label for="emailBasic" class="form-label">Alasan Izin</label>
+              <input type="text" class="form-control" name="alasan">
+            </div>
+          </div>
+          <div class="row g-2">
+            <div class="col mb-0">
+              <label for="emailBasic" class="form-label">Tanggal</label>
+              <input type="date" class="form-control" name="tanggal" placeholder="Pilih tanggal..." required>
+              <input type="hidden" name="username" value="<?= $u->username ?>" required>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Submit Izin</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
 <?php } ?>

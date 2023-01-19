@@ -71,6 +71,20 @@ class Absensi_model extends CI_Model{
             return DATE_FORMAT(date_create($this->db->get()->row()->pulang),"H:i");
         }
    }
+   public function get_izin($username,$tanggal){ //menampilkan skor koding
+        $this->db->select('keterangan')->from('izin');
+        $this->db->where("username",$username);
+        $this->db->where("DATE_FORMAT(tanggal,'%Y-%m-%d')", $tanggal);
+        $res = $this->db->count_all_results();
+        if ($res==NULL) {
+            return 'M';
+        } else {
+            $this->db->select('keterangan')->from('izin');
+            $this->db->where("username",$username);
+            $this->db->where("DATE_FORMAT(tanggal,'%Y-%m-%d')", $tanggal);
+            return $this->db->get()->row()->keterangan;
+        }
+   }
     public function cek_kelas($angkatan){ //gapakai kelas
         $angkatan = substr($angkatan,0,4);
         $kelas1=date('Y')-$angkatan; 

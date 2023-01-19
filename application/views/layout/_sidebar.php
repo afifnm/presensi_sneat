@@ -18,7 +18,8 @@ $kelas = $this->uri->segment('5');
     </a>
   </div>
   <div class="menu-inner-shadow"></div>
-  <?php if (($this->session->userdata('level') == "Admin") OR ($this->session->userdata('level') == "Guru")){ ?>
+  <?php if (($this->session->userdata('level') == "Admin") OR ($this->session->userdata('level') == "Guru") 
+   OR ($this->session->userdata('level') == "BK")){ ?>
   <ul class="menu-inner">
     <li class="menu-item <?php echo activate_menu('home');  ?>">
       <a href="<?php echo site_url('admin/home');?>" class="menu-link">
