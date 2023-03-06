@@ -164,5 +164,4 @@ $pukul = date("H:i:s");
 		lokasi_null.style.display = "block";
 	};
 	navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
-
 </script>
