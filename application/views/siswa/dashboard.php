@@ -72,6 +72,129 @@ $pukul = date("H:i:s");
 		</div>
 	</div>
 </div>
+<div class="row mb-3 mt-3">
+  <?php if($data3<>NULL){ ?>
+  <div class="col-md-12">
+    <div class="card">
+      <h5 class="card-header">Izin Tidak Masuk</h5>
+      <div class="table-responsive text-nowrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Tanggal</th>
+              <th>Keterangan</th>
+              <th>Alasan</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody class="table-border-bottom-0">
+            <?php $no=1; foreach ($data3 as $uu) {  ?>
+            <tr class="table-default">
+              <td><i class="fab fa-sketch fa-lg text-warning me-3"></i> <strong><?= $no; ?></strong></td>
+              <td><?=  DATE_FORMAT(date_create($uu['tanggal']),"d-M-Y");  ?></td>
+              <?php if($uu['keterangan']=="I"){ ?>
+              <td><span class="badge bg-label-primary">Izin</span></td>
+              <?php } else if($uu['keterangan']=="S"){ ?>
+              <td><span class="badge bg-label-warning">Sakit</span></td>
+              <?php } else { ?>
+              <td><span class="badge bg-label-danger">Alpha</span></td>
+              <?php } ?>
+              <td><?= $uu['alasan']; ?></td>
+              <td>
+                <a href="<?php echo site_url('admin/siswa/hapus_izin/'.$uu['id_izin'].'/'.$uu['username']);?>"
+                  class="btn btn-sm btn-danger" onClick="return confirm('Apakah anda yakin menghapus izin ini?')"><span
+                    class="tf-icons bx bx-trash-alt"></span></a>
+              </td>
+            </tr>
+            <?php $no++;} ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <?php } ?>
+</div>
+<div class="row mb-3">
+  <?php if($data4<>NULL){ ?>
+  <div class="col-md-12">
+    <div class="card">
+      <h5 class="card-header">Pelanggaran Siswa</h5>
+      <div class="table-responsive text-nowrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Tanggal</th>
+              <th>Pelanggaran</th>
+              <th>Keterangan</th>
+              <th>Poin</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody class="table-border-bottom-0">
+            <?php $no=1; foreach ($data4 as $uu) {  ?>
+            <tr class="table-default">
+              <td><i class="fab fa-sketch fa-lg text-warning me-3"></i> <strong><?= $no; ?></strong></td>
+              <td><?=  DATE_FORMAT(date_create($uu['tanggal']),"d-M-Y");  ?></td>
+              <td><?= $uu['pelanggaran']; ?></td>
+              <td><?= $uu['keterangan']; ?></td>
+              <td><?= $uu['poin']; ?></td>
+              <td>
+                <a href="<?php echo site_url('admin/siswa/hapus_pelanggaran/'.$uu['id_pelanggaran'].'/'.$uu['username']);?>"
+                  class="btn btn-sm btn-danger"
+                  onClick="return confirm('Apakah anda yakin menghapus pelanggaran ini?')"><span
+                    class="tf-icons bx bx-trash-alt"></span></a>
+              </td>
+            </tr>
+            <?php $no++;} ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <?php } ?>
+</div>
+<div class="row mb-3">
+  <?php if($data5<>NULL){ ?>
+  <div class="col-md-12">
+    <div class="card">
+      <h5 class="card-header">Prestasi Siswa</h5>
+      <div class="table-responsive text-nowrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Tanggal</th>
+              <th>Nama Perlombaan</th>
+              <th>Juara Ke-</th>
+              <th>Keterangan</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody class="table-border-bottom-0">
+            <?php $no=1; foreach ($data5 as $uu) {  ?>
+            <tr class="table-default">
+              <td><i class="fab fa-sketch fa-lg text-warning me-3"></i> <strong><?= $no; ?></strong></td>
+              <td><?=  DATE_FORMAT(date_create($uu['tanggal']),"d-M-Y");  ?></td>
+              <td><?= $uu['nama']; ?></td>
+              <td><?= $uu['juara']; ?></td>
+              <td><?= $uu['keterangan']; ?></td>
+              <td>
+                <a href="<?php echo site_url('admin/siswa/hapus_prestasi/'.$uu['id_prestasi'].'/'.$uu['username']);?>"
+                  class="btn btn-sm btn-danger"
+                  onClick="return confirm('Apakah anda yakin menghapus prestasi ini?')"><span
+                    class="tf-icons bx bx-trash-alt"></span></a>
+              </td>
+            </tr>
+            <?php $no++;} ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <?php } ?>
+</div>
 <div class="col-md">
 	<div id="accordionIcon" class="accordion mt-3 accordion-without-arrow">
 		<div class="accordion-item card active">

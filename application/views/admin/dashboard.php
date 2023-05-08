@@ -10,7 +10,7 @@
                         <div class="card-body">
                             <h5 class="card-title text-primary">Selamat Datang Di Aplikasi Presensi 🎉</h5>
                             <p class="mb-4">Halaman Admin ini berfungsi untuk merekap data absen tiap kelas dan data
-                                siswa tiap kelas.</p>
+                                siswa tiap kelas. Selain itu melaporakan prestasi dan pelanggaran siswa.</p>
                         </div>
                     </div>
                     <div class="col-sm-5 text-center text-sm-left">

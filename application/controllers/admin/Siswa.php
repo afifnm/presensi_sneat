@@ -112,7 +112,15 @@ class Siswa extends MY_Controller{
         $this->db->order_by('tanggal','DESC');
         $data3 = $this->db->get()->result_array();
         $data3 = array('data3' => $data3);
-        $this->template->load('layout/template', 'admin/pengguna/profil', array_merge($data, $data2, $data3));
+        $this->db->select('*')->from('pelanggaran')->where('username',$username);
+        $this->db->order_by('tanggal','DESC');
+        $data4 = $this->db->get()->result_array();
+        $data4 = array('data4' => $data4);
+        $this->db->select('*')->from('prestasi')->where('username',$username);
+        $this->db->order_by('tanggal','DESC');
+        $data5 = $this->db->get()->result_array();
+        $data5 = array('data5' => $data5);
+        $this->template->load('layout/template', 'admin/pengguna/profil', array_merge($data, $data2, $data3,$data4,$data5));
     }
     public function tambah(){
         $site = $this->Konfigurasi_model->listing();
@@ -187,12 +195,68 @@ class Siswa extends MY_Controller{
                 ');
         redirect('admin/siswa/profil/'.$this->input->post('username'));       
     }
-        public function hapus_izin($id,$username){
+    public function simpan_pelanggaran(){
+        $data = array(
+            'username' => $this->input->post('username'),
+            'keterangan' => $this->input->post('keterangan'),
+            'pelanggaran' => $this->input->post('pelanggaran'),
+            'tanggal' => $this->input->post('tanggal'),
+            'poin' => $this->input->post('poin'),
+         );  
+        $this->CRUD_model->Insert('pelanggaran', $data);
+        $this->session->set_flashdata('alert', '
+            <div class="alert alert-primary alert-dismissible" role="alert">
+            Pelanggaran berhasil ditambahkan.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+                ');
+        redirect('admin/siswa/profil/'.$this->input->post('username'));       
+    }
+    public function simpan_prestasi(){
+        $data = array(
+            'username' => $this->input->post('username'),
+            'keterangan' => $this->input->post('keterangan'),
+            'nama' => $this->input->post('nama'),
+            'tanggal' => $this->input->post('tanggal'),
+            'juara' => $this->input->post('juara'),
+         );  
+        $this->CRUD_model->Insert('prestasi', $data);
+        $this->session->set_flashdata('alert', '
+            <div class="alert alert-primary alert-dismissible" role="alert">
+            Prestasi berhasil ditambahkan.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+                ');
+        redirect('admin/siswa/profil/'.$this->input->post('username'));       
+    }
+    public function hapus_izin($id,$username){
         $id = array('id_izin' => $id);
         $this->CRUD_model->Delete('izin', $id);
         $this->session->set_flashdata('alert', '
         <div class="alert alert-primary alert-dismissible" role="alert">
         Izin siswa telah dihapus.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+            ');
+        redirect('admin/siswa/profil/'.$username);
+    }
+    public function hapus_pelanggaran($id,$username){
+        $id = array('id_pelanggaran' => $id);
+        $this->CRUD_model->Delete('pelanggaran', $id);
+        $this->session->set_flashdata('alert', '
+        <div class="alert alert-primary alert-dismissible" role="alert">
+        Pelanggaran siswa telah dihapus.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+            ');
+        redirect('admin/siswa/profil/'.$username);
+    }
+    public function hapus_prestasi($id,$username){
+        $id = array('id_prestasi' => $id);
+        $this->CRUD_model->Delete('prestasi', $id);
+        $this->session->set_flashdata('alert', '
+        <div class="alert alert-primary alert-dismissible" role="alert">
+        Prestasi siswa telah dihapus.
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
             ');

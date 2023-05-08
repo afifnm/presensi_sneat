@@ -2,8 +2,28 @@
   <?php echo $this->session->flashdata('alert', true); $this->session->set_flashdata('alert', '');?>
 </div>
 <?php foreach ($profil as $u) {?>
+<div class="row mb-3">
+  <div class="col-md-12">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal"
+      style="margin-top: 10px;">
+      <span class="tf-icons bx bx-search"></span>&nbsp; Presensi di Bulan
+    </button>
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#basicModal2"
+      style="margin-top: 10px;">
+      <span class="tf-icons bx bx-label"></span>&nbsp; Izin Absen
+    </button>
+    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#basicModal3"
+      style="margin-top: 10px;">
+      <span class="tf-icons bx bx-notification-off"></span>&nbsp; Pelanggaran
+    </button>
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#basicModal4"
+      style="margin-top: 10px;">
+      <span class="tf-icons bx bx-award"></span>&nbsp; Prestasi
+    </button>
+  </div>
+</div>
 <div class="row mb-5">
-  <div class="col-md-8">
+  <div class="col-md-12">
     <div class="card h-100">
       <ul class="list-group list-group-flush">
         <li class="list-group-item">
@@ -75,20 +95,12 @@
       </ul>
     </div>
   </div>
-  <div class="col-md-4">
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal"
-      style="margin-top: 10px;">
-      <span class="tf-icons bx bx-search"></span>&nbsp; Lihat Presensi di Bulan
-    </button>
-    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#basicModal2"
-      style="margin-top: 10px;">
-      <span class="tf-icons bx bx-label"></span>&nbsp; Izin Absen Tidak Masuk
-    </button>
-  </div>
 </div>
-<div class="row mb-5">
-  <div class="col-md-8">
+<div class="row mb-3">
+  <?php if($data3<>NULL){ ?>
+  <div class="col-md-10">
     <div class="card">
+      <h5 class="card-header">Izin Tidak Masuk</h5>
       <div class="table-responsive text-nowrap">
         <table class="table">
           <thead>
@@ -101,7 +113,7 @@
             </tr>
           </thead>
           <tbody class="table-border-bottom-0">
-            <?php $no=1; foreach ($data3 as $uu) {?>
+            <?php $no=1; foreach ($data3 as $uu) {  ?>
             <tr class="table-default">
               <td><i class="fab fa-sketch fa-lg text-warning me-3"></i> <strong><?= $no; ?></strong></td>
               <td><?=  DATE_FORMAT(date_create($uu['tanggal']),"d-M-Y");  ?></td>
@@ -125,6 +137,87 @@
       </div>
     </div>
   </div>
+  <?php } ?>
+</div>
+<div class="row mb-3">
+  <?php if($data4<>NULL){ ?>
+  <div class="col-md-10">
+    <div class="card">
+      <h5 class="card-header">Pelanggaran Siswa</h5>
+      <div class="table-responsive text-nowrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Tanggal</th>
+              <th>Pelanggaran</th>
+              <th>Keterangan</th>
+              <th>Poin</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody class="table-border-bottom-0">
+            <?php $no=1; foreach ($data4 as $uu) {  ?>
+            <tr class="table-default">
+              <td><i class="fab fa-sketch fa-lg text-warning me-3"></i> <strong><?= $no; ?></strong></td>
+              <td><?=  DATE_FORMAT(date_create($uu['tanggal']),"d-M-Y");  ?></td>
+              <td><?= $uu['pelanggaran']; ?></td>
+              <td><?= $uu['keterangan']; ?></td>
+              <td><?= $uu['poin']; ?></td>
+              <td>
+                <a href="<?php echo site_url('admin/siswa/hapus_pelanggaran/'.$uu['id_pelanggaran'].'/'.$uu['username']);?>"
+                  class="btn btn-sm btn-danger"
+                  onClick="return confirm('Apakah anda yakin menghapus pelanggaran ini?')"><span
+                    class="tf-icons bx bx-trash-alt"></span></a>
+              </td>
+            </tr>
+            <?php $no++;} ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <?php } ?>
+</div>
+<div class="row mb-3">
+  <?php if($data5<>NULL){ ?>
+  <div class="col-md-10">
+    <div class="card">
+      <h5 class="card-header">Prestasi Siswa</h5>
+      <div class="table-responsive text-nowrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Tanggal</th>
+              <th>Nama Perlombaan</th>
+              <th>Juara Ke-</th>
+              <th>Keterangan</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody class="table-border-bottom-0">
+            <?php $no=1; foreach ($data5 as $uu) {  ?>
+            <tr class="table-default">
+              <td><i class="fab fa-sketch fa-lg text-warning me-3"></i> <strong><?= $no; ?></strong></td>
+              <td><?=  DATE_FORMAT(date_create($uu['tanggal']),"d-M-Y");  ?></td>
+              <td><?= $uu['nama']; ?></td>
+              <td><?= $uu['juara']; ?></td>
+              <td><?= $uu['keterangan']; ?></td>
+              <td>
+                <a href="<?php echo site_url('admin/siswa/hapus_prestasi/'.$uu['id_prestasi'].'/'.$uu['username']);?>"
+                  class="btn btn-sm btn-danger"
+                  onClick="return confirm('Apakah anda yakin menghapus prestasi ini?')"><span
+                    class="tf-icons bx bx-trash-alt"></span></a>
+              </td>
+            </tr>
+            <?php $no++;} ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <?php } ?>
 </div>
 
 <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
@@ -189,6 +282,92 @@
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary">Submit Izin</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="basicModal3" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel1"><span class="tf-icons bx bx-search"></span>&nbsp;Pelanggaran
+          Siswa</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form class="modal-content" method="POST" action="<?php echo site_url('admin/siswa/simpan_pelanggaran');?>">
+        <div class="modal-body">
+          <div class="row g-2">
+            <div class="col mb-0">
+              <label for="emailBasic" class="form-label">Pelanggaran</label>
+              <input type="text" class="form-control" name="pelanggaran">
+            </div>
+          </div>
+          <div class="row g-2">
+            <div class="col mb-0">
+              <label for="emailBasic" class="form-label">Keterangan</label>
+              <input type="text" class="form-control" name="keterangan">
+            </div>
+          </div>
+          <div class="row g-2">
+            <div class="col mb-0">
+              <label for="emailBasic" class="form-label">Poin</label>
+              <input type="number" class="form-control" name="poin">
+            </div>
+          </div>
+          <div class="row g-2">
+            <div class="col mb-0">
+              <label for="emailBasic" class="form-label">Tanggal</label>
+              <input type="date" class="form-control" name="tanggal" placeholder="Pilih tanggal..." required>
+              <input type="hidden" name="username" value="<?= $u->username ?>" required>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Submit Pelanggaran</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="basicModal4" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel1"><span class="tf-icons bx bx-search"></span>&nbsp;Prestasi
+          Siswa</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form class="modal-content" method="POST" action="<?php echo site_url('admin/siswa/simpan_prestasi');?>">
+        <div class="modal-body">
+          <div class="row g-2">
+            <div class="col mb-0">
+              <label for="emailBasic" class="form-label">Nama Perlombaan</label>
+              <input type="text" class="form-control" name="nama">
+            </div>
+          </div>
+          <div class="row g-2">
+            <div class="col mb-0">
+              <label for="emailBasic" class="form-label">Keterangan</label>
+              <input type="text" class="form-control" name="keterangan">
+            </div>
+          </div>
+          <div class="row g-2">
+            <div class="col mb-0">
+              <label for="emailBasic" class="form-label">juara</label>
+              <input type="text" class="form-control" name="juara">
+            </div>
+          </div>
+          <div class="row g-2">
+            <div class="col mb-0">
+              <label for="emailBasic" class="form-label">Tanggal</label>
+              <input type="date" class="form-control" name="tanggal" placeholder="Pilih tanggal..." required>
+              <input type="hidden" name="username" value="<?= $u->username ?>" required>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Submit Prestasi</button>
         </div>
       </form>
     </div>

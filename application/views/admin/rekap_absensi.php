@@ -19,7 +19,7 @@
               <th>No</th>
               <th>NIS</th>
               <th>Nama</th>
-			  <th>Kelas</th>
+			        <th>Kelas</th>
               <th>Masuk</th>
               <th>Pulang</th>
               <th style="text-align: center;">Aksi</th>

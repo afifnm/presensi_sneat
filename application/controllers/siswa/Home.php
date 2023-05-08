@@ -16,6 +16,7 @@ class Home extends MY_Controller
     }
 
     public function index(){
+      $username = $this->session->userdata('username');
       $site = $this->Konfigurasi_model->listing();
       $data = array(
           'title'                 => 'Dashboard | '.$site['nama_website'],
@@ -25,7 +26,19 @@ class Home extends MY_Controller
                     <a class="navigasi-link">Aplikasi Presensi</a>
             '
         );
-        $this->template->load('layout/template', 'siswa/dashboard', array_merge($data));
+        $this->db->select('*')->from('izin')->where('username',$username);
+        $this->db->order_by('tanggal','DESC');
+        $data3 = $this->db->get()->result_array();
+        $data3 = array('data3' => $data3);
+        $this->db->select('*')->from('pelanggaran')->where('username',$username);
+        $this->db->order_by('tanggal','DESC');
+        $data4 = $this->db->get()->result_array();
+        $data4 = array('data4' => $data4);
+        $this->db->select('*')->from('prestasi')->where('username',$username);
+        $this->db->order_by('tanggal','DESC');
+        $data5 = $this->db->get()->result_array();
+        $data5 = array('data5' => $data5);
+        $this->template->load('layout/template', 'siswa/dashboard', array_merge($data,$data3,$data4,$data5));
     }
     public function lihat(){
       $site = $this->Konfigurasi_model->listing();
