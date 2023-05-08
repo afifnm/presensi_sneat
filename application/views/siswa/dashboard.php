@@ -85,7 +85,6 @@ $pukul = date("H:i:s");
               <th>Tanggal</th>
               <th>Keterangan</th>
               <th>Alasan</th>
-              <th>Aksi</th>
             </tr>
           </thead>
           <tbody class="table-border-bottom-0">
@@ -101,11 +100,6 @@ $pukul = date("H:i:s");
               <td><span class="badge bg-label-danger">Alpha</span></td>
               <?php } ?>
               <td><?= $uu['alasan']; ?></td>
-              <td>
-                <a href="<?php echo site_url('admin/siswa/hapus_izin/'.$uu['id_izin'].'/'.$uu['username']);?>"
-                  class="btn btn-sm btn-danger" onClick="return confirm('Apakah anda yakin menghapus izin ini?')"><span
-                    class="tf-icons bx bx-trash-alt"></span></a>
-              </td>
             </tr>
             <?php $no++;} ?>
           </tbody>
@@ -129,7 +123,6 @@ $pukul = date("H:i:s");
               <th>Pelanggaran</th>
               <th>Keterangan</th>
               <th>Poin</th>
-              <th>Aksi</th>
             </tr>
           </thead>
           <tbody class="table-border-bottom-0">
@@ -140,12 +133,6 @@ $pukul = date("H:i:s");
               <td><?= $uu['pelanggaran']; ?></td>
               <td><?= $uu['keterangan']; ?></td>
               <td><?= $uu['poin']; ?></td>
-              <td>
-                <a href="<?php echo site_url('admin/siswa/hapus_pelanggaran/'.$uu['id_pelanggaran'].'/'.$uu['username']);?>"
-                  class="btn btn-sm btn-danger"
-                  onClick="return confirm('Apakah anda yakin menghapus pelanggaran ini?')"><span
-                    class="tf-icons bx bx-trash-alt"></span></a>
-              </td>
             </tr>
             <?php $no++;} ?>
           </tbody>
@@ -169,7 +156,6 @@ $pukul = date("H:i:s");
               <th>Nama Perlombaan</th>
               <th>Juara Ke-</th>
               <th>Keterangan</th>
-              <th>Aksi</th>
             </tr>
           </thead>
           <tbody class="table-border-bottom-0">
@@ -180,12 +166,6 @@ $pukul = date("H:i:s");
               <td><?= $uu['nama']; ?></td>
               <td><?= $uu['juara']; ?></td>
               <td><?= $uu['keterangan']; ?></td>
-              <td>
-                <a href="<?php echo site_url('admin/siswa/hapus_prestasi/'.$uu['id_prestasi'].'/'.$uu['username']);?>"
-                  class="btn btn-sm btn-danger"
-                  onClick="return confirm('Apakah anda yakin menghapus prestasi ini?')"><span
-                    class="tf-icons bx bx-trash-alt"></span></a>
-              </td>
             </tr>
             <?php $no++;} ?>
           </tbody>
