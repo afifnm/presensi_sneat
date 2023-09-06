@@ -1,80 +1,133 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-// This can be removed if you use __autoload() in config.php OR use Modular Extensions
-/** @noinspection PhpIncludeInspection */
-require APPPATH . '/libraries/REST_Controller.php';
+defined('BASEPATH') or exit('No direct script access allowed');
+require APPPATH . "libraries/Format.php";
+require APPPATH . "libraries/RestController.php";
 // use namespace
-use Restserver\Libraries\REST_Controller;
-class Api extends REST_Controller {
-    function __construct(){
-        // Construct the parent class
+use chriskacerguis\RestServer\RestController;
+class Api extends RestController {
+    public function __construct(){
         parent::__construct();
-        // Configure limits on our controller methods
-        // Ensure you have created the 'limits' table and enabled 'limits' within application/config/rest.php
-        $this->methods['users_get']['limit'] = 500; // 500 requests per hour per user/key
-        $this->methods['users_post']['limit'] = 100; // 100 requests per hour per user/key
-        $this->methods['users_delete']['limit'] = 50; // 50 requests per hour per user/key
+        // Membatasi Jumlah akses sesuai kebutuhan
+        $this->methods['index_get']['limit'] = 200;
     }
-    public function users_get(){
-        $this->db->select('*')->from('user')->order_by('id','ASC');
-        $users = $this->db->get()->result_array();
-        $id = $this->get('id');
-        if ($id === NULL){
-            if ($users){
-                // jika user terdapat isinya
-                $this->response($users, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
-            } else{
-                // jika user kosong
-                $this->response([
-                    'status' => FALSE,
-                    'message' => 'No users were found'
-                ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
-            }
+    public function login_post(){
+        $username = $this->post('username');
+        $password = $this->post('password');
+        $this->db->select('*')->from('user')->where('username',$username);
+        $query = $this->db->get()->row();
+        //jika bernilai 1 maka user tidak ditemukan
+        if (!$query) {
+            $this->response([
+                'status' => false,
+                'message' => 'Username tidak ada'
+            ], RestController::HTTP_BAD_REQUEST);
+        }
+        //jika bernilai 3 maka password salah
+        if (!hash_verified($this->input->post('password'), $query->password)) {
+            $this->response([
+                'status' => false,
+                'message' => 'Password salah'
+            ], RestController::HTTP_BAD_REQUEST);
         } else {
-            $this->db->select('*')->from('user')->where('id',$id);
+            $this->response([
+                'status' => true,
+                'message' => 'Berhasil login'
+            ], RestController::HTTP_OK);
+        }
+    }
+    public function index_get(){
+        $id = $this->get('username');
+        if ($id === null) {
+            $this->db->select('*')->from('user')->order_by('username','ASC');
             $users = $this->db->get()->result_array();
-            if (!empty($users)){
-                foreach ($users as $key => $value){
-                    if (isset($value['id']) && $value['id'] === $id) {
-                        $user = $value;
-                    }
-                }
-            }
-            if (!empty($user)){
-                $this->set_response($user, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
-            } else {
-                $this->set_response([
-                    'status' => FALSE,
-                    'message' => 'User could not be found'
-                ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
-            }
+        } else {
+            $this->db->select('*')->from('user')->where('username',$id);
+            $users = $this->db->get()->result_array();
+            $this->db->select('*')->from('izin')->where('username',$id);
+            $this->db->order_by('tanggal','DESC');
+            $izin = $this->db->get()->result_array();
+            $this->db->select('*')->from('pelanggaran a')->where('a.username',$id);
+            $this->db->join('daftar_pelanggaran b','a.id_daftar_pelanggaran=b.id_daftar_pelanggaran','LEFT');
+            $this->db->order_by('tanggal','DESC');
+            $pelanggaran = $this->db->get()->result_array();
+            $this->db->select('*')->from('prestasi')->where('username',$id);
+            $this->db->order_by('tanggal','DESC');
+            $prestasi = $this->db->get()->result_array();
+        }
+        if ($users) {
+            $this->response([
+                'status' => true,
+                'user' => $users,
+                'izin' => $izin,
+                'pelanggaran' => $pelanggaran,
+                'prestasi' => $prestasi,
+            ], RestController::HTTP_OK);
+        } else {
+            $this->response([
+                'status' => false,
+                'message' => 'username tidak ditemukan'
+            ], RestController::HTTP_NOT_FOUND);
         }
     }
-
-    public function users_post(){
-        // $this->some_model->update_user( ... );
-        $message = [
-            'name' => $this->post('name'),
-            'email' => $this->post('email'),
-            'message' => 'Added a resource'
-        ];
-        $this->set_response($message, REST_Controller::HTTP_CREATED); // CREATED (201) being the HTTP response code
+    public function index_post(){
+        date_default_timezone_set("Asia/Jakarta");
+        $tanggal = date("Y-m-d");
+        $jam = date("H:i:s");
+        $username = $this->post('username');
+        $this->db->from('absen')->where("username", $username)->where("DATE_FORMAT(tanggal,'%Y-%m-%d')", $tanggal);
+        $cek =  $this->db->count_all_results();
+        if ($username== NULL){
+            $this->response([
+                'status' => false,
+                'message' => 'Username not found'
+            ], RestController::HTTP_BAD_REQUEST);
+        } else if ($cek>0){
+            $this->response([
+                'status' => false,
+                'message' => 'Sudah melakukan absen'
+            ], RestController::HTTP_BAD_REQUEST);
+        } else {
+            $data = [
+                'username' => $username,
+                'tanggal' => $tanggal,
+                'masuk' => $jam,
+            ];
+            $this->db->Insert('absen', $data);
+            $this->response([
+                'status' => true,
+                'message' => 'Berhasil melakukan absen'
+            ], RestController::HTTP_CREATED);
+        } 
     }
-
-    public function users_delete(){
-        $id = (int) $this->get('id');
-        // Validate the id.
-        if ($id <= 0){
-            // Set the response and exit
-            $this->response(NULL, REST_Controller::HTTP_BAD_REQUEST); // BAD_REQUEST (400) being the HTTP response code
-        }
-        // $this->some_model->delete_something($id);
-        $message = [
-            'id' => $id,
-            'message' => 'Deleted the resource'
-        ];
-
-        $this->set_response($message, REST_Controller::HTTP_NO_CONTENT); // NO_CONTENT (204) being the HTTP response code
+    public function index_put(){
+        date_default_timezone_set("Asia/Jakarta");
+        $tanggal = date("Y-m-d");
+        $jam = date("H:i:s");
+        $username = $this->put('username');
+        $this->db->from('absen')->where("username", $username)->where("DATE_FORMAT(tanggal,'%Y-%m-%d')", $tanggal);
+        $cek =  $this->db->count_all_results();
+        if ($cek>0){
+            $data = array('pulang' => $jam); 
+            $where = array(
+                'username' => $username,
+                'tanggal' => $tanggal,
+            );
+            $data = $this->db->Update('absen', $data, $where);
+            $this->response([
+                'status' => false,
+                'message' => 'berhasil melakukan absen pulang'
+            ], RestController::HTTP_OK);
+        } else {
+            $data = [
+                'username' => $username,
+                'tanggal' => $tanggal,
+                'pulang' => $jam,
+            ];
+            $this->db->Insert('absen', $data);
+            $this->response([
+                'status' => true,
+                'message' => 'Berhasil melakukan absen pulang tanpa absen masuk sebelumnya'
+            ], RestController::HTTP_CREATED);
+        } 
     }
-
 }

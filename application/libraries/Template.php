@@ -1,8 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Template
-{
+class Template{
     var $template_data = array();
     function set($name, $value){
         $this->template_data[$name] = $value;

@@ -30,8 +30,8 @@ class Home extends MY_Controller
         $this->db->order_by('tanggal','DESC');
         $data3 = $this->db->get()->result_array();
         $data3 = array('data3' => $data3);
-        $this->db->select('*')->from('pelanggaran')->where('username',$username);
-        $this->db->order_by('tanggal','DESC');
+        $this->db->select('*')->from('pelanggaran a')->where('a.username',$username);
+        $this->db->join('daftar_pelanggaran b','a.id_daftar_pelanggaran=b.id_daftar_pelanggaran','LEFT');
         $data4 = $this->db->get()->result_array();
         $data4 = array('data4' => $data4);
         $this->db->select('*')->from('prestasi')->where('username',$username);

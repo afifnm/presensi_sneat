@@ -300,19 +300,17 @@
           <div class="row g-2">
             <div class="col mb-0">
               <label for="emailBasic" class="form-label">Pelanggaran</label>
-              <input type="text" class="form-control" name="pelanggaran">
+              <select name="id_daftar_pelanggaran" class="form-control">
+                <?php foreach($data6 as $pp){ ?>
+                  <option value="<?= $pp['id_daftar_pelanggaran'] ?>"><?= $pp['pelanggaran'] ?> (<?= $pp['poin'] ?> poin)</option>
+                <?php } ?>
+              </select>
             </div>
           </div>
           <div class="row g-2">
             <div class="col mb-0">
               <label for="emailBasic" class="form-label">Keterangan</label>
               <input type="text" class="form-control" name="keterangan">
-            </div>
-          </div>
-          <div class="row g-2">
-            <div class="col mb-0">
-              <label for="emailBasic" class="form-label">Poin</label>
-              <input type="number" class="form-control" name="poin">
             </div>
           </div>
           <div class="row g-2">

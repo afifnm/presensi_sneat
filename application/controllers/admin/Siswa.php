@@ -112,7 +112,8 @@ class Siswa extends MY_Controller{
         $this->db->order_by('tanggal','DESC');
         $data3 = $this->db->get()->result_array();
         $data3 = array('data3' => $data3);
-        $this->db->select('*')->from('pelanggaran')->where('username',$username);
+        $this->db->select('*')->from('pelanggaran a')->where('a.username',$username);
+        $this->db->join('daftar_pelanggaran b','a.id_daftar_pelanggaran=b.id_daftar_pelanggaran','LEFT');
         $this->db->order_by('tanggal','DESC');
         $data4 = $this->db->get()->result_array();
         $data4 = array('data4' => $data4);
@@ -120,7 +121,11 @@ class Siswa extends MY_Controller{
         $this->db->order_by('tanggal','DESC');
         $data5 = $this->db->get()->result_array();
         $data5 = array('data5' => $data5);
-        $this->template->load('layout/template', 'admin/pengguna/profil', array_merge($data, $data2, $data3,$data4,$data5));
+        $this->db->from('daftar_pelanggaran');
+        $this->db->order_by('poin','ASC');
+        $data6 = $this->db->get()->result_array();
+        $data6 = array('data6' => $data6);
+        $this->template->load('layout/template', 'admin/pengguna/profil', array_merge($data, $data2, $data3,$data4,$data5,$data6));
     }
     public function tambah(){
         $site = $this->Konfigurasi_model->listing();
@@ -199,9 +204,8 @@ class Siswa extends MY_Controller{
         $data = array(
             'username' => $this->input->post('username'),
             'keterangan' => $this->input->post('keterangan'),
-            'pelanggaran' => $this->input->post('pelanggaran'),
-            'tanggal' => $this->input->post('tanggal'),
-            'poin' => $this->input->post('poin'),
+            'id_daftar_pelanggaran' => $this->input->post('id_daftar_pelanggaran'),
+            'tanggal' => $this->input->post('tanggal')
          );  
         $this->CRUD_model->Insert('pelanggaran', $data);
         $this->session->set_flashdata('alert', '

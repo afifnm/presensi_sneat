@@ -10,7 +10,7 @@
             <h4> Kelas <?php echo $this->Absensi_model->cek_kelas($tahun_masuk).' '.$kelas; ?></h4>
           </div>
           <div class="col-md-12">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCenter">
+            <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalCenter">
               Lihat Absen Pada Bulan
             </button>
             <!-- Modal -->

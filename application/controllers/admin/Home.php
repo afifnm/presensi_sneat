@@ -18,13 +18,12 @@ class Home extends MY_Controller
     }
 
     public function index(){
-
         $site = $this->Konfigurasi_model->listing();
         $data = array(
             'title'                 => 'Dashboard | '.$site['nama_website'],
             'site'                  => $site,
             'nav'                   => '
-                    <a href="../home" class="navigasi-link">Dashboard</a>
+                    <a href="../admin/home" class="navigasi-link">Dashboard</a>
             '
         );
         $this->template->load('layout/template', 'admin/dashboard', array_merge($data));

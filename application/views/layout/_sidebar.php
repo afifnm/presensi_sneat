@@ -21,10 +21,16 @@ $kelas = $this->uri->segment('5');
   <?php if (($this->session->userdata('level') == "Admin") OR ($this->session->userdata('level') == "Guru") 
    OR ($this->session->userdata('level') == "BK")){ ?>
   <ul class="menu-inner">
-    <li class="menu-item <?php echo activate_menu('home');  ?>">
+  <li class="menu-item <?php echo activate_menu('home');  ?>">
       <a href="<?php echo site_url('admin/home');?>" class="menu-link">
         <i class="menu-icon tf-icons bx bx-home-circle"></i>
         <div data-i18n="Analytics">Dashboard</div>
+      </a>
+    </li>
+    <li class="menu-item <?php echo activate_menu('pelanggaran');  ?>">
+      <a href="<?php echo site_url('admin/pelanggaran');?>" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-book"></i>
+        <div data-i18n="Analytics">Daftar Pelanggaran</div>
       </a>
     </li>
     <li class="menu-item <?php if(($kelas=='MA') OR ($kelas=='MB') OR ($kelas=='MC')){ echo 'active open'; } ?>">
