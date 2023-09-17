@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Waktu pembuatan: 16 Sep 2023 pada 17.23
+-- Waktu pembuatan: 17 Sep 2023 pada 19.11
 -- Versi server: 8.0.34-cll-lve
 -- Versi PHP: 8.1.16
 
@@ -30628,8 +30628,6 @@ CREATE TABLE `daftar_pelanggaran` (
 --
 
 INSERT INTO `daftar_pelanggaran` (`id_daftar_pelanggaran`, `pelanggaran`, `poin`) VALUES
-(2, 'Membawa rokok di sekolahan', 10),
-(3, 'Pelecehan Seksual', 50),
 (4, '1.1 Tidak mengenakan seragam sekolah yang telah ditentukan', 3),
 (5, '1.2 Tidak mengenakan pakaian praktik maupun olahraga yang telah ditentukan', 5),
 (6, '2.1 Berambut gondrong/tidak rapi bagi laki-laki', 5),
@@ -30646,7 +30644,35 @@ INSERT INTO `daftar_pelanggaran` (`id_daftar_pelanggaran`, `pelanggaran`, `poin`
 (17, '4.1 Tidak melaksanakan piket kebersihan, ketertiban dan keindahan kelas', 5),
 (18, '4.2 Makan/minum di dalam kelas saat pelajaran tanpa seizin guru', 3),
 (19, '4.3 Membuang sampah tidak pada tempatnya', 3),
-(20, '4.4 Mencuri di lingkungan sekolah atau diluar lingkungan sekolah', 150);
+(20, '4.4 Mencuri di lingkungan sekolah atau diluar lingkungan sekolah', 150),
+(21, '4.5 Menggelapkan, memanipulasi, menyalah gunakan uang kas kelas/organisasi', 25),
+(22, '4.6 Memalak teman atau siswa lain', 25),
+(23, '4.7 Mengikuti organisasi terlarang (ajaran sesat)', 50),
+(24, '4.8 Membuat kegaduhan/keributan selama proses belajar mengajar', 10),
+(25, '5.2.  Terbukti memfitnah atau mencemarkan nama baik warga sekolah', 30),
+(26, '5.3.  Bertingkahlaku tidak sopan, melecehkan  Kepala  sekolah, Guru, Staf Tata Usaha, dan Siswa.', 40),
+(27, '5.4.  Berkata kasar/tidak sopan, terhadap Kepala Sekolah, Guru, Staf Tata Usaha', 30),
+(28, '5.5.  Memalsukan tanda tangan Kepala Sekolah, Guru, Staf Tata Usaha', 75),
+(29, '5.6.  Memalsukan tanda tangan orangtua', 20),
+(30, '6.1.  Tidak mengikuti upacara Bendera (hari Senin) sesuai ketentuan sekolah', 5),
+(31, '6.2.  Tidak mengikuti upacara hari besar nasional ( Hari Kemerdekaan, Hardiknas, Hari Pahlawa, Hari ', 15),
+(32, '6.3.  Tidak mengikuti upacara peringatan hari besar keagamaan', 15),
+(33, '7.1.  Mempermainkan, melecehkan agama, baik agama sendiri/orang lain', 20),
+(34, '7.2.  Tidak menjalankan sholat dhuhur,  ashar maupun sholat Jum\'at di sekolah(bagi siswa muslim)', 10),
+(35, '7.3.  Tidak mengikuti pengajian dan pesantren Ramadhan yang  diadakan oleh sekolah(bagi siswa muslim', 20),
+(36, '7.4.  Bagi siswa muslim tidak mengikuti kegiatan keagamaan yang  diatur oleh sekolah ', 15),
+(37, '8.1.  Membawa rokok, merokok di sekolah/ lingkungan sekolah', 25),
+(38, '8.2.  Membawa /meminum minuman keras', 75),
+(39, '8.3.  Mengedarkan dan mengkonsumsi narkotika, psikotropika atau obat terlarang', 150),
+(40, '8.4.  Berperilaku tidak senonoh di lingkungan sekolah', 50),
+(41, '8.5.  Berkelahi baik perorangan/kelompok di dalam sekolah/luar sekolah', 70),
+(42, '8.6.  Mengotori/mencorat coret dinding sekolah, pagar sekolah, dan fasilitas seklah lainnya', 15),
+(43, '8.7.  Berbicara kotor, mengumpat, menggunjing, menghina, menyapa  antar sesama/warga sekolah dengan ', 15),
+(44, '8.8.  Membawa barang yang tidak ada hubungan dengan kepentingan sekolah seperti senjata tajam atau a', 50),
+(45, '8.9.  Membawa, membaca/mengedarkan bacaan, gambar, sketsa, video porno', 50),
+(46, '8.10.  Menikah atau menghamili', 150),
+(47, '8.11.  Membawa kartu dan bermain judi dilingkungan sekolah', 20),
+(48, '8.12 Terlibat tindak kriminal/ pidana dan berkekuatan hukum dan sudah  mendapatkan vonis yang tetap', 150);
 
 -- --------------------------------------------------------
 
@@ -30794,7 +30820,7 @@ CREATE TABLE `user` (
   `id` int NOT NULL,
   `username` varchar(60) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `level` enum('Guru','Siswa','Admin','BK') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `level` enum('Guru','Siswa','Admin','BK','Kesiswaan') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `nama` varchar(70) NOT NULL,
   `tempat_lahir` varchar(40) DEFAULT NULL,
   `tanggal_lahir` date DEFAULT NULL,
@@ -31039,7 +31065,7 @@ INSERT INTO `user` (`id`, `username`, `password`, `level`, `nama`, `tempat_lahir
 (225, '8463', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FARIS MARTIN WIDYA PRAYOGA  ', '', '0000-00-00', '', 'OA', '2022', '', '', '', 0, '2022-12-05 21:29:46'),
 (226, '8464', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FARRAS ARKHAN FATHIHUL IHSAN ', '', '0000-00-00', '', 'OA', '2022', '', '', '', 0, '2022-12-05 21:29:46'),
 (227, '8465', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'GILANG EKA RAMADHAN   ', '', '0000-00-00', '', 'OA', '2022', '', '', '', 0, '2022-12-05 21:29:46'),
-(228, '8466', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'HABIB DWI NUR FATASYAH', '', '0000-00-00', '', 'OA', '2022', '', '', '', 0, '2022-12-05 21:29:46'),
+(228, '8466', '$2y$05$nhdVw4byaJNWTMWgvOxiXeRAJd16f6kUCC.DIrZBhhIKwX/.tdGdy', 'Siswa', 'HABIB DWI NUR FATASYAH', '', '0000-00-00', '', 'OA', '2022', '', '', '', 0, '2023-09-17 15:29:58'),
 (229, '8467', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'HAIKAL FAIS REVA ANDINA', '', '0000-00-00', '', 'OA', '2022', '', '', '', 0, '2022-12-05 21:29:46'),
 (230, '8468', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'HILDAN HAKIM NUGROHO', '', '0000-00-00', '', 'OA', '2022', '', '', '', 0, '2022-12-05 21:29:46'),
 (231, '8469', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'HILDAN SAKTI GEYYA SYAHPUTRA  ', '', '0000-00-00', '', 'OA', '2022', '', '', '', 0, '2022-12-05 21:29:46'),
@@ -32196,8 +32222,8 @@ INSERT INTO `user` (`id`, `username`, `password`, `level`, `nama`, `tempat_lahir
 (1377, '7166', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'THIO DWI PRANGGA', '', '0000-00-00', '', 'TC', '2019', '', '', '', 0, '2022-12-05 21:29:46'),
 (1378, '7167', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'WISNU AFFAN MAULANA ', '', '0000-00-00', '', 'TC', '2019', '', '', '', 0, '2022-12-05 21:29:46'),
 (1379, '7168', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'YOGA ANDRE SAPUTRA ', '', '0000-00-00', '', 'TC', '2019', '', '', '', 0, '2022-12-05 21:29:46'),
-(1380, 'guru', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Guru', 'Guru SMKN 2 KRA', 'Sukoharjo', '2022-12-05', 'Kayuapak', 'RB', '2021', 'afifnuruddinmaisaroh@gmail.com', '89673333319', '', 0, '2022-12-06 07:13:30'),
-(1381, 'gurubk', '$2y$05$N1JVriGcFR1y/rSQey7sRuZtcYQ5anpgij5dj5FsoxQ7caFXWLC5.', 'BK', 'Guru BK SMKN 2 Kra', 'Sukoharjo', '2022-12-05', 'Kayuapak', 'RB', '2021', '', '89673333319', '', 0, '2023-01-06 08:40:44');
+(1382, 'purwanta', '$2y$05$OKAVsPkG1vUaMxBRiuqFC.FymgLPVCRZMNDTSjgL9LcY.OD0zQfhq', 'Kesiswaan', 'Purwanta, S.Pd', NULL, NULL, NULL, '', '', NULL, NULL, 'root.jpg', 1, '2023-09-17 19:00:37'),
+(1383, 'maimun', '$2y$05$3L7RRMlYxkwbol.k6q8ifeLhG34OmzZfc7C.c6cFwg4Y6P6ensize', 'BK', 'Fitriyah Maimun Thofiah, S.Pd.', NULL, NULL, NULL, '', '', NULL, NULL, 'root.jpg', 1, '2023-09-17 19:01:02');
 
 --
 -- Indexes for dumped tables
@@ -32265,7 +32291,7 @@ ALTER TABLE `absen`
 -- AUTO_INCREMENT untuk tabel `daftar_pelanggaran`
 --
 ALTER TABLE `daftar_pelanggaran`
-  MODIFY `id_daftar_pelanggaran` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id_daftar_pelanggaran` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT untuk tabel `izin`
@@ -32301,7 +32327,7 @@ ALTER TABLE `prestasi`
 -- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1382;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1384;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

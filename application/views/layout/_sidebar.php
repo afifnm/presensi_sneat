@@ -7,6 +7,8 @@ $this->db->order_by('tahun_masuk','DESC');
 $angkatan = $this->db->get()->result_array();
 $tahun = $this->uri->segment('4');
 $kelas = $this->uri->segment('5');
+$uri2 = $this->uri->segment('2');
+$uri3 = $this->uri->segment('3');
 ?>
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
   <div class="app-brand demo">
@@ -18,20 +20,52 @@ $kelas = $this->uri->segment('5');
     </a>
   </div>
   <div class="menu-inner-shadow"></div>
-  <?php if (($this->session->userdata('level') == "Admin") OR ($this->session->userdata('level') == "Guru") 
+  <?php if (($this->session->userdata('level') == "Admin") OR ($this->session->userdata('level') == "Kesiswaan") 
    OR ($this->session->userdata('level') == "BK")){ ?>
   <ul class="menu-inner">
-  <li class="menu-item <?php echo activate_menu('home');  ?>">
+    <li class="menu-item <?php echo activate_menu('home');  ?>">
       <a href="<?php echo site_url('admin/home');?>" class="menu-link">
         <i class="menu-icon tf-icons bx bx-home-circle"></i>
         <div data-i18n="Analytics">Dashboard</div>
       </a>
     </li>
+    <?php if ($this->session->userdata('level') == "Admin") { ?>
+    <li class="menu-item <?php echo activate_menu('admin');  ?>">
+      <a href="<?php echo site_url('admin/admin');?>" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-user"></i>
+        <div data-i18n="Analytics">Data Admin</div>
+      </a>
+    </li>
     <li class="menu-item <?php echo activate_menu('pelanggaran');  ?>">
       <a href="<?php echo site_url('admin/pelanggaran');?>" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-book"></i>
-        <div data-i18n="Analytics">Daftar Pelanggaran</div>
+        <i class="menu-icon tf-icons bx bx-run"></i>
+        <div data-i18n="Analytics">Jenis Pelanggaran</div>
       </a>
+    </li>
+    <?php } ?>
+    <li class="menu-item <?php if($uri2=='laporan'){ echo 'active open'; } ?>">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+      <i class="menu-icon tf-icons bx bx-book"></i>
+        <div data-i18n="Authentications">Rekap Laporan</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item <?php if($uri3=='pelanggaran'){ echo 'active'; } ?>">
+          <a href="<?php echo site_url('admin/laporan/pelanggaran');?>" class="menu-link">
+            <div data-i18n="Basic">Pelanggaran</div>
+          </a>
+        </li>
+        <li class="menu-item <?php if($uri3=='izin'){ echo 'active'; } ?>">
+          <a href="<?php echo site_url('admin/laporan/izin');?>" class="menu-link">
+            <div data-i18n="Basic">Izin Siswa</div>
+          </a>
+        </li>
+        <li class="menu-item <?php if($uri3=='prestasi'){ echo 'active'; } ?>">
+          <a href="<?php echo site_url('admin/laporan/prestasi');?>" class="menu-link">
+            <div data-i18n="Basic">Prestasi</div>
+          </a>
+        </li>
+
+      </ul>
     </li>
     <li class="menu-item <?php if(($kelas=='MA') OR ($kelas=='MB') OR ($kelas=='MC')){ echo 'active open'; } ?>">
       <a class="menu-link menu-toggle" ><i class="menu-icon bx bx-cog"></i>Mesin</a>

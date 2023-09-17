@@ -12,7 +12,7 @@
       style="margin-top: 10px;">
       <span class="tf-icons bx bx-label"></span>&nbsp; Izin Absen
     </button>
-    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#basicModal3"
+    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#largeModal"
       style="margin-top: 10px;">
       <span class="tf-icons bx bx-notification-off"></span>&nbsp; Pelanggaran
     </button>
@@ -157,13 +157,13 @@
             </tr>
           </thead>
           <tbody class="table-border-bottom-0">
-            <?php $no=1; foreach ($data4 as $uu) {  ?>
+            <?php $sum=0; $no=1; foreach ($data4 as $uu) {  ?>
             <tr class="table-default">
               <td><i class="fab fa-sketch fa-lg text-warning me-3"></i> <strong><?= $no; ?></strong></td>
               <td><?=  DATE_FORMAT(date_create($uu['tanggal']),"d-M-Y");  ?></td>
               <td><?= $uu['pelanggaran']; ?></td>
               <td><?= $uu['keterangan']; ?></td>
-              <td><?= $uu['poin']; ?></td>
+              <td><?= $poin=$uu['poin']; ?></td>
               <td>
                 <a href="<?php echo site_url('admin/siswa/hapus_pelanggaran/'.$uu['id_pelanggaran'].'/'.$uu['username']);?>"
                   class="btn btn-sm btn-danger"
@@ -171,7 +171,11 @@
                     class="tf-icons bx bx-trash-alt"></span></a>
               </td>
             </tr>
-            <?php $no++;} ?>
+            <?php $sum= $sum+$poin; $no++;} ?>
+            <tr class="table-default">
+              <td colspan="4">Jumlah Poin</td>
+              <td><?= $sum; ?></td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -287,8 +291,8 @@
     </div>
   </div>
 </div>
-<div class="modal fade" id="basicModal3" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+<div class="modal fade" id="largeModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel1"><span class="tf-icons bx bx-search"></span>&nbsp;Pelanggaran
@@ -300,7 +304,7 @@
           <div class="row g-2">
             <div class="col mb-0">
               <label for="emailBasic" class="form-label">Pelanggaran</label>
-              <select name="id_daftar_pelanggaran" class="form-control">
+              <select name="id_daftar_pelanggaran" class="form-control pilih">
                 <?php foreach($data6 as $pp){ ?>
                   <option value="<?= $pp['id_daftar_pelanggaran'] ?>"><?= $pp['pelanggaran'] ?> (<?= $pp['poin'] ?> poin)</option>
                 <?php } ?>
@@ -372,3 +376,10 @@
   </div>
 </div>
 <?php } ?>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/styles/choices.min.css"/>
+<script src="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/scripts/choices.min.js"></script>
+<script>
+  new Choices(document.querySelector(".pilih"));
+</script>

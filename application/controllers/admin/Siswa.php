@@ -11,7 +11,7 @@ class Siswa extends MY_Controller{
         $this->load->model('Absensi_model');
         $this->load->helper('tgl_indo');
         $this->check_login();
-        if (($this->session->userdata('level') != "Admin") AND ($this->session->userdata('level') != "Guru")
+        if (($this->session->userdata('level') != "Admin") AND ($this->session->userdata('level') != "Kesiswaan")
          AND ($this->session->userdata('level') != "BK")){
             redirect('', 'refresh');
         }
@@ -122,7 +122,7 @@ class Siswa extends MY_Controller{
         $data5 = $this->db->get()->result_array();
         $data5 = array('data5' => $data5);
         $this->db->from('daftar_pelanggaran');
-        $this->db->order_by('poin','ASC');
+        $this->db->order_by('pelanggaran','ASC');
         $data6 = $this->db->get()->result_array();
         $data6 = array('data6' => $data6);
         $this->template->load('layout/template', 'admin/pengguna/profil', array_merge($data, $data2, $data3,$data4,$data5,$data6));

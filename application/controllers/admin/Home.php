@@ -11,7 +11,7 @@ class Home extends MY_Controller
         $this->load->model('CRUD_model');
         $this->load->model('Absensi_model');
         $this->check_login();
-        if (($this->session->userdata('level') != "Admin") AND ($this->session->userdata('level') != "Guru")
+        if (($this->session->userdata('level') != "Admin") AND ($this->session->userdata('level') != "Kesiswaan")
          AND ($this->session->userdata('level') != "BK")){
             redirect('', 'refresh');
         }

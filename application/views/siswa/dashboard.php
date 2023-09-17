@@ -126,15 +126,19 @@ $pukul = date("H:i:s");
             </tr>
           </thead>
           <tbody class="table-border-bottom-0">
-            <?php $no=1; foreach ($data4 as $uu) {  ?>
+            <?php $sum=0; $no=1; foreach ($data4 as $uu) {  ?>
             <tr class="table-default">
               <td><i class="fab fa-sketch fa-lg text-warning me-3"></i> <strong><?= $no; ?></strong></td>
               <td><?=  DATE_FORMAT(date_create($uu['tanggal']),"d-M-Y");  ?></td>
               <td><?= $uu['pelanggaran']; ?></td>
               <td><?= $uu['keterangan']; ?></td>
-              <td><?= $uu['poin']; ?></td>
+              <td><?= $poin=$uu['poin']; ?></td>
             </tr>
-            <?php $no++;} ?>
+			<?php $sum= $sum+$poin; $no++;} ?>
+            <tr class="table-default">
+              <td colspan="4">Jumlah Poin</td>
+              <td><?= $sum; ?></td>
+            </tr>
           </tbody>
         </table>
       </div>

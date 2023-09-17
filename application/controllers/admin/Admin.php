@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Pengguna extends MY_Controller{
+class Admin extends MY_Controller{
     public function __construct(){
         parent::__construct();
         $level = $this->session->userdata('level');
@@ -10,8 +10,7 @@ class Pengguna extends MY_Controller{
         $this->load->model('Absensi_model');
         $this->load->model('Auth_model');
         $this->check_login();
-        if (($this->session->userdata('level') != "Admin") AND ($this->session->userdata('level') != "Kesiswaan")
-         AND ($this->session->userdata('level') != "BK")){
+        if ($this->session->userdata('level') != "Admin"){
             redirect('', 'refresh');
         }
     }
@@ -19,62 +18,50 @@ class Pengguna extends MY_Controller{
         $level = $this->session->userdata('level');
         $site = $this->Konfigurasi_model->listing();
         $data = array(
-            'title'                 => 'Data Pengguna | '.$site['nama_website'],
+            'title'                 => 'Data Admin | '.$site['nama_website'],
             'site'                  => $site,
             'nav'                   => '
                     <a href="../home" class="navigasi-link">Dashboard</a>
-                    &nbsp; / &nbsp; <b> <i>Pengguna</i></b>
+                    &nbsp; / &nbsp; <b> <i>Data Admin</i></b>
             '
         );
-        $this->db->select('*');
-        $this->db->from('user');
+        $this->db->select('*')->from('user');
+        $this->db->or_where('level','BK');
+        $this->db->or_where('level','Kurikulum');
+        $this->db->or_where('level','Kesiswaan');
         $data2 = $this->db->get()->result_array();
         $data2 = array('data2' => $data2);
-        $this->template->load('layout/template', 'admin/pengguna/index', array_merge($data,$data2));
+        $this->template->load('layout/template', 'admin/admin', array_merge($data,$data2));
     } 
 
-    public function profil($username){
-        $site = $this->Konfigurasi_model->listing();
-        $data = array(
-            'title'                 => 'Profil '.$username.' | '.$site['nama_website'],
-            'favicon'               => $site['favicon'],
-            'site'                  => $site,
-            'nav'                   => '
-            <b> <i>Aplikasi Presensi Siswa</i></b>
-            '
-        );
-        $where = array('username' => $username);
-        $data2['profil'] = $this->CRUD_model->edit_data($where,'user')->result();
-        $this->template->load('layout/template', 'admin/pengguna/profil', array_merge($data, $data2));
-    }
-    public function tambah(){
-        $site = $this->Konfigurasi_model->listing();
-        $data = array(
-            'title'                 => 'Tambah Kader | '.$site['judul'],
-            'site'                  => $site,
-        );
-        $this->template->load('layout/template', 'admin/pengguna/tambah', $data);
-    }
     public function simpan(){
         $username = $this->input->post('username');
         $cekusername = $this->db->where('username', $username)->count_all_results('user');
         if ($cekusername > 0) {
             $this->session->set_flashdata('alert', '
             <div class="alert alert-primary alert-dismissible" role="alert">
-            NIS/NIP telah digunakan.
+            Username/NIS/NIP telah digunakan.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
                 ');
-             redirect('admin/pengguna'); 
+             redirect('admin/admin'); 
         } else{
             $this->session->set_flashdata('alert', '
             <div class="alert alert-primary alert-dismissible" role="alert">
-            Pengguna berhasil ditambahkan.
+            Admin berhasil ditambahkan.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
                 ');
-            $this->Auth_model->register(); 
-            redirect('admin/pengguna'); 
+                $data = array(
+                    'username' => $this->input->post('username'),
+                    'foto' => 'root.jpg',
+                    'password' => get_hash($this->input->post('password')),
+                    'nama' => $this->input->post('nama'),
+                    'level' => $this->input->post('level'),
+                    'active' => 1,
+                  );
+                  $this->db->insert('user', $data);
+            redirect('admin/admin'); 
         } 
     }
     public function delete_data($id){
@@ -86,7 +73,23 @@ class Pengguna extends MY_Controller{
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
             ');
-        redirect('admin/pengguna/');
+        redirect('admin/admin/');
+    }
+    public function reset($id){
+        $data = array(
+            'password' => get_hash('1234')
+         ); 
+        $where = array(
+            'id' => $id,
+        );
+        $data = $this->CRUD_model->Update('user', $data, $where);
+        $this->session->set_flashdata('alert', '
+        <div class="alert alert-primary alert-dismissible" role="alert">
+        Password berhasil direset menjadi 1234.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+            ');
+        redirect('admin/admin/');
     }
 
 }

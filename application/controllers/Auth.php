@@ -112,7 +112,7 @@ class Auth extends MY_Controller
             'site'      => $site
         );
         //melakukan pengalihan halaman sesuai dengan levelnya
-        if (($this->session->userdata('level') == "Admin") OR ($this->session->userdata('level') == "Guru")
+        if (($this->session->userdata('level') == "Admin") OR ($this->session->userdata('level') == "Kesiswaan")
         OR ($this->session->userdata('level') == "BK")) {
             redirect('admin/home');
         } 

@@ -8,8 +8,12 @@
                 <div class="d-flex align-items-end row">
                     <div class="col-sm-7">
                         <div class="card-body">
-                            <h5 class="card-title text-primary">Selamat Datang Di Aplikasi Presensi 🎉</h5>
-                            <p class="mb-4">Halaman Admin ini berfungsi untuk merekap data absen tiap kelas dan data
+                            <h5 class="card-title text-primary">Selamat Datang Di Aplikasi Sistem Informasi Siswa 🎉</h5>
+                            <h5 class="card-title">
+                                Hi <?= $this->session->userdata('nama'); ?>,
+                                anda login sebagai <?= $this->session->userdata('level'); ?>
+                            </h5>
+                            <p class="mb-4">Halaman ini berfungsi untuk merekap data absen tiap kelas dan data
                                 siswa tiap kelas. Selain itu melaporakan prestasi dan pelanggaran siswa.</p>
                         </div>
                     </div>
