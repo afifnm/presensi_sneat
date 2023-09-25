@@ -116,7 +116,16 @@ class Auth extends MY_Controller
         if ($this->session->userdata('level') == "Siswa") {
             redirect('siswa/home');
         } 
-        if ($this->session->userdata('level') <> "Siswa") {
+        if ($this->session->userdata('level') == "Guru") {
+            redirect('admin/home');
+        } 
+        if ($this->session->userdata('level') == "BK") {
+            redirect('admin/home');
+        } 
+        if ($this->session->userdata('level') == "Admin") {
+            redirect('admin/home');
+        } 
+        if ($this->session->userdata('level') == "Kesiswaan") {
             redirect('admin/home');
         } 
         //proses login dan validasi nya
@@ -130,8 +139,14 @@ class Auth extends MY_Controller
                 //jika bernilai TRUE maka alihkan halaman sesuai dengan level nya
                 if ($data->level == 'Siswa') {
                     redirect('siswa/home');
-                } else {
-                    redirect('siswa/home');
+                } elseif ($data->level == 'Guru') {
+                    redirect('admin/home');
+                } elseif ($data->level == 'BK') {
+                    redirect('admin/home');
+                } elseif ($data->level == 'Kesiswaan') {
+                    redirect('admin/home');
+                } elseif ($data->level == 'Admin') {
+                    redirect('admin/home');
                 }
             } else {
                 $this->load->view('authentication/login', $data);

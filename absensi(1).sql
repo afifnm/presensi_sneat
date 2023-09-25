@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Waktu pembuatan: 25 Sep 2023 pada 22.51
--- Versi server: 8.0.34-cll-lve
--- Versi PHP: 8.1.16
+-- Host: 127.0.0.1
+-- Waktu pembuatan: 25 Sep 2023 pada 18.15
+-- Versi server: 10.4.24-MariaDB
+-- Versi PHP: 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `smkm1543_presensi`
+-- Database: `absensi`
 --
 
 -- --------------------------------------------------------
@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `absen` (
-  `id_absen` int NOT NULL,
+  `id_absen` int(11) NOT NULL,
   `username` varchar(30) NOT NULL,
   `tanggal` date NOT NULL,
   `masuk` time NOT NULL,
@@ -36,7 +36,7 @@ CREATE TABLE `absen` (
   `keterangan` varchar(30) NOT NULL,
   `ip` varchar(30) DEFAULT NULL,
   `ip2` varchar(30) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data untuk tabel `absen`
@@ -30927,10 +30927,10 @@ INSERT INTO `absen` (`id_absen`, `username`, `tanggal`, `masuk`, `pulang`, `kete
 --
 
 CREATE TABLE `daftar_pelanggaran` (
-  `id_daftar_pelanggaran` int NOT NULL,
+  `id_daftar_pelanggaran` int(11) NOT NULL,
   `pelanggaran` varchar(100) NOT NULL,
-  `poin` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `poin` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data untuk tabel `daftar_pelanggaran`
@@ -30990,12 +30990,12 @@ INSERT INTO `daftar_pelanggaran` (`id_daftar_pelanggaran`, `pelanggaran`, `poin`
 --
 
 CREATE TABLE `izin` (
-  `id_izin` int NOT NULL,
+  `id_izin` int(11) NOT NULL,
   `username` varchar(80) NOT NULL,
   `keterangan` varchar(5) NOT NULL,
   `alasan` varchar(100) NOT NULL,
   `tanggal` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data untuk tabel `izin`
@@ -31043,7 +31043,7 @@ INSERT INTO `izin` (`id_izin`, `username`, `keterangan`, `alasan`, `tanggal`) VA
 --
 
 CREATE TABLE `konfigurasi` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `nama_website` varchar(80) NOT NULL,
   `favicon` varchar(80) NOT NULL,
   `logo` varchar(80) NOT NULL
@@ -31063,10 +31063,10 @@ INSERT INTO `konfigurasi` (`id`, `nama_website`, `favicon`, `logo`) VALUES
 --
 
 CREATE TABLE `panggilan` (
-  `id_panggilan` int NOT NULL,
+  `id_panggilan` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
-  `jumlah_poin` int NOT NULL,
-  `status` int NOT NULL
+  `jumlah_poin` int(11) NOT NULL,
+  `status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -31076,12 +31076,12 @@ CREATE TABLE `panggilan` (
 --
 
 CREATE TABLE `pelanggaran` (
-  `id_pelanggaran` int NOT NULL,
+  `id_pelanggaran` int(11) NOT NULL,
   `id_daftar_pelanggaran` varchar(80) NOT NULL,
   `keterangan` text NOT NULL,
   `tanggal` date NOT NULL,
   `username` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data untuk tabel `pelanggaran`
@@ -31098,13 +31098,13 @@ INSERT INTO `pelanggaran` (`id_pelanggaran`, `id_daftar_pelanggaran`, `keteranga
 --
 
 CREATE TABLE `prestasi` (
-  `id_prestasi` int NOT NULL,
+  `id_prestasi` int(11) NOT NULL,
   `nama` varchar(100) NOT NULL,
   `keterangan` text NOT NULL,
   `juara` varchar(50) NOT NULL,
   `tanggal` date NOT NULL,
   `username` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data untuk tabel `prestasi`
@@ -31121,21 +31121,21 @@ INSERT INTO `prestasi` (`id_prestasi`, `nama`, `keterangan`, `juara`, `tanggal`,
 --
 
 CREATE TABLE `user` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `username` varchar(60) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `level` enum('Guru','Siswa','Admin','BK','Kesiswaan') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `level` enum('Guru','Siswa','Admin','BK','Kesiswaan') NOT NULL,
   `nama` varchar(70) NOT NULL,
   `tempat_lahir` varchar(40) DEFAULT NULL,
   `tanggal_lahir` date DEFAULT NULL,
-  `alamat` text,
+  `alamat` text DEFAULT NULL,
   `kelas` varchar(10) NOT NULL,
   `tahun_masuk` varchar(10) NOT NULL,
   `email` varchar(50) DEFAULT NULL,
   `no_hp` varchar(50) DEFAULT NULL,
   `foto` varchar(100) NOT NULL,
-  `active` int NOT NULL,
-  `last_login` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `active` int(11) NOT NULL,
+  `last_login` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -32533,7 +32533,442 @@ INSERT INTO `user` (`id`, `username`, `password`, `level`, `nama`, `tempat_lahir
 (1388, 'puput', '$2y$05$32M7ENZMsrB6Q3RUrNF5m.j0DE0OJEvfmAz/TCePbFUvnA/eWr2j.', 'BK', 'Puput Sinta Dewi, S.Psi', NULL, NULL, NULL, '', '', NULL, NULL, 'root.jpg', 1, '2023-09-18 09:20:34'),
 (1389, 'suhartono', '$2y$05$cmla6wkE.Gf1EygywF.mIedaf6Xh/ekzw6.FXMS6gU3tfvOrIpyEe', 'BK', 'Drs. Suhartono', NULL, NULL, NULL, '', '', NULL, NULL, 'root.jpg', 1, '2023-09-18 09:20:59'),
 (1390, 'soetanto', '$2y$05$RzQ9jiKke5QT/x4UV9iKV.raiQl7k3nz3NBOxqXJr388aEzi8pJYy', 'Kesiswaan', 'Drs. Soetanto, M.T', NULL, NULL, NULL, '', '', NULL, NULL, 'root.jpg', 1, '2023-09-18 09:23:33'),
-(1391, 'effendi', '$2y$05$3pxakzR8l89QbWjDX6bE4.UrSIXI0RWMSfOPkedB64WRSv7kW8ivu', 'BK', 'Effendi, S.Pd', NULL, NULL, NULL, '', '', NULL, NULL, 'root.jpg', 1, '2023-09-18 10:14:09');
+(1391, 'effendi', '$2y$05$3pxakzR8l89QbWjDX6bE4.UrSIXI0RWMSfOPkedB64WRSv7kW8ivu', 'BK', 'Effendi, S.Pd', NULL, NULL, NULL, '', '', NULL, NULL, 'root.jpg', 1, '2023-09-18 10:14:09'),
+(2023, '8669', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ANDHIKA PERMANA PUTRA', '', '0000-00-00', '', 'MA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2024, '8670', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ANDIKA DIMAS ARI NUGROHO', '', '0000-00-00', '', 'MA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2025, '8671', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ARFAN WIDA PRATAMA', '', '0000-00-00', '', 'MA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2026, '8672', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ARI SANTOSO', '', '0000-00-00', '', 'MA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2027, '8673', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ARIF BUDI SANTOSO', '', '0000-00-00', '', 'MA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2028, '8674', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'BAGAS TRI APRIYANTO', '', '0000-00-00', '', 'MA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2029, '8675', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'BAGASKORO HENRI MAHARDIKA', '', '0000-00-00', '', 'MA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2030, '8676', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'BAGUS DWI ARIANTO', '', '0000-00-00', '', 'MA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2031, '8677', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'BAGUS ENDRAWAN', '', '0000-00-00', '', 'MA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2032, '8678', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'BURHAN BANGKIT NUGROHO', '', '0000-00-00', '', 'MA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2033, '8679', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'DAFFA ABDU KHOIRI', '', '0000-00-00', '', 'MA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2034, '8680', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'DAVINO PRAJA SRIWIJAYA', '', '0000-00-00', '', 'MA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2035, '8681', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ERPAN WARDANA', '', '0000-00-00', '', 'MA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2036, '8682', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FAREL IKHSANUL FAHJRI', '', '0000-00-00', '', 'MA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2037, '8683', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FARHAN ARDYAN PRATAMA', '', '0000-00-00', '', 'MA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2038, '8684', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FARIT MUHAMMAD FADLI', '', '0000-00-00', '', 'MA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2039, '8685', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FAUZAN HISYAM GAMMA AUGUSTA', '', '0000-00-00', '', 'MA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2040, '8686', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FEBRIYAN SUHENDRA', '', '0000-00-00', '', 'MA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2041, '8687', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FENDI FADILLAH', '', '0000-00-00', '', 'MA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2042, '8688', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FERLIEYO AJI NUGROHO', '', '0000-00-00', '', 'MA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2043, '8689', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FIERRY HANIF PRADANA', '', '0000-00-00', '', 'MA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2044, '8690', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'IQBAL ILHAMI YANHAR', '', '0000-00-00', '', 'MA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2045, '8691', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'JEFRI ADITAMA', '', '0000-00-00', '', 'MA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2046, '8692', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MAULANA DWIKI PANGALILA', '', '0000-00-00', '', 'MA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2047, '8693', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MUH GILANG ARDIANSYAH', '', '0000-00-00', '', 'MA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2048, '8694', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MUHAMAD FAREL KUSUMA ADAM', '', '0000-00-00', '', 'MA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2049, '8695', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MUHAMMAD DAFFA AMRULLAH', '', '0000-00-00', '', 'MA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2050, '8696', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MUHAMMAD MA\'RUF UBAIDILLAH', '', '0000-00-00', '', 'MA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2051, '8697', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'NAZRIL RAHMANTO', '', '0000-00-00', '', 'MA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2052, '8698', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'NOFAL MITA HULHAQ', '', '0000-00-00', '', 'MA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2053, '8699', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'NUR ILLAHI', '', '0000-00-00', '', 'MA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2054, '8700', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RISTYANDITYA FAHREZI HANDIFA', '', '0000-00-00', '', 'MA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2055, '8701', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ROIS AULIYA FIRDAUS', '', '0000-00-00', '', 'MA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2056, '8702', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RONY NUR CAHYADI', '', '0000-00-00', '', 'MA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2057, '8703', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'SURYO ANTOKO MUHSAKTI', '', '0000-00-00', '', 'MA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2058, '8704', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'WISNU ADHI NUGROHO', '', '0000-00-00', '', 'MA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2059, '8705', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ADAM ARTA DIANSYAH', '', '0000-00-00', '', 'MB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2060, '8706', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'AKMAL HIDAYAT', '', '0000-00-00', '', 'MB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2061, '8707', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ALEXANDRO PUTRA MAHENDRA', '', '0000-00-00', '', 'MB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2062, '8708', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ALFIN FICO ADITAMA', '', '0000-00-00', '', 'MB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2063, '8709', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ALIT PUTRO PRIAMBODO', '', '0000-00-00', '', 'MB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2064, '8710', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ARDIAN THUFAIL ROZIN', '', '0000-00-00', '', 'MB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2065, '8711', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ARIF SETIAWAN', '', '0000-00-00', '', 'MB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2066, '8712', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'BAYU YULIANTO', '', '0000-00-00', '', 'MB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2067, '8713', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FAHRI BAYU SAPUTRA', '', '0000-00-00', '', 'MB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2068, '8714', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FAJAR RAHMADI', '', '0000-00-00', '', 'MB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2069, '8715', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FAUZAN AKBAR ADHI SAPUTRA', '', '0000-00-00', '', 'MB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2070, '8716', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FERI GUNTUR PERMANA', '', '0000-00-00', '', 'MB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2071, '8717', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FIRMANSYAH ADI WICAKSANA', '', '0000-00-00', '', 'MB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2072, '8718', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'GIANLUGGI ABIEF ARDIANSYAH', '', '0000-00-00', '', 'MB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2073, '8719', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'HAFID NUGROHO', '', '0000-00-00', '', 'MB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2074, '8720', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'HENDRI AVIANDI', '', '0000-00-00', '', 'MB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2075, '8721', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'HENRY ARNANDYZA WIBOWO', '', '0000-00-00', '', 'MB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2076, '8722', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'LATIF LAKSONO', '', '0000-00-00', '', 'MB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2077, '8723', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'LULUK DWI FIRMANSYAH', '', '0000-00-00', '', 'MB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2078, '8724', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MAULANA YOGA PRATAMA', '', '0000-00-00', '', 'MB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2079, '8725', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MUHADZIB KAMALUDDIN', '', '0000-00-00', '', 'MB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2080, '8726', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MUHAMMAD AJI DERMAWAN', '', '0000-00-00', '', 'MB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2081, '8727', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MUHAMMAD FERNANDA ANDRIANSAH', '', '0000-00-00', '', 'MB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2082, '8728', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MUHAMMAD RAFLI FADILLAH AKBAR', '', '0000-00-00', '', 'MB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2083, '8729', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MUHAMMAD RASYA FADILLAH IQBAL', '', '0000-00-00', '', 'MB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2084, '8730', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'NASILFHA NARENDRA PUTRA', '', '0000-00-00', '', 'MB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2085, '8731', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'NAYOTTAMA RADHWA RAMA GANI', '', '0000-00-00', '', 'MB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2086, '8732', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RADHITYA ARDHIYANTO SAPUTRO', '', '0000-00-00', '', 'MB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2087, '8733', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RIANDIKA NUR HIDAYAH', '', '0000-00-00', '', 'MB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2088, '8734', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RIDHO RAMADHAN FAIRULLAH', '', '0000-00-00', '', 'MB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2089, '8735', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RIDWAN SYAHLI PRAKOSO', '', '0000-00-00', '', 'MB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2090, '8736', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RIZKY MUHAMMAD IBNU RAFY', '', '0000-00-00', '', 'MB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2091, '8737', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ROHMATULLOH', '', '0000-00-00', '', 'MB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2092, '8738', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'TIO GILANG FIRMANSYAH', '', '0000-00-00', '', 'MB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2093, '8739', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'WAHYU RAHMAN SEPTIANTO', '', '0000-00-00', '', 'MB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2094, '8740', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ZAHRUL RAMADHAN PRASETYO', '', '0000-00-00', '', 'MB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2095, '8741', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'AFRISA VRIAN FERNANDO', '', '0000-00-00', '', 'MC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2096, '8742', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ALFIAN DENI SAYOGA', '', '0000-00-00', '', 'MC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2097, '8743', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ANDHIKA PUTRA FEBRIYANSYAH', '', '0000-00-00', '', 'MC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2098, '8744', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ANDIKA PRASETYO', '', '0000-00-00', '', 'MC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2099, '8745', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ANDIKA SETIAWAN', '', '0000-00-00', '', 'MC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2100, '8746', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ANGGA BAYU FEBRIYANTO', '', '0000-00-00', '', 'MC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2101, '8747', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ARGA REKSA PUTRA', '', '0000-00-00', '', 'MC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2102, '8748', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ASFAILA RESTU SUGIARTO', '', '0000-00-00', '', 'MC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2103, '8749', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ATIAN ABIL NATHA SANDY', '', '0000-00-00', '', 'MC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2104, '8750', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'BAGAS TRI SETIAWAN', '', '0000-00-00', '', 'MC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2105, '8751', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'BAGUS SADEWO', '', '0000-00-00', '', 'MC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2106, '8752', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'DAVA ANDRIYANTO', '', '0000-00-00', '', 'MC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2107, '8753', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FADILAH AHMAD RINALDI', '', '0000-00-00', '', 'MC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2108, '8754', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FAHRI BHAKTIVEDANTA', '', '0000-00-00', '', 'MC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2109, '8755', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FAJAR WAHYU TRI UTOMO', '', '0000-00-00', '', 'MC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2110, '8756', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FAUZI ABDILLAH DWI KURNIAWAN', '', '0000-00-00', '', 'MC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2111, '8757', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'GILANG HASBY ISMAIL', '', '0000-00-00', '', 'MC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2112, '8758', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'HIDAYAT IZZUDIN', '', '0000-00-00', '', 'MC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2113, '8759', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'IKSAN PRADITIA', '', '0000-00-00', '', 'MC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2114, '8760', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ILYAS HANUSAPUTRA', '', '0000-00-00', '', 'MC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2115, '8761', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'IRAWAN NUR UTOMO', '', '0000-00-00', '', 'MC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2116, '8762', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'IRFAN ABDUL DZAKY', '', '0000-00-00', '', 'MC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2117, '8763', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'LEVINDRA QIRUL NIFA\'I', '', '0000-00-00', '', 'MC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2118, '8764', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'NABIL BAGAS HIDAYAH', '', '0000-00-00', '', 'MC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2119, '8765', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'NANDA ILYAS AL FAJRI', '', '0000-00-00', '', 'MC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2120, '8766', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'NAZRA DANANG PRASETYA', '', '0000-00-00', '', 'MC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2121, '8767', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'NOVIAN BAGUS MELANDRI', '', '0000-00-00', '', 'MC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2122, '8768', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'NURMA TRI ANGGA', '', '0000-00-00', '', 'MC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2123, '8769', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RADITYA WISNU PRATAMA', '', '0000-00-00', '', 'MC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2124, '8770', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'REIHANSYAH ZIDANE GUSNIARTO', '', '0000-00-00', '', 'MC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2125, '8771', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RESA BAGUS PUTRA PRATAMA', '', '0000-00-00', '', 'MC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2126, '8772', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RIDWAN GUSTI PRASETYA', '', '0000-00-00', '', 'MC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2127, '8773', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RIVAL REHAN ILHAMSYAH', '', '0000-00-00', '', 'MC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2128, '8774', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'SHEVA ISHA MILANO', '', '0000-00-00', '', 'MC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2129, '8775', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'SYAFRIWAN RAHMAT RIYADI', '', '0000-00-00', '', 'MC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2130, '8776', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'TRI AGUS PURNOMO', '', '0000-00-00', '', 'MC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2131, '8777', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'AGIS FRANSISKA NUR RAHAYU', '', '0000-00-00', '', 'TA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2132, '8778', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'AJI PANGESTU', '', '0000-00-00', '', 'TA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2133, '8779', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ALVIDA HASYA NURHUSNA', '', '0000-00-00', '', 'TA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2134, '8780', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ARKHAN DEWA JASNA', '', '0000-00-00', '', 'TA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2135, '8781', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'CAHAYA MIKAYLA ALTAFUNNISA', '', '0000-00-00', '', 'TA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2136, '8782', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'CAHYA RIZKY RAMADHANI', '', '0000-00-00', '', 'TA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2137, '8783', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'DAFFA AINUR RIDHO', '', '0000-00-00', '', 'TA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2138, '8784', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'DAFFA SYAIFUL ANAM', '', '0000-00-00', '', 'TA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2139, '8785', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'DEVIANA INTAN NURHIDAYAH', '', '0000-00-00', '', 'TA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2140, '8786', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'EKA BUNGA APRILLIA', '', '0000-00-00', '', 'TA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2141, '8787', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ELLIS AYU SETIANINGSIH', '', '0000-00-00', '', 'TA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2142, '8788', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FASYA KURNIA SIFANI', '', '0000-00-00', '', 'TA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2143, '8789', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'HIDAYAH INTAN NURAINI', '', '0000-00-00', '', 'TA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2144, '8790', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'INTAN PRAMESTI', '', '0000-00-00', '', 'TA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2145, '8791', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'KHOIRUL AZHARI', '', '0000-00-00', '', 'TA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2146, '8792', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'KHOLIS SAIFULLAH', '', '0000-00-00', '', 'TA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2147, '8793', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'LINA SETYA HARWATI', '', '0000-00-00', '', 'TA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2148, '8794', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MUHAMMAD RIDWAN ARDIANSYAH', '', '0000-00-00', '', 'TA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2149, '8795', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'NAFIKA ARIANI', '', '0000-00-00', '', 'TA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2150, '8796', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'NALITA FIRDA SARI', '', '0000-00-00', '', 'TA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2151, '8797', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'NAMLI ANNISA ZAHRA', '', '0000-00-00', '', 'TA', '2023', '', '', '', 0, '0000-00-00 00:00:00');
+INSERT INTO `user` (`id`, `username`, `password`, `level`, `nama`, `tempat_lahir`, `tanggal_lahir`, `alamat`, `kelas`, `tahun_masuk`, `email`, `no_hp`, `foto`, `active`, `last_login`) VALUES
+(2152, '8798', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'NOVA FERDIANSYAH', '', '0000-00-00', '', 'TA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2153, '8799', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'OLIVIA YUNITA AZZAHRA', '', '0000-00-00', '', 'TA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2154, '8800', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'PUTRI INDAH DAMAYANTI', '', '0000-00-00', '', 'TA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2155, '8801', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RISKI EKA QURNIAWATI', '', '0000-00-00', '', 'TA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2156, '8802', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RIZKA AYU HANDAYANI', '', '0000-00-00', '', 'TA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2157, '8803', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ROHMAD WIDI PRASETYO', '', '0000-00-00', '', 'TA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2158, '8804', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'SANDITYA RADYATAMA ABDUL RAHMAN KUSSADEWA', '', '0000-00-00', '', 'TA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2159, '8805', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'SEPTIANA DILA ROMADHONI', '', '0000-00-00', '', 'TA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2160, '8806', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'SEVILLA ALEXSANDRA AYU SONIA', '', '0000-00-00', '', 'TA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2161, '8807', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'SHEILA PUTRI NURANI', '', '0000-00-00', '', 'TA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2162, '8808', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'SHOFIA NUR AFIFAH', '', '0000-00-00', '', 'TA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2163, '8809', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'SINTIYA NAURA OLIVIA', '', '0000-00-00', '', 'TA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2164, '8810', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'TIYAN BASKORO', '', '0000-00-00', '', 'TA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2165, '8811', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'WATIK SUGIYANTI', '', '0000-00-00', '', 'TA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2166, '8812', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'YULISTYA WARDHANI', '', '0000-00-00', '', 'TA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2167, '8813', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ALYAA HIBATULLAH RASENDRIYA', '', '0000-00-00', '', 'TB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2168, '8814', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ANGELINA YULIASARI SUDIRJA', '', '0000-00-00', '', 'TB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2169, '8815', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ANNA DEWI SULISTYOWATI', '', '0000-00-00', '', 'TB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2170, '8816', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ARIF FERDIANSAH', '', '0000-00-00', '', 'TB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2171, '8817', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ATTAR HAFIZH KHOIRIL', '', '0000-00-00', '', 'TB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2172, '8818', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'AULIA FATIKHASARI', '', '0000-00-00', '', 'TB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2173, '8819', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'BENING AULIA ANDRIANTO', '', '0000-00-00', '', 'TB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2174, '8820', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'CINTYA NURCAHYANI', '', '0000-00-00', '', 'TB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2175, '8821', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'DEVAN YUDANANTA', '', '0000-00-00', '', 'TB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2176, '8822', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'DIVA KINASIH SHINTA ANDRINI', '', '0000-00-00', '', 'TB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2177, '8823', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'DIVA SEPTI RAMADANI', '', '0000-00-00', '', 'TB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2178, '8824', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'DZAKIY MAHMUD FADILAH', '', '0000-00-00', '', 'TB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2179, '8825', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'EIGHTZALINA KENZHO BINTANG SAPUTRI', '', '0000-00-00', '', 'TB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2180, '8826', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'HARUN YAHYA', '', '0000-00-00', '', 'TB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2181, '8827', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'HERDINA PUSPA FRIDAHAPSARI', '', '0000-00-00', '', 'TB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2182, '8828', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'INNA DEWI RAHMAWATI', '', '0000-00-00', '', 'TB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2183, '8829', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'IQSAN RAMDHANI', '', '0000-00-00', '', 'TB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2184, '8830', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'JELITA OKTIVANIA', '', '0000-00-00', '', 'TB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2185, '8831', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'KIRANA AMELA MEYLANI', '', '0000-00-00', '', 'TB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2186, '8832', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MEISYA AULIA CITRA', '', '0000-00-00', '', 'TB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2187, '8833', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MIZTA QULJANAH', '', '0000-00-00', '', 'TB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2188, '8834', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MUHAMMAD KHOLIL', '', '0000-00-00', '', 'TB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2189, '8835', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MUHAMMAD ZHORIF AFIF ALFAIQ', '', '0000-00-00', '', 'TB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2190, '8836', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'NAGITA MUTIARA RAHMA DANI', '', '0000-00-00', '', 'TB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2191, '8837', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'NOVA SETIAWAN', '', '0000-00-00', '', 'TB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2192, '8838', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'NURUL SETYOWATI PRASETYO', '', '0000-00-00', '', 'TB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2193, '8839', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'OKI ADITYA PRATAMA', '', '0000-00-00', '', 'TB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2194, '8840', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'PRADITA WULAN SARI', '', '0000-00-00', '', 'TB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2195, '8841', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'REHAN SOFYAN BHARET', '', '0000-00-00', '', 'TB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2196, '8842', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'SASKYA ZAINI', '', '0000-00-00', '', 'TB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2197, '8843', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'VIVI NUR FADHILAH', '', '0000-00-00', '', 'TB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2198, '8844', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'WAHYU DWI NING TYAS', '', '0000-00-00', '', 'TB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2199, '8845', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'WAHYU EKA PRADANA', '', '0000-00-00', '', 'TB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2200, '8846', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'YULIA MURTI', '', '0000-00-00', '', 'TB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2201, '8847', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ZALIA ANGGRAINI', '', '0000-00-00', '', 'TB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2202, '8848', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ZULFAHMI PRATAMA', '', '0000-00-00', '', 'TB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2203, '8849', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ANANDA OKTAFIANA', '', '0000-00-00', '', 'TC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2204, '8850', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ANDHIKA TRIATMAJA', '', '0000-00-00', '', 'TC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2205, '8851', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'AYU LESTARI NINGRUM', '', '0000-00-00', '', 'TC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2206, '8852', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'AZKA AULIA PUTRY', '', '0000-00-00', '', 'TC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2207, '8853', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'DENA ALDESTA WINATAMA', '', '0000-00-00', '', 'TC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2208, '8854', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'DEVINA QOILA ANGGITA', '', '0000-00-00', '', 'TC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2209, '8855', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'DINA DWIYANTI', '', '0000-00-00', '', 'TC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2210, '8856', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'DITA WAHYU NOVITA', '', '0000-00-00', '', 'TC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2211, '8857', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'DIYAH AYU FARADILA', '', '0000-00-00', '', 'TC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2212, '8858', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ELANG SATRIA ALAM', '', '0000-00-00', '', 'TC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2213, '8859', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ELVINA INDAH RAMADANI', '', '0000-00-00', '', 'TC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2214, '8860', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'GILANG RAMADHAN', '', '0000-00-00', '', 'TC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2215, '8861', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'HOSANANDA GABRIELLA', '', '0000-00-00', '', 'TC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2216, '8862', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ILHAM SAPTA MAULANA', '', '0000-00-00', '', 'TC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2217, '8863', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'JANAN NOVISA', '', '0000-00-00', '', 'TC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2218, '8864', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'KEILLA ALVIANTIKA', '', '0000-00-00', '', 'TC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2219, '8865', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'KEYLA AULI MAHARANI', '', '0000-00-00', '', 'TC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2220, '8866', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'KHOIRUL MUJAHID', '', '0000-00-00', '', 'TC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2221, '8867', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'LUTHFIA AYU ISTIQOMAH', '', '0000-00-00', '', 'TC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2222, '8868', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MARGARETA PUTRI ANJANI', '', '0000-00-00', '', 'TC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2223, '8869', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MONICA RAMADHANI', '', '0000-00-00', '', 'TC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2224, '8870', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MUHAMMAD RIDHO DWI PUTRO', '', '0000-00-00', '', 'TC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2225, '8871', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'PUTRA ADITYA PRATAMA', '', '0000-00-00', '', 'TC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2226, '8872', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'PUTRI ALFIRA', '', '0000-00-00', '', 'TC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2227, '8873', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RADELLA DARA ELYSIA', '', '0000-00-00', '', 'TC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2228, '8874', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RAHMAD AJI PAMELING', '', '0000-00-00', '', 'TC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2229, '8875', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RAHMANIA INTAN NUR AISSYAH', '', '0000-00-00', '', 'TC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2230, '8876', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RAIHAN ADITYA PUTRA', '', '0000-00-00', '', 'TC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2231, '8877', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RELLIAN ARGIA RATNA GALIH', '', '0000-00-00', '', 'TC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2232, '8878', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RESA CANDRA WINATA', '', '0000-00-00', '', 'TC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2233, '8879', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RIKO DEWANTORO', '', '0000-00-00', '', 'TC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2234, '8880', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RIZKI ANGGARA', '', '0000-00-00', '', 'TC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2235, '8881', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'SHOVIA NAZWA VENOZIYARA', '', '0000-00-00', '', 'TC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2236, '8882', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'SINUNG PRIAMBODO', '', '0000-00-00', '', 'TC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2237, '8883', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'SUCI DEWINGGA', '', '0000-00-00', '', 'TC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2238, '8884', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'TYO SAPTO WIBOWO', '', '0000-00-00', '', 'TC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2239, '8885', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ABDUL SUFYAN', '', '0000-00-00', '', 'OA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2240, '8886', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ADISTA CANDRA FIRDAUS', '', '0000-00-00', '', 'OA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2241, '8887', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ADITYA FIRMANSYAH NUGROHO', '', '0000-00-00', '', 'OA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2242, '8888', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'AFANSA REVIEU JULIANO', '', '0000-00-00', '', 'OA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2243, '8889', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ALDY IRSYA ARIELA', '', '0000-00-00', '', 'OA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2244, '8890', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ALFIANSYAH NAUFA LABIB', '', '0000-00-00', '', 'OA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2245, '8891', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ANANDA PUTRA PAMUNGKAS', '', '0000-00-00', '', 'OA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2246, '8892', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'BAHRUDIN AHMAD AL FIKRI', '', '0000-00-00', '', 'OA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2247, '8893', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'BEJANO MELANDRI', '', '0000-00-00', '', 'OA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2248, '8894', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'BIMA SAPUTRO HAMDANI', '', '0000-00-00', '', 'OA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2249, '8895', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'BINTANG KARISMA PUTRA', '', '0000-00-00', '', 'OA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2250, '8896', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'DANANG ADI SAPUTRA', '', '0000-00-00', '', 'OA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2251, '8897', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'DESTA ARDI SAPUTRA', '', '0000-00-00', '', 'OA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2252, '8898', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'DINA RAHMAWATI', '', '0000-00-00', '', 'OA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2253, '8899', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FADIL KHOIRUL FATAH', '', '0000-00-00', '', 'OA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2254, '8900', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FACHRI AIDIET RICARDHO', '', '0000-00-00', '', 'OA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2255, '8901', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FANKRISNA DANNAR YUNDA', '', '0000-00-00', '', 'OA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2256, '8902', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FAUZI ROMDANI NUR FRASTYO', '', '0000-00-00', '', 'OA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2257, '8903', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FIYAN ARDIANSYAH AL MAULANA', '', '0000-00-00', '', 'OA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2258, '8904', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ILHAM BAGAS SETIAWAN', '', '0000-00-00', '', 'OA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2259, '8905', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ILHAM PRIAMBUDI', '', '0000-00-00', '', 'OA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2260, '8906', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'KGROWCHELLA BERLIANA', '', '0000-00-00', '', 'OA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2261, '8907', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MARCHELLO DANENDRA', '', '0000-00-00', '', 'OA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2262, '8908', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MUHAMAD NABIL', '', '0000-00-00', '', 'OA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2263, '8909', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MUHAMMAD REYSA KHADAFI', '', '0000-00-00', '', 'OA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2264, '8910', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MUHAMMAD RIDWAN MUQOROBBIN', '', '0000-00-00', '', 'OA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2265, '8911', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MUHAMMAD SIGIT KURNIAWAN', '', '0000-00-00', '', 'OA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2266, '8912', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MUHAMMAD SYARIF HIDAYATULLAH', '', '0000-00-00', '', 'OA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2267, '8913', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MUKLIS APRIYANTO', '', '0000-00-00', '', 'OA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2268, '8914', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'NAUFAL DZAKY RACHMAN KURNIAWAN', '', '0000-00-00', '', 'OA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2269, '8915', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'NDARU ARDIANSYAH', '', '0000-00-00', '', 'OA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2270, '8916', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'NOVA DWI ANDIKA', '', '0000-00-00', '', 'OA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2271, '8917', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RADJA ANGGIT PRAKOSO', '', '0000-00-00', '', 'OA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2272, '8918', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RIFA NUR SIDIQ', '', '0000-00-00', '', 'OA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2273, '8919', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RYAN ABDILAH', '', '0000-00-00', '', 'OA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2274, '8920', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'SYAIFUL QODRI', '', '0000-00-00', '', 'OA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2275, '8921', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ABY HUSEN IBNU SYNA', '', '0000-00-00', '', 'OB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2276, '8922', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ACHMAD RAFFI\'UL ADYAN', '', '0000-00-00', '', 'OB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2277, '8923', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ALIIIYAH HIBATULLAH RASENDRIYA', '', '0000-00-00', '', 'OB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2278, '8924', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ARI TEGUH PRASETYO', '', '0000-00-00', '', 'OB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2279, '8925', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'AVISENA HUDHAIFAH', '', '0000-00-00', '', 'OB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2280, '8926', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'BRILLY RAHMATUR FAJAR', '', '0000-00-00', '', 'OB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2281, '8927', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'DAFFA AURELIO GERALDI', '', '0000-00-00', '', 'OB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2282, '8928', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'DAIF ZIDAN AL MAHYA', '', '0000-00-00', '', 'OB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2283, '8929', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'DIMAS DWI NUR CAHYO', '', '0000-00-00', '', 'OB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2284, '8930', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ERIC RAMADHAN EKA DAFFA', '', '0000-00-00', '', 'OB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2285, '8931', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'EVAN PUTRA ARMANSYAH', '', '0000-00-00', '', 'OB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2286, '8932', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FARIDHOTUL MUNTAHA', '', '0000-00-00', '', 'OB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2287, '8933', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FAUZAN NUR ROHMAN', '', '0000-00-00', '', 'OB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2288, '8934', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'GERSYA SEPTIAN BAGUS PURNAMA', '', '0000-00-00', '', 'OB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2289, '8935', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'IKHSAN WAHYU KURNIAWAN', '', '0000-00-00', '', 'OB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2290, '8936', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'IKHWAN NUR LATIF', '', '0000-00-00', '', 'OB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2291, '8937', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ILHAM SETYO PAMBUDI', '', '0000-00-00', '', 'OB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2292, '8938', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'JANIKA ANDRAENI', '', '0000-00-00', '', 'OB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2293, '8939', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'LUCKY IRFAN HAKIM NUGROHO', '', '0000-00-00', '', 'OB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2294, '8940', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MUHAMMAD DAFFA FAUZI', '', '0000-00-00', '', 'OB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2295, '8941', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MUHAMMAD RODHI TRI PUTRO', '', '0000-00-00', '', 'OB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2296, '8942', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MUHAMMAD WILDAN SYAUQI', '', '0000-00-00', '', 'OB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2297, '8943', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'NALUINO DAVIN ALFARO', '', '0000-00-00', '', 'OB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2298, '8944', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'NAUFAL SEPTYAN ROMADHON', '', '0000-00-00', '', 'OB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2299, '8945', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'PRADITYA DICKY SANJAYA', '', '0000-00-00', '', 'OB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2300, '8946', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RAFI NUR RAHMAN', '', '0000-00-00', '', 'OB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2301, '8947', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RAFLI PUTRA MARDHIANSYACH', '', '0000-00-00', '', 'OB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2302, '8948', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RAIHAN LAITS FADHIL', '', '0000-00-00', '', 'OB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2303, '8949', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'REYHAN SUJUD WICAKSONO', '', '0000-00-00', '', 'OB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2304, '8950', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RIFAI DAFA NURHADI', '', '0000-00-00', '', 'OB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2305, '8951', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'SELLO ARIANSYAH', '', '0000-00-00', '', 'OB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2306, '8952', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'SOFFIA ZAHRO MU\'AYYIDATUL H', '', '0000-00-00', '', 'OB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2307, '8953', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'SOFYAN ADI PRASETYO', '', '0000-00-00', '', 'OB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2308, '8954', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'TEGAR MUHAMAD SHOLEH', '', '0000-00-00', '', 'OB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2309, '8955', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ZEVIN PRIMADEO FIRDAUSI', '', '0000-00-00', '', 'OB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2310, '8956', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ZUKINO PANJI WINAHYU', '', '0000-00-00', '', 'OB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2311, '8957', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'AFANDI PULUNG FIRANSYAH', '', '0000-00-00', '', 'OC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2312, '8958', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'AFISENA MUSTHOFA YASSIN', '', '0000-00-00', '', 'OC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2313, '8959', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'AHMAD FATIH NUGROHO', '', '0000-00-00', '', 'OC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2314, '8960', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ALVINO MAULANA SAPUTRA', '', '0000-00-00', '', 'OC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2315, '8961', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ANGGA WIRAYUDA', '', '0000-00-00', '', 'OC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2316, '8962', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'AYUBI ADI PRASETYO', '', '0000-00-00', '', 'OC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2317, '8963', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'BAGAS ADITYA RAMADHAN', '', '0000-00-00', '', 'OC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2318, '8964', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'CAHAYA SEVEN ARDIANSAH', '', '0000-00-00', '', 'OC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2319, '8965', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'DAVIN AFRIZAL ARDIYANSYAH', '', '0000-00-00', '', 'OC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2320, '8966', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'DAVIT PUTRA ANDHIKA', '', '0000-00-00', '', 'OC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2321, '8967', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'DIMASSAHID PANGESTU MUSTIKA', '', '0000-00-00', '', 'OC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2322, '8968', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'EZRA BAGUS ANNANTYA', '', '0000-00-00', '', 'OC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2323, '8969', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FAHRI KAKA AGUSTIAR', '', '0000-00-00', '', 'OC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2324, '8970', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FARIZ NUR WICAKSONO', '', '0000-00-00', '', 'OC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2325, '8971', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FAZRIEL ILHAM PUTRA AFIANINDRA', '', '0000-00-00', '', 'OC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2326, '8972', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FRENDY TRI PRASETYA', '', '0000-00-00', '', 'OC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2327, '8973', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'JAYA KURNIAWAN', '', '0000-00-00', '', 'OC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2328, '8974', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'KHOLIS KHOIRUL AMAR', '', '0000-00-00', '', 'OC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2329, '8975', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'LAILA SYAKIRA ABIDAH', '', '0000-00-00', '', 'OC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2330, '8976', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'LORINO GALIH ARDIANSYAH', '', '0000-00-00', '', 'OC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2331, '8977', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MALEAKHI SETYA GRACIO', '', '0000-00-00', '', 'OC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2332, '8978', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MARCHEL HENDRA KURNIAWAN', '', '0000-00-00', '', 'OC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2333, '8979', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MEIRICO PAUNDRA SANJAYA', '', '0000-00-00', '', 'OC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2334, '8980', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MUHAMAD FADYLA MARCELYANO', '', '0000-00-00', '', 'OC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2335, '8981', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MUHAMMAD ALI DAROJAD', '', '0000-00-00', '', 'OC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2336, '8982', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MUHAMMAD FIKRI RUHUUL ISLAM', '', '0000-00-00', '', 'OC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2337, '8983', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'NADJRIL MUHAMAD RAFI', '', '0000-00-00', '', 'OC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2338, '8984', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RASYA AZAMI PASYA', '', '0000-00-00', '', 'OC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2339, '8985', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RIFA\'I DWI RAMADONI', '', '0000-00-00', '', 'OC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2340, '8986', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RISKY AGUNG WICAKSONO', '', '0000-00-00', '', 'OC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2341, '8987', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RIYAN DWI SAPUTRA', '', '0000-00-00', '', 'OC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2342, '8988', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RIZKI FARDHI RAMADHAN', '', '0000-00-00', '', 'OC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2343, '8989', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'SATRIO DEWANTORO', '', '0000-00-00', '', 'OC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2344, '8990', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'SEKAR KUSUMANINGRUM', '', '0000-00-00', '', 'OC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2345, '8991', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'SURYA JATI NUGRAHA', '', '0000-00-00', '', 'OC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2346, '8992', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ZULVIQAR ZAIN', '', '0000-00-00', '', 'OC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2347, '8993', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'AGIL BAGUS PRASETYA', '', '0000-00-00', '', 'RA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2348, '8994', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'AHMAD ARDIYANTO', '', '0000-00-00', '', 'RA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2349, '8995', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ALVIN PUTRA PRADANA', '', '0000-00-00', '', 'RA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2350, '8996', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'AMALIA YUNIANTI', '', '0000-00-00', '', 'RA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2351, '8997', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'AMNAN KHOIRUL MAJID', '', '0000-00-00', '', 'RA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2352, '8998', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'APRILIA MAR\'ATUS SHOLIHAH', '', '0000-00-00', '', 'RA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2353, '8999', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ARDITO YUDA PRATAMA', '', '0000-00-00', '', 'RA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2354, '9000', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'DAVIN ARMADHENI HERDIANSA', '', '0000-00-00', '', 'RA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2355, '9001', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FABIAN KRISNA SAPUTRA', '', '0000-00-00', '', 'RA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2356, '9002', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FAIZ NASHRULLAH', '', '0000-00-00', '', 'RA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2357, '9003', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FARROSKY ADIEL MALIKA PUTRA', '', '0000-00-00', '', 'RA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2358, '9004', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FIYONA', '', '0000-00-00', '', 'RA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2359, '9005', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'GHULAM AUFA', '', '0000-00-00', '', 'RA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2360, '9006', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'INDAH AYU SUKMAWATI', '', '0000-00-00', '', 'RA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2361, '9007', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'KALISTA METNA AMELIANI', '', '0000-00-00', '', 'RA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2362, '9008', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MAHMUD ALFAROUQ', '', '0000-00-00', '', 'RA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2363, '9009', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MARSHA NAJLA SORAYA', '', '0000-00-00', '', 'RA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2364, '9010', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MUHAMMAD ARIEL FEBRIANTO', '', '0000-00-00', '', 'RA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2365, '9011', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MUHAMMAD FAIZ BAYU NUR ALAM', '', '0000-00-00', '', 'RA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2366, '9012', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MUTIARA DEVI SETYANINGRUM', '', '0000-00-00', '', 'RA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2367, '9013', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'NABILA AMALIA W', '', '0000-00-00', '', 'RA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2368, '9014', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'NOVI SETYANINGRUM', '', '0000-00-00', '', 'RA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2369, '9015', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'PUTRI SOLO BINTANG AYU WINARTO', '', '0000-00-00', '', 'RA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2370, '9016', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RADHITYA DEWA KURNIANTO', '', '0000-00-00', '', 'RA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2371, '9017', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RAFFI WAHYU KURNIAWAN', '', '0000-00-00', '', 'RA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2372, '9018', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RAIHAN RAIS AZHARI', '', '0000-00-00', '', 'RA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2373, '9019', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RAIHAN WISNU AJI PRATAMA', '', '0000-00-00', '', 'RA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2374, '9020', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RIDHO INDRA IRAWAN', '', '0000-00-00', '', 'RA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2375, '9021', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RIFQI PRATAMA', '', '0000-00-00', '', 'RA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2376, '9022', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RONAL PUTRA SIANTURI', '', '0000-00-00', '', 'RA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2377, '9023', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'SALMA NASYWA RAIHANA', '', '0000-00-00', '', 'RA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2378, '9024', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'SATRIA ADE PERMANA', '', '0000-00-00', '', 'RA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2379, '9025', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'SHINTA AYU VAKULJANAH', '', '0000-00-00', '', 'RA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2380, '9026', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'VINO FATIKAH NADA NABILA', '', '0000-00-00', '', 'RA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2381, '9027', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'YUSYA MAJID FAJRI ARJANTO', '', '0000-00-00', '', 'RA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2382, '9028', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ZAFRI RAZIQ FIRMANSYAH', '', '0000-00-00', '', 'RA', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2383, '9029', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'AHMAD THOHA ABDUL AZIZ', '', '0000-00-00', '', 'RB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2384, '9030', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'AJI MAHESWARA', '', '0000-00-00', '', 'RB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2385, '9031', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ALNATA WAMIYAR PRATAMA', '', '0000-00-00', '', 'RB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2386, '9032', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'AURA ANGEL FEBIOLA', '', '0000-00-00', '', 'RB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2387, '9033', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'AZZAHRA GESYA ANANDA NURAYABYAR', '', '0000-00-00', '', 'RB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2388, '9034', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'BAYU ARDI SETYAWAN PUTRA', '', '0000-00-00', '', 'RB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2389, '9035', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'CALLISTA NOVA S.F.', '', '0000-00-00', '', 'RB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2390, '9036', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'CARAKA SAKTI ANDARU', '', '0000-00-00', '', 'RB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2391, '9037', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'CHARISA MARSHA FARADILLA', '', '0000-00-00', '', 'RB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2392, '9038', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'CHIQUILA FELI DAFNIKA', '', '0000-00-00', '', 'RB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2393, '9039', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'DAVIN WAHYU AMANTA', '', '0000-00-00', '', 'RB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2394, '9040', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'DESI PURWANTI', '', '0000-00-00', '', 'RB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2395, '9041', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'DINAA AULIA AISYAH ZAHRA', '', '0000-00-00', '', 'RB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2396, '9042', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FAIRUZ MOZALYKHA HALQISYASIANA', '', '0000-00-00', '', 'RB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2397, '9043', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FIKA NURHAYATI PUTRI', '', '0000-00-00', '', 'RB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2398, '9044', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'GIRINDRA WARDHANA BRAHMA JATI NALENDRA', '', '0000-00-00', '', 'RB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2399, '9045', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'KAYLILA SALSA EMIRA', '', '0000-00-00', '', 'RB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2400, '9046', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'LEANNO ATHAYA AL JAWAHIRI', '', '0000-00-00', '', 'RB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2401, '9047', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MUHAMMAD HAFIZI ARFANSYAH', '', '0000-00-00', '', 'RB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2402, '9048', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'NABIL MAKARIM ALMUZAFFAR', '', '0000-00-00', '', 'RB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2403, '9049', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'NASHWA SARITA PUTRI', '', '0000-00-00', '', 'RB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2404, '9050', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'NAUFAL FATAH HERDIANTORO', '', '0000-00-00', '', 'RB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2405, '9051', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ORLANDO DIMAS SAPUTRA', '', '0000-00-00', '', 'RB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2406, '9052', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'PANDU SANY PRATAMA', '', '0000-00-00', '', 'RB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2407, '9053', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RADIT AGIEL PAMUNGKAS', '', '0000-00-00', '', 'RB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2408, '9054', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'TEGAR PUTRA PRATAMA', '', '0000-00-00', '', 'RB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2409, '9055', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RAFIF IZZUDIN DZAKWAN FALAH', '', '0000-00-00', '', 'RB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2410, '9056', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RAKHA\' WAHYU MAULANA', '', '0000-00-00', '', 'RB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2411, '9057', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RARAS PUTRI PEBRIANA', '', '0000-00-00', '', 'RB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2412, '9058', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'TIARA EKA RAMADHANI', '', '0000-00-00', '', 'RB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2413, '9059', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'SAFA HAFIZ NUGRAHA', '', '0000-00-00', '', 'RB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2414, '9060', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'SYIFA AULIA RAHMA', '', '0000-00-00', '', 'RB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2415, '9061', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'TEGAR TRIADI WICAKSONO', '', '0000-00-00', '', 'RB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2416, '9062', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'THOHIROH', '', '0000-00-00', '', 'RB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2417, '9063', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'YUDHA KHARISMAWAN', '', '0000-00-00', '', 'RB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2418, '9064', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'YUSAR BRIAN SADELLA', '', '0000-00-00', '', 'RB', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2419, '9065', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ADINDA SITI NURFAIDAH', '', '0000-00-00', '', 'RC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2420, '9066', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'AISYAH AYU KARTIKA', '', '0000-00-00', '', 'RC', '2023', '', '', '', 0, '0000-00-00 00:00:00');
+INSERT INTO `user` (`id`, `username`, `password`, `level`, `nama`, `tempat_lahir`, `tanggal_lahir`, `alamat`, `kelas`, `tahun_masuk`, `email`, `no_hp`, `foto`, `active`, `last_login`) VALUES
+(2421, '9067', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ANASTASYA SALSABILA', '', '0000-00-00', '', 'RC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2422, '9068', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ARIFAL ARDAN BRAMANTIO', '', '0000-00-00', '', 'RC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2423, '9069', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'AULIA RYURI RACHMADHANI', '', '0000-00-00', '', 'RC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2424, '9070', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'BRIAN ADI PANGESTU', '', '0000-00-00', '', 'RC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2425, '9071', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'CANDRA ADI SETYAWAN', '', '0000-00-00', '', 'RC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2426, '9072', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'CHEXA IBRA VALENTA', '', '0000-00-00', '', 'RC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2427, '9073', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'DHAFA AJI SAPUTRA', '', '0000-00-00', '', 'RC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2428, '9074', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ERSTAVEDA DIYANRETNO CINTA ANGGREINI', '', '0000-00-00', '', 'RC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2429, '9075', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FATTAH DHANA HERMAWAN', '', '0000-00-00', '', 'RC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2430, '9076', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'FEBI ERIANA PUSPITASARI', '', '0000-00-00', '', 'RC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2431, '9077', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'GABRIEL RISMA YOSHIVA', '', '0000-00-00', '', 'RC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2432, '9078', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'GALIH RADITYA', '', '0000-00-00', '', 'RC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2433, '9079', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'HAYDAR NADHIFUL QOLBI', '', '0000-00-00', '', 'RC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2434, '9080', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'HERISKA DENIS SEPTIANA', '', '0000-00-00', '', 'RC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2435, '9081', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ILHAM NUR FAUZI', '', '0000-00-00', '', 'RC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2436, '9082', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ILHAM NUR KRISTYANTOKO', '', '0000-00-00', '', 'RC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2437, '9083', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'JIHAAN HAUROO\' RIHAADATUL \'AISY', '', '0000-00-00', '', 'RC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2438, '9084', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'KENIA CESSA SALSABILA', '', '0000-00-00', '', 'RC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2439, '9085', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'LATIFAH PUTRI KHAIRUNNISA', '', '0000-00-00', '', 'RC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2440, '9086', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MARIA NAFTALI AMALO', '', '0000-00-00', '', 'RC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2441, '9087', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MICHAEL GUGGE SUTANDI', '', '0000-00-00', '', 'RC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2442, '9088', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MUH AGUNG PERMADI', '', '0000-00-00', '', 'RC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2443, '9089', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MUHAMMAD ALTHAF KHOIRI ZAHRAN', '', '0000-00-00', '', 'RC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2444, '9090', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MUHAMMAD BADRUTTAMAM', '', '0000-00-00', '', 'RC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2445, '9091', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'MUHAMMAD RIVAND FAUZI', '', '0000-00-00', '', 'RC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2446, '9092', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'NEO EFFENDI', '', '0000-00-00', '', 'RC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2447, '9093', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ODE ARSTIKO', '', '0000-00-00', '', 'RC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2448, '9094', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RAHEL ANDIKA OKTAVIONA', '', '0000-00-00', '', 'RC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2449, '9095', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RAFAEL MARCIANO', '', '0000-00-00', '', 'RC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2450, '9096', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'RAVANSKA ADHITYA SAMUDRA', '', '0000-00-00', '', 'RC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2451, '9097', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'TIMOTHE ARJUN KUMORO', '', '0000-00-00', '', 'RC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2452, '9098', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'YUDA AVIV BAGUS KURNIAWAN', '', '0000-00-00', '', 'RC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2453, '9099', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'YULFAH DWI HASTUTI', '', '0000-00-00', '', 'RC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2454, '9100', '$2y$05$51yEN11not4xXqFTKSaMZeFt02/KieeVd1UQkGt6muZUjSTro4FHy', 'Siswa', 'ZEIN MAWARI PUTRI DIAMANTI', '', '0000-00-00', '', 'RC', '2023', '', '', '', 0, '0000-00-00 00:00:00'),
+(2455, 'guru', '$2y$05$NYfSEtFCCuDzXV4ujx6SReRfnoyY/2w5mu1XBnxwbdqn1XPo1tLUu', 'Guru', 'Guru SMKN 2 Karanganyar', NULL, NULL, NULL, '', '', NULL, NULL, 'root.jpg', 1, '2023-09-25 23:15:23');
 
 --
 -- Indexes for dumped tables
@@ -32595,49 +33030,49 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT untuk tabel `absen`
 --
 ALTER TABLE `absen`
-  MODIFY `id_absen` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30825;
+  MODIFY `id_absen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30825;
 
 --
 -- AUTO_INCREMENT untuk tabel `daftar_pelanggaran`
 --
 ALTER TABLE `daftar_pelanggaran`
-  MODIFY `id_daftar_pelanggaran` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id_daftar_pelanggaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT untuk tabel `izin`
 --
 ALTER TABLE `izin`
-  MODIFY `id_izin` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id_izin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT untuk tabel `konfigurasi`
 --
 ALTER TABLE `konfigurasi`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `panggilan`
 --
 ALTER TABLE `panggilan`
-  MODIFY `id_panggilan` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id_panggilan` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `pelanggaran`
 --
 ALTER TABLE `pelanggaran`
-  MODIFY `id_pelanggaran` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_pelanggaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT untuk tabel `prestasi`
 --
 ALTER TABLE `prestasi`
-  MODIFY `id_prestasi` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_prestasi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1392;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2456;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
