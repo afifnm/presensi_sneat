@@ -43,6 +43,12 @@ $uri3 = $this->uri->segment('3');
       </a>
     </li>
     <?php } ?>
+    <li class="menu-item <?php echo activate_menu('peringatan');  ?>">
+      <a href="<?php echo site_url('admin/peringatan');?>" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-bell"></i>
+        <div data-i18n="Analytics">Peringatan Poin</div>
+      </a>
+    </li>
     <li class="menu-item <?php if($uri2=='laporan'){ echo 'active open'; } ?>">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
       <i class="menu-icon tf-icons bx bx-book"></i>

@@ -85,6 +85,12 @@ class Absensi_model extends CI_Model{
             return $this->db->get()->row()->keterangan;
         }
    }
+   public function total_poin($username){ //menampilkan skor koding
+    $this->db->select('sum(b.poin) as total')->from('pelanggaran a');
+    $this->db->where("a.username",$username);
+    $this->db->join('daftar_pelanggaran b','b.id_daftar_pelanggaran=a.id_daftar_pelanggaran','left');
+    return $this->db->get()->row()->total;
+    }
     public function cek_kelas($angkatan){ //gapakai kelas
         $angkatan = substr($angkatan,0,4);
         $kelas1=date('Y')-$angkatan; 
