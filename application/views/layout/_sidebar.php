@@ -21,7 +21,7 @@ $uri3 = $this->uri->segment('3');
   </div>
   <div class="menu-inner-shadow"></div>
   <?php if (($this->session->userdata('level') == "Admin") OR ($this->session->userdata('level') == "Kesiswaan") 
-   OR ($this->session->userdata('level') == "BK")){ ?>
+   OR ($this->session->userdata('level') == "BK")OR ($this->session->userdata('level') == "Guru")){ ?>
   <ul class="menu-inner">
     <li class="menu-item <?php echo activate_menu('home');  ?>">
       <a href="<?php echo site_url('admin/home');?>" class="menu-link">

@@ -29,6 +29,7 @@ class Admin extends MY_Controller{
         $this->db->or_where('level','BK');
         $this->db->or_where('level','Kurikulum');
         $this->db->or_where('level','Kesiswaan');
+        $this->db->or_where('level','Guru');
         $data2 = $this->db->get()->result_array();
         $data2 = array('data2' => $data2);
         $this->template->load('layout/template', 'admin/admin', array_merge($data,$data2));

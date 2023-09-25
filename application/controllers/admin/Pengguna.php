@@ -11,7 +11,7 @@ class Pengguna extends MY_Controller{
         $this->load->model('Auth_model');
         $this->check_login();
         if (($this->session->userdata('level') != "Admin") AND ($this->session->userdata('level') != "Kesiswaan")
-         AND ($this->session->userdata('level') != "BK")){
+         AND ($this->session->userdata('level') != "BK")  AND ($this->session->userdata('level') != "Guru")){
             redirect('', 'refresh');
         }
     }

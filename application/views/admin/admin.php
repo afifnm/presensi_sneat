@@ -83,6 +83,7 @@
               <select name="level" class="form-control">
                 <option value="Kesiswaan">Kesiswaan</option>
                 <option value="BK">BK</option>
+                <option value="Guru">Guru</option>
               </select>
             </div>
           </div>

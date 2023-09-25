@@ -60,17 +60,40 @@
               <div class="mb-3">
                 <button class="btn btn-primary d-grid w-100" type="submit" name="submit" value="login">Masuk</button>
               </div>
+              <div class="mb-3">
+                <button type="button" class="btn btn-primary d-grid w-100" data-bs-toggle="modal"
+                  data-bs-target="#basicModal2"> Pencarian Siswa </button>
+              </div>
+
             </form>
             <div id="myalert">
               <?php echo $this->session->flashdata('alert', true)?>
             </div>
           </div>
         </div>
-        <div class="flex-container" style="margin-top: 50px;">
-  <a href="http://hi.pipapip.web.id/">
- 
-  </a>
-</div>
+        <div class="modal fade" id="basicModal2" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel1"><span class="tf-icons bx bx-search"></span>&nbsp; Pencarian nama siswa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form class="modal-content" method="GET" action="<?php echo site_url('my404/cari');?>">
+                <div class="modal-body">
+                  <div class="row g-2">
+                    <div class="col mb-0">
+                      <label for="emailBasic" class="form-label">Nama Siswa </label>
+                      <input type="text" class="form-control" name="nama" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary">Cari !</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
         <!-- /Register -->
       </div>
     </div>

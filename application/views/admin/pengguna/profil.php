@@ -2,6 +2,7 @@
   <?php echo $this->session->flashdata('alert', true); $this->session->set_flashdata('alert', '');?>
 </div>
 <?php foreach ($profil as $u) {?>
+<?php if($this->session->userdata('level')<>'Guru') {?>
 <div class="row mb-3">
   <div class="col-md-12">
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal"
@@ -22,6 +23,7 @@
     </button>
   </div>
 </div>
+<?php } ?>
 <div class="row mb-5">
   <div class="col-md-12">
     <div class="card h-100">
@@ -109,7 +111,9 @@
               <th>Tanggal</th>
               <th>Keterangan</th>
               <th>Alasan</th>
+              <?php if($this->session->userdata('level')<>'Guru') {?>
               <th>Aksi</th>
+              <?php } ?>
             </tr>
           </thead>
           <tbody class="table-border-bottom-0">
@@ -125,11 +129,13 @@
               <td><span class="badge bg-label-danger">Alpha</span></td>
               <?php } ?>
               <td><?= $uu['alasan']; ?></td>
+              <?php if($this->session->userdata('level')<>'Guru') {?>
               <td>
                 <a href="<?php echo site_url('admin/siswa/hapus_izin/'.$uu['id_izin'].'/'.$uu['username']);?>"
                   class="btn btn-sm btn-danger" onClick="return confirm('Apakah anda yakin menghapus izin ini?')"><span
                     class="tf-icons bx bx-trash-alt"></span></a>
               </td>
+              <?php } ?>
             </tr>
             <?php $no++;} ?>
           </tbody>
@@ -153,7 +159,9 @@
               <th>Pelanggaran</th>
               <th>Keterangan</th>
               <th>Poin</th>
+              <?php if($this->session->userdata('level')<>'Guru') {?>
               <th>Aksi</th>
+              <?php } ?>
             </tr>
           </thead>
           <tbody class="table-border-bottom-0">
@@ -164,12 +172,14 @@
               <td><?= $uu['pelanggaran']; ?></td>
               <td><?= $uu['keterangan']; ?></td>
               <td><?= $poin=$uu['poin']; ?></td>
+              <?php if($this->session->userdata('level')<>'Guru') {?>
               <td>
                 <a href="<?php echo site_url('admin/siswa/hapus_pelanggaran/'.$uu['id_pelanggaran'].'/'.$uu['username']);?>"
                   class="btn btn-sm btn-danger"
                   onClick="return confirm('Apakah anda yakin menghapus pelanggaran ini?')"><span
                     class="tf-icons bx bx-trash-alt"></span></a>
               </td>
+              <?php } ?>
             </tr>
             <?php $sum= $sum+$poin; $no++;} ?>
             <tr class="table-default">
@@ -197,7 +207,9 @@
               <th>Nama Perlombaan</th>
               <th>Juara Ke-</th>
               <th>Keterangan</th>
+              <?php if($this->session->userdata('level')<>'Guru') {?>
               <th>Aksi</th>
+              <?php } ?>
             </tr>
           </thead>
           <tbody class="table-border-bottom-0">
@@ -208,12 +220,14 @@
               <td><?= $uu['nama']; ?></td>
               <td><?= $uu['juara']; ?></td>
               <td><?= $uu['keterangan']; ?></td>
+              <?php if($this->session->userdata('level')<>'Guru') {?>
               <td>
                 <a href="<?php echo site_url('admin/siswa/hapus_prestasi/'.$uu['id_prestasi'].'/'.$uu['username']);?>"
                   class="btn btn-sm btn-danger"
                   onClick="return confirm('Apakah anda yakin menghapus prestasi ini?')"><span
                     class="tf-icons bx bx-trash-alt"></span></a>
               </td>
+              <?php } ?>
             </tr>
             <?php $no++;} ?>
           </tbody>
