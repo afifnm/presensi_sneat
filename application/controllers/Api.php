@@ -40,6 +40,9 @@ class Api extends RestController {
         if ($id === null) {
             $this->db->select('*')->from('user')->order_by('username','ASC');
             $users = $this->db->get()->result_array();
+            $izin = NULL;
+            $pelanggaran = NULL;
+            $prestasi = NULL;
         } else {
             $this->db->select('*')->from('user')->where('username',$id);
             $users = $this->db->get()->result_array();
