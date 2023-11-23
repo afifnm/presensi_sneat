@@ -8,7 +8,7 @@ class Api extends RestController {
     public function __construct(){
         parent::__construct();
         // Membatasi Jumlah akses sesuai kebutuhan
-        $this->methods['index_get']['limit'] = 200;
+        //$this->methods['index_get']['limit'] = 200;
     }
     public function login_post(){
         $username = $this->post('username');
