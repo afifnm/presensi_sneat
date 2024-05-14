@@ -31,7 +31,8 @@ class Api extends RestController {
         } else {
             $this->response([
                 'status' => true,
-                'message' => 'Berhasil login'
+                'message' => 'Berhasil login',
+                'user'   => $query
             ], RestController::HTTP_OK);
         }
     }
