@@ -238,6 +238,66 @@
   <?php } ?>
 </div>
 
+<div class="row mb-3">
+  <?php if($data7<>NULL){ ?>
+  <div class="col-md-10">
+    <div class="card">
+      <h5 class="card-header">Karir</h5>
+      <div class="table-responsive text-nowrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Karir</th>
+              <th>Keterangan</th>
+            </tr>
+          </thead>
+          <tbody class="table-border-bottom-0">
+            <?php $no=1; foreach ($data7 as $uu) {  ?>
+            <tr class="table-default">
+              <td><i class="fab fa-sketch fa-lg text-warning me-3"></i> <strong><?= $no; ?></strong></td>
+              <td><?= $uu['karir']; ?></td>
+              <td><?= $uu['keterangan']; ?></td>
+            </tr>
+            <?php $no++;} ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <?php } ?>
+</div>
+
+<div class="row mb-3">
+  <?php if($data8<>NULL){ ?>
+  <div class="col-md-10">
+    <div class="card">
+      <h5 class="card-header">Pengajuan Pengambilan</h5>
+      <div class="table-responsive text-nowrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Tanggal</th>
+              <th>Keperluan</th>
+            </tr>
+          </thead>
+          <tbody class="table-border-bottom-0">
+            <?php $no=1; foreach ($data8 as $uu) {  ?>
+            <tr class="table-default">
+              <td><i class="fab fa-sketch fa-lg text-warning me-3"></i> <strong><?= $no; ?></strong></td>
+              <td><?= $uu['tanggal_keperluan']; ?></td>
+              <td><?= $uu['keperluan']; ?></td>
+            </tr>
+            <?php $no++;} ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <?php } ?>
+</div>
+
 <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">

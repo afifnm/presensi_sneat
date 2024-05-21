@@ -125,7 +125,17 @@ class Siswa extends MY_Controller{
         $this->db->order_by('pelanggaran','ASC');
         $data6 = $this->db->get()->result_array();
         $data6 = array('data6' => $data6);
-        $this->template->load('layout/template', 'admin/pengguna/profil', array_merge($data, $data2, $data3,$data4,$data5,$data6));
+
+        $this->db->select('*')->from('tracking')->where('username',$username);
+        $this->db->order_by('tanggal','DESC');
+        $data7 = $this->db->get()->result_array();
+        $data7 = array('data7' => $data7);
+
+        $this->db->select('*')->from('pengajuan')->where('username',$username);
+        $this->db->order_by('tanggal_keperluan','DESC');
+        $data8 = $this->db->get()->result_array();
+        $data8 = array('data8' => $data8);
+        $this->template->load('layout/template', 'admin/pengguna/profil', array_merge($data, $data2, $data3,$data4,$data5,$data6,$data7,$data8));
     }
     public function tambah(){
         $site = $this->Konfigurasi_model->listing();

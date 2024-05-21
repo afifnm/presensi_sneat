@@ -96,7 +96,7 @@ class Absensi_model extends CI_Model{
         $kelas1=date('Y')-$angkatan; 
         $kelas2=date('Y')-$angkatan-1; 
         $bulan=date('m'); //cek bulan ke 7 apa bukan?
-        if($bulan>6){
+        if($bulan>5){
             if($kelas1==0) {
                 $kelas ="X";
             } elseif($kelas1==1) {
