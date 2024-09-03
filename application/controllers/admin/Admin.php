@@ -92,5 +92,27 @@ class Admin extends MY_Controller{
             ');
         redirect('admin/admin/');
     }
-
+    public function import_data() {
+        $postData = $this->input->post('data');
+        $data = json_decode($postData, true);
+        if (!empty($data)) {
+            foreach ($data as $row) {
+                $insertData = array(
+                    'username' => $row['username'],
+                    'password' => password_hash($row['password'], PASSWORD_DEFAULT),
+                    'level' => $row['level'],
+                    'nama' => $row['nama'],
+                    'kelas' => $row['kelas'],
+                    'tahun_masuk' => $row['tahun_masuk']
+                );
+                // Insert into the database
+                $this->db->insert('user',$insertData);
+            }
+            $this->session->set_flashdata('alert', '<div class="alert alert-success">Data berhasil diimport!</div>');
+        } else {
+            $this->session->set_flashdata('alert', '<div class="alert alert-danger">Gagal mengimport data.</div>');
+        }
+        // Send a JSON response
+        echo json_encode(['status' => 'success']);
+    }  
 }
