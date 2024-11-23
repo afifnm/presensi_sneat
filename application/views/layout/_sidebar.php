@@ -42,6 +42,12 @@ $uri3 = $this->uri->segment('3');
         <div data-i18n="Analytics">Jenis Pelanggaran</div>
       </a>
     </li>
+    <li class="menu-item <?php echo activate_menu('lokasi');  ?>">
+      <a href="<?php echo site_url('admin/lokasi');?>" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-map"></i>
+        <div data-i18n="Analytics">Titik Lokasi</div>
+      </a>
+    </li>
     <?php } ?>
     <li class="menu-item <?php echo activate_menu('tracking');  ?>">
       <a href="<?php echo site_url('admin/tracking');?>" class="menu-link">

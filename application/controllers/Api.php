@@ -7,6 +7,7 @@ use chriskacerguis\RestServer\RestController;
 class Api extends RestController {
     public function __construct(){
         parent::__construct();
+        $this->load->model('Absensi_model');
         // Membatasi Jumlah akses sesuai kebutuhan
         //$this->methods['index_get']['limit'] = 200;
     }
@@ -70,6 +71,63 @@ class Api extends RestController {
             $this->response([
                 'status' => false,
                 'message' => 'username tidak ditemukan'
+            ], RestController::HTTP_NOT_FOUND);
+        }
+    }
+    public function report_get(){
+        $username = $this->get('username');
+        if ($username === null) {
+            $data = NULL;
+        } else {
+            $tanggal = date('Y-m-d'); // Mendapatkan tanggal hari ini
+            $pisah=explode("-",$tanggal);
+            $tahun = $pisah[0];
+            $month = $pisah[1];
+            $this->db->select('LAST_DAY("'.$tanggal.'") as tanggal');
+            $end= $this->db->get()->row()->tanggal;
+            $pisah=explode("-",$end);
+            $date_end = $pisah[2];
+            $data = []; // Inisialisasi array kosong
+            for ($i=1; $i<=$date_end ; $i++) {
+                if($i>10){ $no=$i; } else { $no='0'.$i; }
+                $tanggal=$tahun.'-'.$month.'-'.$no; 
+                $masuk = $this->Absensi_model->get_masuk($username,$tanggal);
+                $pulang = $this->Absensi_model->get_pulang($username,$tanggal);
+                $tanggal = $i.'-'.$month.'-'.$tahun;
+                // Simpan ke dalam array
+                $data[] = [
+                    'tanggal' => $tanggal,
+                    'masuk' => $masuk,
+                    'pulang' => $pulang
+                ];
+            } 
+        }
+        if ($data) {
+            $this->response([
+                'status' => true,
+                'data' => $data,
+            ], RestController::HTTP_OK);
+        } else {
+            $this->response([
+                'status' => false,
+                'message' => 'Data tidak ditemukan'
+            ], RestController::HTTP_NOT_FOUND);
+        }
+    }
+    public function lokasi_get(){
+        $this->db->select('*')->from('konfigurasi');
+        $data = $this->db->get()->row();
+        if ($data) {
+            $this->response([
+                'status' => true,
+                'latitude' => $data->latitude,
+                'longtitude' => $data->longtitude,
+                'jangkauan' => $data->jangkauan
+            ], RestController::HTTP_OK);
+        } else {
+            $this->response([
+                'status' => false,
+                'message' => 'Data tidak ditemukan'
             ], RestController::HTTP_NOT_FOUND);
         }
     }
