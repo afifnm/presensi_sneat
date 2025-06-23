@@ -192,4 +192,122 @@ class Api extends RestController {
             ], RestController::HTTP_CREATED);
         } 
     }
+    public function pengajuan_post() {
+        header("Access-Control-Allow-Origin: https://alumni.smkn2kra.sch.id");
+        header("Access-Control-Allow-Headers: Content-Type");
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+        $username          = $this->post('username');
+        $keperluan         = $this->post('keperluan');
+        $tanggal_keperluan = $this->post('tanggal_keperluan');
+        // Validasi input
+        if (!$username || !$keperluan || !$tanggal_keperluan) {
+            return $this->response([
+                'status' => false,
+                'message' => 'Semua data wajib diisi.'
+            ], RestController::HTTP_BAD_REQUEST);
+        }
+        // Cek apakah username ada di tabel user
+        $user = $this->db->get_where('user', ['username' => $username])->row();
+        if (!$user) {
+            return $this->response([
+                'status' => false,
+                'message' => 'NIS tidak terdaftar.'
+            ], RestController::HTTP_NOT_FOUND);
+        }
+        // Cek apakah tanggal_keperluan sudah ada untuk username tsb
+        $cek_tanggal = $this->db->get_where('pengajuan', [
+            'username' => $username,
+            'tanggal_keperluan' => $tanggal_keperluan
+        ])->row();
+
+        if ($cek_tanggal) {
+            return $this->response([
+                'status' => false,
+                'message' => 'Kamu sudah memberikan pengajuan di tanggal yang sama.'
+            ], RestController::HTTP_BAD_REQUEST);
+        }
+
+        // Simpan data
+        $data = [
+            'username' => $username,
+            'keperluan' => $keperluan,
+            'tanggal_keperluan' => $tanggal_keperluan
+        ];
+
+        $this->db->insert('pengajuan', $data);
+
+        return $this->response([
+            'status' => true,
+            'message' => 'Pengajuan berhasil disimpan.'
+        ], RestController::HTTP_CREATED);
+    }
+    public function tracking_post() {
+        header("Access-Control-Allow-Origin: https://alumni.smkn2kra.sch.id");
+        header("Access-Control-Allow-Headers: Content-Type");
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+        $username   = $this->post('username');
+        $karir      = $this->post('karir');
+        $keterangan = $this->post('keterangan');
+        // Validasi input kosong
+        if (!$username || !$karir || !$keterangan) {
+            return $this->response([
+                'status' => false,
+                'message' => 'Semua data wajib diisi.'
+            ], RestController::HTTP_BAD_REQUEST);
+        }
+        // Cek apakah username ada di tabel user
+        $user = $this->db->get_where('user', ['username' => $username])->row();
+        if (!$user) {
+            return $this->response([
+                'status' => false,
+                'message' => 'NIS tidak terdaftar.'
+            ], RestController::HTTP_NOT_FOUND);
+        }
+        // Simpan data ke tabel tracking
+        $data = [
+            'username'   => $username,
+            'karir'      => $karir,
+            'keterangan' => $keterangan
+        ];
+        $this->db->insert('tracking', $data);
+        return $this->response([
+            'status' => true,
+            'message' => 'Data tracking berhasil disimpan.'
+        ], RestController::HTTP_CREATED);
+    }
+    public function riwayat_get($username = null) {
+        header("Access-Control-Allow-Origin: https://alumni.smkn2kra.sch.id");
+        header("Access-Control-Allow-Headers: Content-Type");
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+        if (!$username) {
+            return $this->response([
+                'status' => false,
+                'message' => 'Useraname tidak ditemukan.'
+            ], RestController::HTTP_BAD_REQUEST);
+        }
+
+        // Cek apakah username ada di tabel user
+        $user = $this->db->get_where('user', ['username' => $username])->row();
+        if (!$user) {
+            return $this->response([
+                'status' => false,
+                'message' => 'NIS tidak terdaftar.'
+            ], RestController::HTTP_NOT_FOUND);
+        }
+
+        // Ambil data dari tabel pengajuan
+        $pengajuan = $this->db->get_where('pengajuan', ['username' => $username])->result();
+
+        // Ambil data dari tabel tracking
+        $tracking = $this->db->get_where('tracking', ['username' => $username])->result();
+
+        return $this->response([
+            'status'   => true,
+            'username' => $username,
+            'pengajuan' => $pengajuan,
+            'tracking'  => $tracking
+        ], RestController::HTTP_OK);
+    }
+
+
 }
