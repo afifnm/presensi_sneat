@@ -58,7 +58,7 @@
   </main>
 
   <!-- Modal -->
-  <div id="pengajuanModal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
+  <div id="pengajuanModal" class="fixed inset-0 bg-black bg-opacity-50 flex hidden justify-center items-center z-50">
     <div class="bg-white w-11/12 max-w-md rounded-lg shadow-lg p-6">
       <h3 class="text-lg font-semibold text-blue-600 mb-4">Form Pengajuan</h3>
       <form id="formPengajuan">
@@ -67,7 +67,7 @@
           <input type="text" name="username" class="w-full border border-gray-300 rounded px-3 py-2" required>
         </div>
         <div class="mb-4">
-          <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Keperluan</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Pengambilan</label>
           <input type="date" name="tanggal_keperluan" class="w-full border border-gray-300 rounded px-3 py-2" required>
         </div>
         <div class="mb-4">
@@ -107,7 +107,7 @@
 </nav>
 
 <!-- Modal Karir -->
-<div id="karirModal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
+<div id="karirModal" class="fixed inset-0 bg-black bg-opacity-50 flex hidden justify-center items-center z-50">
   <div class="bg-white w-11/12 max-w-md rounded-lg shadow-lg p-6">
     <h3 class="text-lg font-semibold text-blue-600 mb-4">Form Karir Alumni</h3>
     <form id="formKarir">
@@ -136,7 +136,7 @@
   </div>
 </div>
 <!-- Modal Riwayat -->
-<div id="riwayatModal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
+<div id="riwayatModal" class="fixed inset-0 bg-black bg-opacity-50 flex hidden justify-center items-center z-50">
   <div class="bg-white w-11/12 max-w-md rounded-lg shadow-lg p-6">
     <h3 class="text-lg font-semibold text-blue-600 mb-4">Masukkan NIS</h3>
     <form id="formRiwayat">
@@ -305,6 +305,8 @@ function renderRiwayat(data) {
   const container = document.getElementById('riwayatContainer');
   container.innerHTML = `
     <div class="mb-4">
+    <h2 class="text-lg font-semibold text-green-700 mb-3">Nama: ${data.user.nama}</h2>
+
       <h3 class="font-bold text-blue-600 mb-2">Pengajuan</h3>
       ${data.pengajuan.map(item => `
         <div class="border border-gray-200 rounded-lg p-3 mb-2">

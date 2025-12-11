@@ -61,6 +61,7 @@
               <th>Nama</th>
               <th>Masuk</th>
               <th>Pulang</th>
+              <th>Lokasi</th>
               <th style="text-align: center;">Aksi</th>
             </tr>
           </thead>
@@ -75,8 +76,15 @@
               <td><?php echo $user['username']; ?></td>
               <td><?php echo $user['nama']; ?></td>
               <td><?php echo $this->Absensi_model->get_masuk($user['username'],$tanggal); ?></td>
-              <td><?php echo $this->Absensi_model->get_pulang($user['username'],$tanggal); ?></td>
-              <td align="center">
+              <td><?php echo $cek=$this->Absensi_model->get_pulang($user['username'],$tanggal); ?></td>
+                <td>
+                <?php if($cek=='A'){ ?>
+                  <span class="badge bg-label-danger">Tidak Absen</span>
+                <?php } else { ?>
+                <a href="https://maps.google.com/?q=<?php echo $this->Absensi_model->get_lokasi($user['username'],$tanggal); ?>" target="_blank" class="btn btn-sm btn-info"><span class="tf-icons bx bx-map"></span></a></td>
+                <?php } ?>
+              </td>
+                <td align="center">
                 <?php if($this->session->userdata('level')=='Admin'){ ?>
                 <a href="<?php echo site_url('admin/siswa/delete_data/'.$user['id'].'/'.$tahun_masuk.'/'.$kelas);?>"
                   class="btn btn-sm btn-danger" onClick="return confirm('Apakah anda yakin menghapus data ini?')"><span

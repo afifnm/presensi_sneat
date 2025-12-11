@@ -55,6 +55,20 @@ class Absensi_model extends CI_Model{
             return DATE_FORMAT(date_create($this->db->get()->row()->masuk),"H:i");
         }
    }
+    public function get_lokasi($username,$tanggal){ //menampilkan skor koding
+        $this->db->select('masuk')->from('absen');
+        $this->db->where("username",$username);
+        $this->db->where("DATE_FORMAT(tanggal,'%Y-%m-%d')", $tanggal);
+        $res = $this->db->count_all_results();
+        if ($res==NULL) {
+            return 'A';
+        } else {
+            $this->db->select('keterangan')->from('absen');
+            $this->db->where("username",$username);
+            $this->db->where("DATE_FORMAT(tanggal,'%Y-%m-%d')", $tanggal);
+            return $this->db->get()->row()->keterangan;
+        }
+   }
    public function get_pulang($username,$tanggal){ //menampilkan skor koding
         $this->db->select('pulang')->from('absen');
         $this->db->where("username",$username);

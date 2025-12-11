@@ -63,35 +63,53 @@ class Home extends MY_Controller
         $this->template->load('layout/template', 'siswa/absen', array_merge($data));
     }
     public function masuk(){
-      date_default_timezone_set("Asia/Jakarta");
-      $tanggal = date("Y-m-d");
-      $jam = date("H:i:s");
-      $cek = $this->Absensi_model->cek_absen_masuk_now();
-      if ($cek>0) {
-        $this->session->set_flashdata('alert', '<p class="box-msg">
-        <div class="info-box alert-success"><div class="info-box-icon">
-        <i class="fa fa-check"></i></div>
-        <div class="info-box-content" style="font-size:14">
-        <b style="font-size: 20px">SUCCESS</b><br>Kamu sudah melakukan absen masuk.</div>
-        </div></p>');
-        redirect('siswa/home/'); 
-      } else {
-        $data2 = array(
-            'username' => $this->session->userdata('username'),
-            'tanggal' => $tanggal,
-            'masuk' => $jam,
-            'ip' => $this->Absensi_model->get_ip()
-         );  
-        $this->Absensi_model->Insert('absen', $data2);
-        $this->session->set_flashdata('alert', '<p class="box-msg">
-        <div class="info-box alert-success"><div class="info-box-icon">
-        <i class="fa fa-check"></i></div>
-        <div class="info-box-content" style="font-size:14">
-        <b style="font-size: 20px">SUCCESS</b><br>Absen masuk berhasil.</div>
-        </div></p>');
-        redirect('siswa/home/'); 
-      }      
+
+        $titik_lokasi = $this->input->post('titik_lokasi');  // ⬅ lokasi dari browser
+
+        date_default_timezone_set("Asia/Jakarta");
+        $tanggal = date("Y-m-d");
+        $jam = date("H:i:s");
+
+        $cek = $this->Absensi_model->cek_absen_masuk_now();
+
+        if ($cek > 0) {
+
+            $this->session->set_flashdata('alert', '
+                <p class="box-msg">
+                <div class="info-box alert-success">
+                <div class="info-box-icon"><i class="fa fa-check"></i></div>
+                <div class="info-box-content" style="font-size:14">
+                <b style="font-size: 20px">SUCCESS</b><br>
+                Kamu sudah melakukan absen masuk.
+                </div></div></p>
+            ');
+            redirect('siswa/home/'); 
+
+        } else {
+
+            $data2 = array(
+                'username'   => $this->session->userdata('username'),
+                'tanggal'    => $tanggal,
+                'masuk'      => $jam,
+                'keterangan' => $titik_lokasi,         // ⬅ simpan koordinat
+                'ip'         => $this->Absensi_model->get_ip()
+            );
+
+            $this->Absensi_model->Insert('absen', $data2);
+
+            $this->session->set_flashdata('alert', '
+                <p class="box-msg">
+                <div class="info-box alert-success">
+                <div class="info-box-icon"><i class="fa fa-check"></i></div>
+                <div class="info-box-content" style="font-size:14">
+                <b style="font-size: 20px">SUCCESS</b><br>
+                Absen masuk berhasil.
+                </div></div></p>
+            ');
+            redirect('siswa/home/');
+        }
     }
+
 
     public function pulang(){
       date_default_timezone_set("Asia/Jakarta");

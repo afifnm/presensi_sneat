@@ -3,6 +3,72 @@ date_default_timezone_set("Asia/Jakarta");
 $pukul = date("H:i:s");
 // $pukul = date("15:10:00");
  ?>
+<?php if ($this->session->tahun_masuk=='2023'){ ?>
+<?php if($this->Absensi_model->cek_absen_masuk_now()>0){ ?>
+<div class="alert alert-success alert-dismissible">
+	<i class="bx bx-check"></i> Kamu sudah melakukan absen masuk Prakerin.
+</div>
+<?php } else { ?>
+<!-- Badge GPS -->
+<div id="gpsBadge" style="display:none;" class="alert alert-danger mt-2">
+    GPS belum aktif! Aktifkan GPS untuk menampilkan tombol Absen Prakerin.
+</div>
+
+<!-- Form untuk mengirim lokasi -->
+<form id="formLokasi" action="<?php echo site_url('siswa/home/masuk'); ?>" method="POST">
+    <input type="hidden" id="titik_lokasi" name="titik_lokasi">
+</form>
+
+<!-- Tombol absen -->
+<div id="btnPrakerin" style="display:none;">
+    <div class="d-grid gap-2 col-lg-6 mx-auto mt-3">
+        <button type="button" class="btn btn-primary" onclick="ambilLokasi()">
+            <span class="tf-icons bx bx-pie-chart-alt"></span>&nbsp; Absen Prakerin
+        </button>
+    </div>
+</div>
+<?php } ?>
+<script>
+function ambilLokasi() {
+    navigator.geolocation.getCurrentPosition(
+        function(pos) {
+            let lat = pos.coords.latitude;
+            let lon = pos.coords.longitude;
+
+            // isi hidden input
+            document.getElementById("titik_lokasi").value = lat + "," + lon;
+
+            // kirim form ke controller via POST
+            document.getElementById("formLokasi").submit();
+        },
+        function(error) {
+            alert("GPS harus diaktifkan untuk absen!");
+        },
+        { enableHighAccuracy: true, timeout: 5000 }
+    );
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    if (!navigator.geolocation) {
+        document.getElementById('gpsBadge').style.display = "block";
+        document.getElementById('gpsBadge').innerHTML = "Browser ini tidak mendukung GPS.";
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+        function(position) {
+            document.getElementById('btnPrakerin').style.display = "block";
+            document.getElementById('gpsBadge').style.display = "none";
+        },
+        function(error) {
+            document.getElementById('gpsBadge').style.display = "block";
+        }
+    );
+});
+</script>
+
+
+<?php } else { ?>
 <div id="lokasi_null">
 	<div class="alert alert-primary alert-dismissible">
 		<i class="bx bx-location-plus"></i> Fitur GPS pada perangkat belum aktif. Aktifkan GPS dan refresh ulang halaman.
@@ -42,6 +108,7 @@ $pukul = date("H:i:s");
 	</a>
 	<?php } } ?>
 </div>
+<?php } ?>
 <div class="d-grid gap-2 col-lg-6 mx-auto">
 	<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal" style="margin-top: 10px;">
 		<span class="tf-icons bx bx-search"></span>&nbsp; Lihat Presensiku

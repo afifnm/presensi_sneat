@@ -178,22 +178,10 @@ $uri3 = $this->uri->segment('3');
   </ul>
   <?php }  elseif ($this->session->userdata('level') == "Siswa"){ ?>
   <ul class="menu-inner py-1">
-  <li class="menu-item <?php echo activate_menu('home');  ?>">
+    <li class="menu-item <?php echo activate_menu('home');  ?>">
       <a href="<?php echo site_url('siswa/home');?>" class="menu-link">
         <i class="menu-icon tf-icons bx bx-home-circle"></i>
         <div data-i18n="Analytics">Presensi Siswa</div>
-      </a>
-    </li>
-    <li class="menu-item <?php echo activate_menu('pengajuan');  ?>">
-      <a href="<?php echo site_url('siswa/pengajuan');?>" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-copy-alt"></i>
-        <div data-i18n="Analytics">Form Pengajuan </div>
-      </a>
-    </li>
-    <li class="menu-item <?php echo activate_menu('tracking');  ?>">
-      <a href="<?php echo site_url('siswa/tracking');?>" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-transfer-alt"></i>
-        <div data-i18n="Analytics">Form Tracking Alumni</div>
       </a>
     </li>
   </ul>

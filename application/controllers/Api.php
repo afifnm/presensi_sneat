@@ -8,8 +8,13 @@ class Api extends RestController {
     public function __construct(){
         parent::__construct();
         $this->load->model('Absensi_model');
-        // Membatasi Jumlah akses sesuai kebutuhan
-        //$this->methods['index_get']['limit'] = 200;
+        header("Access-Control-Allow-Origin: *");
+        header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+        header("Access-Control-Allow-Headers: Content-Type");
+        // Tangani request OPTIONS (preflight)
+        if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+            exit(0); // hentikan di sini agar tidak lanjut proses
+        }
     }
     public function login_post(){
         $username = $this->post('username');
@@ -193,9 +198,6 @@ class Api extends RestController {
         } 
     }
     public function pengajuan_post() {
-        header("Access-Control-Allow-Origin: https://alumni.smkn2kra.sch.id");
-        header("Access-Control-Allow-Headers: Content-Type");
-        header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
         $username          = $this->post('username');
         $keperluan         = $this->post('keperluan');
         $tanggal_keperluan = $this->post('tanggal_keperluan');
@@ -242,12 +244,10 @@ class Api extends RestController {
         ], RestController::HTTP_CREATED);
     }
     public function tracking_post() {
-        header("Access-Control-Allow-Origin: https://alumni.smkn2kra.sch.id");
-        header("Access-Control-Allow-Headers: Content-Type");
-        header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
         $username   = $this->post('username');
         $karir      = $this->post('karir');
         $keterangan = $this->post('keterangan');
+
         // Validasi input kosong
         if (!$username || !$karir || !$keterangan) {
             return $this->response([
@@ -255,6 +255,7 @@ class Api extends RestController {
                 'message' => 'Semua data wajib diisi.'
             ], RestController::HTTP_BAD_REQUEST);
         }
+
         // Cek apakah username ada di tabel user
         $user = $this->db->get_where('user', ['username' => $username])->row();
         if (!$user) {
@@ -263,6 +264,21 @@ class Api extends RestController {
                 'message' => 'NIS tidak terdaftar.'
             ], RestController::HTTP_NOT_FOUND);
         }
+
+        // Cek apakah kombinasi username + karir + keterangan sudah pernah diinput
+        $cek_tracking = $this->db->get_where('tracking', [
+            'username'   => $username,
+            'karir'      => $karir,
+            'keterangan' => $keterangan
+        ])->row();
+
+        if ($cek_tracking) {
+            return $this->response([
+                'status' => false,
+                'message' => 'Data dengan karir dan keterangan yang sama sudah pernah diinput.'
+            ], RestController::HTTP_CONFLICT);
+        }
+
         // Simpan data ke tabel tracking
         $data = [
             'username'   => $username,
@@ -270,15 +286,14 @@ class Api extends RestController {
             'keterangan' => $keterangan
         ];
         $this->db->insert('tracking', $data);
+
         return $this->response([
             'status' => true,
             'message' => 'Data tracking berhasil disimpan.'
         ], RestController::HTTP_CREATED);
     }
+
     public function riwayat_get($username = null) {
-        header("Access-Control-Allow-Origin: https://alumni.smkn2kra.sch.id");
-        header("Access-Control-Allow-Headers: Content-Type");
-        header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
         if (!$username) {
             return $this->response([
                 'status' => false,
@@ -301,8 +316,10 @@ class Api extends RestController {
         // Ambil data dari tabel tracking
         $tracking = $this->db->get_where('tracking', ['username' => $username])->result();
 
+
         return $this->response([
             'status'   => true,
+            'user'     => $user,
             'username' => $username,
             'pengajuan' => $pengajuan,
             'tracking'  => $tracking

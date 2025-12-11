@@ -26,6 +26,7 @@ class Tracking extends MY_Controller{
         );
         $this->db->order_by('tanggal','DESC');
         $this->db->from('tracking a');
+        $this->db->select('a.*,b.nama,b.tahun_masuk,b.kelas');
         $this->db->join('user b','a.username=b.username','left');
         $data2 = $this->db->get()->result_array();
         $data2 = array('data2' => $data2);
